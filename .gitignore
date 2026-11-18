@@ -22,3 +22,42 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# ===== SECRETOS =====
+application.properties
+application.yml
+application-*.properties
+application-*.yml
+.env
+.env.*
+*.pem
+*.key
+
+# Estos SÍ se suben (plantillas sin valores reales)
+!application.properties.example
+!.env.example
+
+# ===== Maven Wrapper (la plantilla ignora *.jar y lo necesita) =====
+!.mvn/wrapper/maven-wrapper.jar
+
+# ===== Node / React =====
+node_modules/
+frontend/build/
+frontend/dist/
+npm-debug.log*
+yarn-error.log*
+.eslintcache
+
+# ===== IDEs =====
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+*.swp
+
+# ===== Sistema operativo =====
+.DS_Store
+Thumbs.db
