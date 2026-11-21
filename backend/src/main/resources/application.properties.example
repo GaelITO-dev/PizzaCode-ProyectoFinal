@@ -1,0 +1,29 @@
+
+# Configuracion de la aplicacion
+spring.application.name=pizza-code
+
+# Base de datos
+spring.datasource.url=CAMBIAR
+spring.datasource.username=CAMBIAR
+spring.datasource.password=CAMBIAR
+spring.datasource.driver-class-name=CAMBIAR
+
+# JPA / Hibernate
+spring.jpa.hibernate.ddl-auto=validate
+spring.jpa.show-sql=false
+
+# JWT
+jwt.secret=CAMBIAR
+jwt.expiration-ms=CAMBIAR
+
+# Configuracion de correo
+spring.mail.host=localhost
+spring.mail.port=25
+spring.mail.username=CAMBIAR
+spring.mail.password=CAMBIAR
+
+# Twilio
+twilio.account-sid=CAMBIAR
+twilio.auth-token=CAMBIAR
+twilio.sms-from=CAMBIAR
+twilio.whatsapp-from=CAMBIAR
