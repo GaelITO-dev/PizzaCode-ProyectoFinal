@@ -23,6 +23,7 @@
 hs_err_pid*
 replay_pid*
 
+
 # ===== SECRETOS =====
 application.properties
 application.yml
@@ -61,3 +62,12 @@ yarn-error.log*
 # ===== Sistema operativo =====
 .DS_Store
 Thumbs.db
+
+# ===== EXTRAS =====
+# Archivos de entorno
+.env
+.env.*
+!.env.example
+
+# Configuracion local
+application-local.properties
