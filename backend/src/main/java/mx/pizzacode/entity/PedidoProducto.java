@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ import lombok.Setter;
 public class PedidoProducto {
 
     @EmbeddedId
-    private PedidoProductoId id;
+    private PedidoProductoId id = new PedidoProductoId();
 
     @Column(name = "cantidad", nullable = false)
     private Integer cantidad;
@@ -30,10 +31,12 @@ public class PedidoProducto {
     private BigDecimal precioUnitario;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_pedido", insertable = false, updatable = false)
+    @MapsId("idPedido")
+    @JoinColumn(name = "id_pedido")
     private Pedido pedido;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "id_producto", insertable = false, updatable = false)
+    @MapsId("idProducto")
+    @JoinColumn(name = "id_producto")
     private Producto producto;
 }
