@@ -1,0 +1,37 @@
+meta {
+  name: Registro correo duplicado
+  type: http
+  seq: 11
+}
+
+post {
+  url: {{baseUrl}}/auth/registro
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nombre": "Duplicado",
+    "apellidoPat": "Prueba",
+    "correo": "admin@pizzacode.mx",
+    "telefono": "5512345678",
+    "contrasena": "Pizzacode26!"
+  }
+}
+
+tests {
+  test("rechaza correo existente: 409", () => {
+    expect(res.status).to.equal(409);
+  });
+  
+  test("explica el motivo", () => {
+    expect(res.body.message).to.be.a("string");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

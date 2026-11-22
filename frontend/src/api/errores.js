@@ -14,7 +14,7 @@ export function obtenerMensajeError(error) {
   }
 
   if (data?.message) {
-    return data.mensaje
+    return data.message
   }
 
   if (status >= 500) {

@@ -1,0 +1,127 @@
+.titulo {
+  margin: 0 0 1.25rem;
+  font-size: var(--texto-titulo);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.centrado {
+  text-align: center;
+}
+
+.subtitulo {
+  margin: -0.75rem 0 1.25rem;
+  color: var(--color-texto-secundario);
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.enlace {
+  color: var(--color-primario-oscuro);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.enlace:hover {
+  text-decoration: underline;
+}
+
+.enlace:focus-visible {
+  outline: 2px solid var(--color-primario-oscuro);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.enlaceCentrado {
+  align-self: center;
+  margin-top: -0.25rem;
+  font-size: 0.8125rem;
+}
+
+.aviso {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radio-control);
+  background-color: rgb(249 169 59 / 18%);
+  font-size: 0.875rem;
+}
+
+.errorServidor {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radio-control);
+  background-color: rgb(198 40 40 / 8%);
+  color: var(--color-error);
+  font-size: 0.875rem;
+}
+
+.pie {
+  margin: 1.25rem 0 0;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-texto-secundario);
+}
+
+.grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.leyenda {
+  margin-bottom: 0.375rem;
+  padding: 0;
+  font-size: var(--texto-label);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-texto-secundario);
+}
+
+.fila {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 1rem;
+}
+
+.terminos {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--color-texto-secundario);
+  cursor: pointer;
+}
+
+.terminos input {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--color-primario);
+  cursor: pointer;
+}
+
+.errorCampo {
+  margin: 0.375rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--color-error);
+}
+
+@media (max-width: 768px) {
+  .titulo {
+    font-size: 1.75rem;
+  }
+
+  .fila {
+    grid-template-columns: 1fr;
+  }
+}

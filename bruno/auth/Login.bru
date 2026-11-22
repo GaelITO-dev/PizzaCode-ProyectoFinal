@@ -18,7 +18,5 @@ body:json {
 }
 
 script:post-response {
-  if (res.getStatus() === 200) {
-    bru.setEnvVar("token", res.getBody().token);
-  }
+  bru.setVar("token", res.getBody().token);
 }
