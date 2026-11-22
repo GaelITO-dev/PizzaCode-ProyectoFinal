@@ -1,0 +1,21 @@
+meta {
+  name: Error 400 - contrasena debil
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/api/auth/registro
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nombre": "Pedro",
+    "apellidoPat": "Gómez",
+    "correo": "debil@pizzacode.mx",
+    "telefono": "9511234567",
+    "contrasena": "abcdef1!"
+  }
+}

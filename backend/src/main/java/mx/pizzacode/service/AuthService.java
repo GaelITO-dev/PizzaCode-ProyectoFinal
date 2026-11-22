@@ -24,6 +24,8 @@ import java.util.NoSuchElementException;
 @Service
 public class AuthService {
 
+    private static final String ROL_CLIENTE = "CLIENTE";
+
     private final AuthenticationManager authenticationManager;
     private final UsuarioRepository usuarioRepository;
     private final RolRepository rolRepository;
@@ -70,8 +72,8 @@ public class AuthService {
             throw new CorreoDuplicadoException("Ya existe un usuario con el correo " + correo);
         }
 
-        Rol rol = rolRepository.findById(dto.getIdRol())
-                .orElseThrow(() -> new NoSuchElementException("El rol indicado no existe"));
+        Rol rol = rolRepository.findByNombre(ROL_CLIENTE)
+                .orElseThrow(() -> new IllegalStateException("El rol CLIENTE no está configurado"));
 
         Usuario usuario = new Usuario();
         usuario.setNombre(dto.getNombre().trim());

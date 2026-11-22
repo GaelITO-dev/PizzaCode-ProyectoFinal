@@ -1,0 +1,19 @@
+meta {
+  name: Endpoint protegido con token JWT
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/api/pedidos
+  body: none
+  auth: bearer
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,21 @@
+meta {
+  name: Error 409 - correo duplicado
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/auth/registro
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nombre": "Admin",
+    "apellidoPat": "Evaluación",
+    "correo": "admin@pizzacode.mx",
+    "telefono": "9518230291",
+    "contrasena": "Admin#2026"
+  }
+}
