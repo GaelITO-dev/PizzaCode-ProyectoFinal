@@ -1,0 +1,25 @@
+meta {
+  name: listar vigentes
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/promociones?vigentes=true
+  body: none
+  auth: bearer
+}
+
+params:query {
+  vigentes: true
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

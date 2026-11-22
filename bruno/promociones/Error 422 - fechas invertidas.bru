@@ -1,0 +1,31 @@
+meta {
+  name: Error 422 - fechas invertidas
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/promociones
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "nombre": "Prueba",
+    "descuento": 10,
+    "fechaInicio": "2026-12-10",
+    "fechaFin": "2026-12-01",
+    "idsProductos": [4]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
