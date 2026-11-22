@@ -29,6 +29,8 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import jakarta.servlet.http.HttpServletResponse;
+import mx.pizzacode.exception.ApiError;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -118,23 +120,20 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AccessDeniedHandler accessDeniedHandler(ObjectMapper objectMapper) {
-        return (request, response, exception) -> escribirError(
-                response, objectMapper, HttpServletResponse.SC_FORBIDDEN,
-                "No tienes permisos para acceder a este recurso");
-    }
-
+public AccessDeniedHandler accessDeniedHandler(ObjectMapper objectMapper) {
+    return (request, response, exception) -> escribirError(
+            response, objectMapper, HttpServletResponse.SC_FORBIDDEN,
+            "No tienes permiso para realizar esta acción");
+}
     private void escribirError(HttpServletResponse response,
-                               ObjectMapper objectMapper,
-                               int status,
-                               String mensaje) throws java.io.IOException {
-        response.setStatus(status);
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                           ObjectMapper objectMapper,
+                           int status,
+                           String mensaje) throws java.io.IOException {
+    response.setStatus(status);
+    response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+    response.setCharacterEncoding("UTF-8");
 
-        Map<String, Object> cuerpo = new LinkedHashMap<>();
-        cuerpo.put("status", status);
-        cuerpo.put("message", mensaje);
-
-        objectMapper.writeValue(response.getOutputStream(), cuerpo);
-    }
+    objectMapper.writeValue(response.getOutputStream(),
+            new ApiError(status, mensaje, Map.of()));
+}
 }
