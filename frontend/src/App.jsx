@@ -25,6 +25,7 @@ function App() {
 
           <Route element={<RutaProtegida rolesPermitidos={['CLIENTE']} />}>
             <Route path="/cliente" element={<PanelProvisional titulo="Inicio" />} />
+            <Route path="/cliente/menu" element={<PanelProvisional titulo="Menú" />} />
             <Route path="/cliente/historial" element={<PanelProvisional titulo="Historial de pedidos" />} />
           </Route>
 
