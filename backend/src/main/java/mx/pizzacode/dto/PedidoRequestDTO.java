@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mx.pizzacode.entity.MetodoPago;
 
+import jakarta.validation.constraints.Email;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,4 +33,8 @@ public class PedidoRequestDTO {
 
     @Pattern(regexp = "^\\d{10,15}$", message = "El teléfono debe contener entre 10 y 15 dígitos")
     private String telefonoCliente;
+
+    @Email(message = "El correo del cliente no es válido")
+    @Size(max = 100, message = "El correo no debe superar los 100 caracteres")
+    private String correoCliente;
 }
