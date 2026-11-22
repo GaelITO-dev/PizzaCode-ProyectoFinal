@@ -1,6 +1,7 @@
 package mx.pizzacode.security;
 
 import tools.jackson.databind.ObjectMapper;
+import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,8 @@ import org.springframework.security.access.expression.method.DefaultMethodSecuri
 import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
+import org.springframework.security.authorization.AuthorizationManagerFactory;
+import org.springframework.security.authorization.DefaultAuthorizationManagerFactory;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
@@ -52,13 +55,21 @@ public class SecurityConfig {
     }
 
     /**
-     * Con @EnableMethodSecurity la jerarquía debe inyectarse explícitamente
-     * en el handler de expresiones de métodos.
+     * API recomendada desde Spring Security 7.0: la jerarquía se aplica al
+     * factory de AuthorizationManager usado por la seguridad por método.
      */
     @Bean
-    static MethodSecurityExpressionHandler methodSecurityExpressionHandler(RoleHierarchy roleHierarchy) {
+    static AuthorizationManagerFactory<MethodInvocation> methodAuthorizationManagerFactory(RoleHierarchy roleHierarchy) {
+        DefaultAuthorizationManagerFactory<MethodInvocation> factory = new DefaultAuthorizationManagerFactory<>();
+        factory.setRoleHierarchy(roleHierarchy);
+        return factory;
+    }
+
+    @Bean
+    static MethodSecurityExpressionHandler methodSecurityExpressionHandler(
+            AuthorizationManagerFactory<MethodInvocation> methodAuthorizationManagerFactory) {
         DefaultMethodSecurityExpressionHandler handler = new DefaultMethodSecurityExpressionHandler();
-        handler.setRoleHierarchy(roleHierarchy);
+        handler.setAuthorizationManagerFactory(methodAuthorizationManagerFactory);
         return handler;
     }
 

@@ -1,0 +1,19 @@
+meta {
+  name: Rol CLIENTE - @PreAuthorize
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/api/roles/cliente
+  body: none
+  auth: bearer
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+auth:bearer {
+  token: {{token}}
+}

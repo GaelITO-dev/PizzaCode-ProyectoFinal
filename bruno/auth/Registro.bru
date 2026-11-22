@@ -1,0 +1,22 @@
+meta {
+  name: Registro de cliente
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/auth/registro
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "nombre": "Ana",
+    "apellidoPat": "López",
+    "apellidoMat": "Ruiz",
+    "correo": "nuevo.cliente@pizzacode.mx",
+    "telefono": "9511234567",
+    "contrasena": "Cliente123!"
+  }
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Rol ADMIN - @PreAuthorize
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/api/roles/admin
+  body: none
+  auth: bearer
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
