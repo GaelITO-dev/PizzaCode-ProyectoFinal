@@ -1,0 +1,86 @@
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.etiqueta {
+  font-size: var(--texto-label);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-texto-secundario);
+}
+
+.soloLectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 48px;
+  padding: 0 1rem;
+  background-color: var(--color-input-fondo);
+  border: 1.5px solid transparent;
+  border-radius: var(--radio-control);
+  transition: border-color 0.15s;
+}
+
+.control:focus-within {
+  border-color: var(--color-primario);
+}
+
+.conError,
+.conError:focus-within {
+  border-color: var(--color-error);
+}
+
+.icono {
+  flex-shrink: 0;
+  color: var(--color-texto-secundario);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.75rem 0;
+  border: none;
+  background: transparent;
+  color: var(--color-texto);
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--color-texto-secundario);
+  opacity: 0.8;
+}
+
+.botonOjo {
+  display: flex;
+  padding: 0.25rem;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: var(--color-texto-secundario);
+  cursor: pointer;
+}
+
+.botonOjo:focus-visible {
+  outline: 2px solid var(--color-primario);
+}
+
+.error {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-error);
+}
