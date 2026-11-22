@@ -13,7 +13,7 @@ export function obtenerMensajeError(error) {
     return 'El servidor no está disponible en este momento. Intenta más tarde.'
   }
 
-  if (data?.mensaje) {
+  if (data?.message) {
     return data.mensaje
   }
 
