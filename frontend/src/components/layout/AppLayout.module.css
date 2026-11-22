@@ -1,0 +1,27 @@
+.contenedor {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.principal {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.barraSuperior {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  min-height: 64px;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid rgb(31 27 20 / 8%);
+}
+
+.contenido {
+  flex: 1;
+  padding: 1.5rem;
+}
