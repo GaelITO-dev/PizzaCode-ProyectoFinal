@@ -43,6 +43,12 @@ public class GlobalExceptionHandler {
                 .body(new ApiError(HttpStatus.CONFLICT.value(), ex.getMessage(), Map.of()));
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ApiError> handleEstadoInvalido(IllegalStateException ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ex.getMessage(), Map.of()));
+    }
+
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<ApiError> handleNoEncontrado(NoSuchElementException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
