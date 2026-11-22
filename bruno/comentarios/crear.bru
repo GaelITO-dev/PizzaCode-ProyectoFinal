@@ -1,0 +1,25 @@
+meta {
+  name: crear
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/comentarios
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  { "tipo": "COMENTARIO", "texto": "" }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
