@@ -19,6 +19,8 @@ public class AuthResponseDTO {
 
     private String nombre;
 
+    private String apellidoPat;
+
     private String correo;
 
     private String rol;

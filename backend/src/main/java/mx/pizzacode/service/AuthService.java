@@ -59,6 +59,7 @@ public class AuthService {
                 "Bearer",
                 usuario.getIdUsuario(),
                 usuario.getNombre(),
+                usuario.getApellidoPat(),
                 usuario.getCorreo(),
                 usuario.getRol().getNombre()
         );
