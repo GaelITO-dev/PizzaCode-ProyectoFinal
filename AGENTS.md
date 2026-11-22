@@ -20,4 +20,5 @@ Maven 3.9.15 is installed system-wide; there is no `mvnw`/`.mvn` wrapper in this
 
 - `mx.pizzacode.entity`: JPA entities and enums (`Usuario`, `Rol`, `EstadoUsuario`, `EstadoPedido`, `Categoria`, `Producto`, `Pedido`, `PedidoProducto`, `OrigenPedido`, `MetodoPago`).
 - `mx.pizzacode.dto`: validation DTOs (Bean Validation, Spanish messages; `UsuarioActualizacionDTO` cross-checks bloqueo+motivo with `@AssertTrue`).
+- `mx.pizzacode.repository`: Spring Data JPA repositories (`Producto`, `Categoria`, `Usuario`, `Pedido`, `PedidoProducto`). Listings paginate with `Pageable`; Pedido/Producto/Usuario listing methods use `@EntityGraph` to avoid N+1.
 - Empty scaffolding: `frontend/`, `database/`, `docs/`, `bruno/` (`.gitkeep` only).
