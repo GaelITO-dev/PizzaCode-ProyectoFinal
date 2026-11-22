@@ -1,0 +1,31 @@
+.avatar {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-primario);
+  border-radius: 50%;
+  background-color: var(--color-acento);
+  color: var(--color-texto);
+  font-weight: 700;
+  line-height: 1;
+  user-select: none;
+}
+
+.pequeno {
+  width: 32px;
+  height: 32px;
+  font-size: 0.75rem;
+}
+
+.mediano {
+  width: 40px;
+  height: 40px;
+  font-size: 0.875rem;
+}
+
+.grande {
+  width: 64px;
+  height: 64px;
+  font-size: 1.25rem;
+}

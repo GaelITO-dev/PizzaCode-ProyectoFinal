@@ -13,7 +13,8 @@
 
 ## Respuesta del login (POST /api/auth/login)
 
-    { "token": "...", "tipo": "Bearer", "idUsuario": 1, "nombre": "...", "correo": "...", "rol": "ADMIN" }
+    { "token": "...", "tipo": "Bearer", "idUsuario": 1, "nombre": "...", "apellidoPat": "...", "correo": "...", "rol": "ADMIN" }
 
 - Respuesta plana (sin objeto `usuario` anidado).
+- `apellidoPat` se agregó en #35 para el avatar con iniciales del navbar.
 - El frontend guarda `token` en localStorage (tokenStorage) y el resto en el AuthContext.

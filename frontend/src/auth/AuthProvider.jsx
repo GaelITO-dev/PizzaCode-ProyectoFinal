@@ -30,6 +30,7 @@ export function AuthProvider({ children }) {
     const datosUsuario = {
       idUsuario: respuesta.idUsuario,
       nombre: respuesta.nombre,
+      apellidoPat: respuesta.apellidoPat,
       correo: respuesta.correo,
       rol: respuesta.rol,
     }

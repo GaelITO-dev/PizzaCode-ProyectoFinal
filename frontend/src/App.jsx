@@ -5,6 +5,7 @@ import PanelProvisional from './pages/PanelProvisional'
 import NoAutorizadoPage from './pages/NoAutorizadoPage'
 import RutaProtegida from './auth/RutaProtegida'
 import RedireccionInicio from './auth/RedireccionInicio'
+import AppLayout from './components/layout/AppLayout'
 
 function App() {
   return (
@@ -13,25 +14,38 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/registro" element={<RegistroPage />} />
 
-      {/* Cualquier usuario autenticado */}
+      {/* Requieren sesión */}
       <Route element={<RutaProtegida />}>
         <Route path="/" element={<RedireccionInicio />} />
         <Route path="/no-autorizado" element={<NoAutorizadoPage />} />
-      </Route>
 
-      {/* Solo CLIENTE */}
-      <Route element={<RutaProtegida rolesPermitidos={['CLIENTE']} />}>
-        <Route path="/cliente" element={<PanelProvisional titulo="Panel del cliente" />} />
-      </Route>
+        {/* Parte interna: barra lateral + barra superior */}
+        <Route element={<AppLayout />}>
+          <Route path="/perfil" element={<PanelProvisional titulo="Mi perfil" />} />
 
-      {/* Solo CAJERO */}
-      <Route element={<RutaProtegida rolesPermitidos={['CAJERO']} />}>
-        <Route path="/cajero" element={<PanelProvisional titulo="Panel del cajero" />} />
-      </Route>
+          <Route element={<RutaProtegida rolesPermitidos={['CLIENTE']} />}>
+            <Route path="/cliente" element={<PanelProvisional titulo="Inicio" />} />
+            <Route path="/cliente/menu" element={<PanelProvisional titulo="Menú" />} />
+            <Route path="/cliente/historial" element={<PanelProvisional titulo="Historial de pedidos" />} />
+          </Route>
 
-      {/* Solo ADMIN */}
-      <Route element={<RutaProtegida rolesPermitidos={['ADMIN']} />}>
-        <Route path="/admin" element={<PanelProvisional titulo="Panel del administrador" />} />
+          <Route element={<RutaProtegida rolesPermitidos={['CAJERO']} />}>
+            <Route path="/cajero" element={<PanelProvisional titulo="Nuevo pedido" />} />
+            <Route path="/cajero/pedidos" element={<PanelProvisional titulo="Pedidos de hoy" />} />
+            <Route path="/cajero/historial" element={<PanelProvisional titulo="Pedidos de la semana" />} />
+            <Route path="/cajero/clientes" element={<PanelProvisional titulo="Buscar cliente" />} />
+            <Route path="/cajero/clientes/:idUsuario" element={<PanelProvisional titulo="Historial del cliente" />} />
+          </Route>
+
+          <Route element={<RutaProtegida rolesPermitidos={['ADMIN']} />}>
+            <Route path="/admin" element={<PanelProvisional titulo="Ganancias" />} />
+            <Route path="/admin/pedidos" element={<PanelProvisional titulo="Todos los pedidos" />} />
+            <Route path="/admin/productos" element={<PanelProvisional titulo="Productos" />} />
+            <Route path="/admin/usuarios" element={<PanelProvisional titulo="Usuarios" />} />
+            <Route path="/admin/promociones" element={<PanelProvisional titulo="Promociones" />} />
+            <Route path="/admin/comentarios" element={<PanelProvisional titulo="Comentarios y sugerencias" />} />
+          </Route>
+        </Route>
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
