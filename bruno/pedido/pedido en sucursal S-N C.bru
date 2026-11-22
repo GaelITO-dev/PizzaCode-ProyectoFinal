@@ -1,0 +1,32 @@
+meta {
+  name: pedido en sucursal S/N C
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/pedidos/sucursal
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "metodoPago": "EFECTIVO",
+    "nombreCliente": "Juan Pérez",
+    "telefonoCliente": "9511112233",
+    "renglones": [
+      { "idProducto": 4, "cantidad": 2 }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

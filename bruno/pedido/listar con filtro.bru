@@ -1,0 +1,25 @@
+meta {
+  name: listar con filtro
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/pedidos?estado=ENTREGADO
+  body: none
+  auth: bearer
+}
+
+params:query {
+  estado: ENTREGADO
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
