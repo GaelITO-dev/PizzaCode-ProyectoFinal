@@ -1,0 +1,52 @@
+:root {
+  /* Paleta (Figma) */
+  --color-primario: #86C33A;
+  --color-primario-oscuro: #4C7A10;
+  --color-sobre-primario: #15200A;
+  --color-texto: #1F1B14;
+  --color-texto-secundario: #6B6355;
+  --color-input-fondo: rgb(252 236 193 / 50%);
+  --color-superficie: #FFFFFF;
+  --color-acento: #F9A93B;
+  --color-fondo: #FDF9EF;
+  --color-error: #C62828;
+
+  /* Tipografía */
+  --fuente: 'Bricolage Grotesque Variable', system-ui, sans-serif;
+  --texto-titulo: 2.125rem;  /* 34px */
+  --texto-base: 0.9375rem;   /* 15px */
+  --texto-label: 0.75rem;    /* 12px */
+
+  /* Formas */
+  --radio-control: 12px;
+  --radio-tarjeta: 20px;
+  --sombra-tarjeta: 0 10px 30px rgb(31 27 20 / 10%);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fuente);
+  font-size: var(--texto-base);
+  line-height: 1.5;
+  color: var(--color-texto);
+  background-color: var(--color-fondo);
+  -webkit-font-smoothing: antialiased;
+}
+
+input,
+button,
+select,
+textarea {
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}

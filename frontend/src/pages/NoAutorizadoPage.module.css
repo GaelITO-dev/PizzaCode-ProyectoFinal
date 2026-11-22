@@ -1,0 +1,55 @@
+.pantalla {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 1.5rem;
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 420px;
+  padding: 2rem 1.75rem;
+  text-align: center;
+  background-color: var(--color-superficie);
+  border-radius: var(--radio-tarjeta);
+  box-shadow: var(--sombra-tarjeta);
+}
+
+.icono {
+  color: var(--color-acento);
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+}
+
+.texto {
+  margin: 0 0 0.5rem;
+  color: var(--color-texto-secundario);
+}
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radio-control);
+  background-color: var(--color-primario);
+  color: var(--color-sobre-primario);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 3px 0 var(--color-primario-oscuro);
+}
+
+.boton:focus-visible {
+  outline: 3px solid var(--color-primario-oscuro);
+  outline-offset: 2px;
+}

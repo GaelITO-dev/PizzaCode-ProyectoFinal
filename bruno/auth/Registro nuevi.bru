@@ -1,0 +1,46 @@
+meta {
+  name: Registro nuevi
+  type: http
+  seq: 9
+}
+
+post {
+  url: {{baseUrl}}/auth/registro
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nombre": "Prueba",
+    "apellidoPat": "Bruno",
+    "apellidoMat": null,
+    "correo": "{{correoNuevo}}",
+    "telefono": "5512345678",
+    "contrasena": "Pizzacode26!"
+  }
+}
+
+script:post-response {
+  bru.setVar("correoNuevo", "cliente" + Date.now() + "@correo.com");
+}
+
+tests {
+  test("crea el usuario: 201", () => {
+    expect(res.status).to.equal(201);
+  });
+  
+  test("regresa el correo registrado", () => {
+    expect(res.body.correo).to.equal(bru.getVar("correoNuevo"));
+  });
+  
+  test("no expone la contraseña", () => {
+    expect(res.body).to.not.have.property("contrasena");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
