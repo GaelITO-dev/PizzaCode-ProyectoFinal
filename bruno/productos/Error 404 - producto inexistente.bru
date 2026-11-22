@@ -1,0 +1,17 @@
+meta {
+  name: Error 404 - producto inexistente
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/api/productos/999
+  body: none
+  auth: none
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

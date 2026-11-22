@@ -1,0 +1,30 @@
+meta {
+  name: Error 422 - categoria inexistente
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/productos
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "nombre": "Pizza prueba",
+    "descripcion": "Solo para probar",
+    "precio": 120.00,
+    "idCategoria": 999
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
