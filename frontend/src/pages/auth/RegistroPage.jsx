@@ -9,6 +9,7 @@ import { useAuth } from '../../auth/useAuth'
 import { registrarApi } from '../../api/authApi'
 import { validarRegistro, limpiarTelefono } from '../../utils/validaciones'
 import styles from './AuthFormulario.module.css'
+import { rutaInicio } from '../../auth/rutasPorRol'
 
 const VALORES_INICIALES = {
   nombre: '',
@@ -22,7 +23,7 @@ const VALORES_INICIALES = {
 }
 
 function RegistroPage() {
-  const { estaAutenticado, login } = useAuth()
+  const { usuario, estaAutenticado, login } = useAuth()
 
   const [valores, setValores] = useState(VALORES_INICIALES)
   const [tocados, setTocados] = useState({})
@@ -32,8 +33,8 @@ function RegistroPage() {
   const [errorGeneral, setErrorGeneral] = useState(null)
 
   if (estaAutenticado) {
-    return <Navigate to="/inicio" replace />
-  }
+  return <Navigate to={rutaInicio(usuario.rol)} replace />
+}
 
   const errores = validarRegistro(valores)
 

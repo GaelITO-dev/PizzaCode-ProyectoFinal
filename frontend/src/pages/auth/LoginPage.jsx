@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link, Navigate, useLocation } from 'react-router-dom'
+import { destinoTrasLogin } from '../../auth/rutasPorRol'
 import { Mail, Lock } from 'lucide-react'
 import AuthLayout from '../../components/auth/AuthLayout'
 import CampoTexto from '../../components/ui/CampoTexto'
@@ -11,7 +12,7 @@ import styles from './AuthFormulario.module.css'
 const VALORES_INICIALES = { correo: '', contrasena: '' }
 
 function LoginPage() {
-  const { estaAutenticado, login } = useAuth()
+  const { usuario, estaAutenticado, login } = useAuth()
   const location = useLocation()
 
   const [valores, setValores] = useState(VALORES_INICIALES)
@@ -21,8 +22,8 @@ function LoginPage() {
   const [errorServidor, setErrorServidor] = useState(null)
 
   if (estaAutenticado) {
-    return <Navigate to="/inicio" replace />
-  }
+  return <Navigate to={destinoTrasLogin(location.state?.desde, usuario.rol)} replace />
+}
 
   const errores = validarLogin(valores)
   const sesionExpirada = location.state?.sesionExpirada
