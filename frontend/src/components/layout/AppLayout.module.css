@@ -21,7 +21,66 @@
   border-bottom: 1px solid rgb(31 27 20 / 8%);
 }
 
+.botonMenu,
+.marcaMovil,
+.fondo {
+  display: none;
+}
+
 .contenido {
   flex: 1;
   padding: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .contenedor {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .barraSuperior {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    gap: 0.5rem;
+    min-height: 56px;
+    padding: 0.5rem 1rem;
+    background-color: var(--color-fondo);
+  }
+
+  .botonMenu {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: var(--radio-control);
+    background: none;
+    color: var(--color-texto);
+    cursor: pointer;
+  }
+
+  .botonMenu:focus-visible {
+    outline: 2px solid var(--color-primario-oscuro);
+    outline-offset: 2px;
+  }
+
+  .marcaMovil {
+    display: block;
+    margin-right: auto;
+    font-size: 1.0625rem;
+    font-weight: 800;
+  }
+
+  .fondo {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    background-color: rgb(31 27 20 / 45%);
+  }
+
+  .contenido {
+    padding: 1rem;
+  }
 }
