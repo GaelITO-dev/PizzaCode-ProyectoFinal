@@ -13,9 +13,12 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     @EntityGraph(attributePaths = { "categoria" })
     Page<Producto> findAll(Pageable pageable);
 
+    @EntityGraph(attributePaths = { "categoria" })
     Page<Producto> findByNombreContainingIgnoreCase(String nombre, Pageable pageable);
 
+    @EntityGraph(attributePaths = { "categoria" })
     Page<Producto> findByDisponible(boolean disponible, Pageable pageable);
 
+    @EntityGraph(attributePaths = { "categoria" })
     Page<Producto> findByCategoria(Categoria categoria, Pageable pageable);
 }
