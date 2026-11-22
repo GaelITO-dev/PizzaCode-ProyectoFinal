@@ -1,0 +1,25 @@
+meta {
+  name: Gestion - no disponibles (ADMIN)
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/productos/gestion?disponible=false
+  body: none
+  auth: bearer
+}
+
+params:query {
+  disponible: false
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

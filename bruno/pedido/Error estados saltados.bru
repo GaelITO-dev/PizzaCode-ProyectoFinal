@@ -1,0 +1,25 @@
+meta {
+  name: Error estados saltados
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/pedidos/11/estado
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  { "estado": "LISTO" }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

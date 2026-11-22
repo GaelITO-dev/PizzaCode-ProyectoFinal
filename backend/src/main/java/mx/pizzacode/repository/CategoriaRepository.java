@@ -9,4 +9,8 @@ import mx.pizzacode.entity.Categoria;
 public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
 
     Page<Categoria> findAllByNombreContainingIgnoreCase(String nombre, Pageable pageable);
+
+    boolean existsByNombreIgnoreCase(String nombre);
+
+    boolean existsByNombreIgnoreCaseAndIdCategoriaNot(String nombre, Integer idCategoria);
 }

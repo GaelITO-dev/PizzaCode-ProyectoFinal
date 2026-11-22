@@ -1,0 +1,32 @@
+meta {
+  name: Error 422 - producto no disponible
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/pedidos/sucursal
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "metodoPago": "EFECTIVO",
+    "nombreCliente": "Juan Pérez",
+    "telefonoCliente": "9511112233",
+    "renglones": [
+      { "idProducto": 12, "cantidad": 2 }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
