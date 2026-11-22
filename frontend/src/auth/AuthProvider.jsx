@@ -56,6 +56,32 @@ export function AuthProvider({ children }) {
     return () => registrarManejadorNoAutorizado(null)
   }, [navigate])
 
+  useEffect(() => {
+  function sincronizarSesion() {
+    setUsuario(leerSesionGuardada())
+  }
+
+  function alMostrarPagina(evento) {
+    if (evento.persisted) {
+      sincronizarSesion()
+    }
+  }
+
+  function alCambiarAlmacenamiento(evento) {
+    if (evento.key === null || evento.key.startsWith('pizzacode_')) {
+      sincronizarSesion()
+    }
+  }
+
+  window.addEventListener('pageshow', alMostrarPagina)
+  window.addEventListener('storage', alCambiarAlmacenamiento)
+
+  return () => {
+    window.removeEventListener('pageshow', alMostrarPagina)
+    window.removeEventListener('storage', alCambiarAlmacenamiento)
+  }
+}, [])
+
   const valor = useMemo(
     () => ({
       usuario,
