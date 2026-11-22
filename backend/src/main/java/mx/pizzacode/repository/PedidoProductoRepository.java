@@ -17,4 +17,6 @@ public interface PedidoProductoRepository extends JpaRepository<PedidoProducto, 
 
     @EntityGraph(attributePaths = { "pedido" })
     Page<PedidoProducto> findByProducto(Producto producto, Pageable pageable);
+
+    boolean existsByProducto_IdProducto(Integer idProducto);
 }
