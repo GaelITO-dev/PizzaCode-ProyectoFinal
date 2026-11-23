@@ -1,0 +1,41 @@
+meta {
+  name: Crear empleado inválido
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/usuarios/empleados
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "nombre": "Prueba",
+    "apellidoPat": "Empleado",
+    "correo": "x@pizzacode.mx",
+    "telefono": "abc",
+    "contrasena": "corta",
+    "rol": "CLIENTE"
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("crear empleado inválido: 400", () => {
+    expect(res.status).to.equal(400);
+    expect(res.body.errors).to.have.property("telefono");
+    expect(res.body.errors).to.have.property("contrasena");
+    expect(res.body.errors).to.have.property("rol");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

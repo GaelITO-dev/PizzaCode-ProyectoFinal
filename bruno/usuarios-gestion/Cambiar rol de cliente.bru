@@ -1,0 +1,33 @@
+meta {
+  name: Cambiar rol de cliente
+  type: http
+  seq: 11
+}
+
+patch {
+  url: {{baseUrl}}/usuarios/{{idCliente}}
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "rol": "CAJERO"
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("cambiar rol de cliente: 422", () => {
+    expect(res.status).to.equal(422);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

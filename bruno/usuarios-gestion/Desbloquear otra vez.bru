@@ -1,0 +1,27 @@
+meta {
+  name: Desbloquear otra vez
+  type: http
+  seq: 21
+}
+
+patch {
+  url: {{baseUrl}}/usuarios/{{idEmpleado}}/desbloqueo
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("desbloquear otra vez: 422", () => {
+    expect(res.status).to.equal(422);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

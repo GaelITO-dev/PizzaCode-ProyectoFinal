@@ -1,0 +1,35 @@
+meta {
+  name: Login empleado nuevo
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "correo": "{{correoEmpleado}}",
+    "contrasena": "Empleado#2026"
+  }
+}
+
+script:post-response {
+  bru.setVar("tokenEmpleado", res.body.token);
+}
+
+tests {
+  test("login empleado nuevo: 200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.rol).to.equal("CAJERO");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

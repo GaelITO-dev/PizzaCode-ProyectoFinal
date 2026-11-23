@@ -1,0 +1,32 @@
+meta {
+  name: Buscar cliente
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/usuarios?busqueda=cliente@pizzacode.mx
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+script:post-response {
+  bru.setVar("idCliente", res.body.content[0].idUsuario);
+}
+
+tests {
+  test("buscar cliente: 200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.content.length).to.be.at.least(1);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
