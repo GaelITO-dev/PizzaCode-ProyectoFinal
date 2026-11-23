@@ -32,7 +32,8 @@ public final class PedidoMapper {
                 nombreCliente(pedido),
                 telefonoCliente(pedido),
                 nombreCajero(pedido),
-                productos
+                productos,
+                pedido.getMotivoCancelacion()
         );
     }
 

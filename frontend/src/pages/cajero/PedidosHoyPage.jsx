@@ -5,12 +5,11 @@ import { cambiarEstadoPedido, cancelarPedido, listarPedidos } from '../../api/pe
 import { listarMenu } from '../../api/productosApi'
 import ModalMotivo from '../../components/ui/ModalMotivo'
 import { imprimirTicket } from '../../utils/impresion'
+import { NOMBRE_ORIGEN, fechaDeHoy, formatearHora, resumenProductos, tituloDelDia } from '../../utils/pedidos'
 import TicketCocina from './TicketCocina'
 import styles from './PedidosHoyPage.module.css'
 
 const INTERVALO_ACTUALIZACION_MS = 30000
-
-const NOMBRE_ORIGEN = { SUCURSAL: 'Sucursal', EN_LINEA: 'En línea' }
 
 // Una columna por estado; la acción solo avanza un paso (igual que la regla del backend)
 const COLUMNAS = [
@@ -39,26 +38,6 @@ const COLUMNAS = [
     accion: null,
   },
 ]
-
-function fechaDeHoy() {
-  const d = new Date()
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
-}
-
-function tituloDelDia() {
-  const texto = new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' })
-  return texto.charAt(0).toUpperCase() + texto.slice(1)
-}
-
-function formatearHora(fecha) {
-  const valor = new Date(fecha)
-  if (Number.isNaN(valor.getTime())) return ''
-  return valor.toLocaleTimeString('es-MX', { hour: 'numeric', minute: '2-digit' })
-}
-
-function resumenProductos(productos) {
-  return (productos ?? []).map((r) => `${r.cantidad} × ${r.nombreProducto}`).join(', ')
-}
 
 function PedidosHoyPage() {
   const [pedidos, setPedidos] = useState([])

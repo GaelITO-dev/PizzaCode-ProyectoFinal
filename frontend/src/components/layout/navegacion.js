@@ -21,7 +21,6 @@ export const NAVEGACION_POR_ROL = {
     { texto: 'Inicio', ruta: '/cajero', icono: House, exacta: true },
     { texto: 'Pedidos de hoy', ruta: '/cajero/pedidos', icono: ClipboardList },
     { texto: 'Historial', ruta: '/cajero/historial', icono: History },
-    { texto: 'Clientes', ruta: '/cajero/clientes', icono: Users },
     { texto: 'Mi perfil', ruta: '/perfil', icono: User },
   ],
   ADMIN: [

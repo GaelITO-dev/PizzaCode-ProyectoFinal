@@ -454,6 +454,38 @@
   outline-offset: 2px;
 }
 
+/* ---------- Con cuenta / Sin cuenta ---------- */
+.pestanas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border-radius: 999px;
+  background-color: var(--gris-claro);
+}
+
+.pestana {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-texto-secundario);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pestanaActiva {
+  background-color: var(--color-superficie);
+  color: var(--color-texto);
+  box-shadow: 0 1px 3px rgb(31 27 20 / 12%);
+}
+
+.pestana:focus-visible {
+  outline: 2px solid var(--color-primario-oscuro);
+  outline-offset: 2px;
+}
+
 /* ---------- Pantallas medianas y celular ---------- */
 @media (max-width: 1100px) {
   .pagina {
