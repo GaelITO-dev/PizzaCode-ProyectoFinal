@@ -28,9 +28,10 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error.response?.status
-    const esLogin = error.config?.url?.includes('/auth/login')
+    const url = error.config?.url ?? ''
+    const esAutenticacion = url.includes('/auth/login') || url.includes('/auth/logout')
 
-    if (status === 401 && !esLogin && tokenStorage.get()) {
+    if (status === 401 && !esAutenticacion && tokenStorage.get()) {
       tokenStorage.remove()
       manejadorNoAutorizado?.()
     }

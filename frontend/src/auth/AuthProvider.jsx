@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from './AuthContext'
 import { tokenExpirado } from './jwt'
-import { loginApi } from '../api/authApi'
+import { loginApi, logoutApi } from '../api/authApi'
 import { registrarManejadorNoAutorizado } from '../api/axiosClient'
 import { tokenStorage } from '../api/tokenStorage'
 import { usuarioStorage } from '../api/usuarioStorage'
@@ -41,12 +41,17 @@ export function AuthProvider({ children }) {
     return datosUsuario
   }, [])
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+  try {
+    await logoutApi()
+  } catch {
+  } finally {
     tokenStorage.remove()
     usuarioStorage.remove()
     setUsuario(null)
     navigate('/login', { replace: true })
-  }, [navigate])
+  }
+}, [navigate])
 
   useEffect(() => {
     registrarManejadorNoAutorizado(() => {
