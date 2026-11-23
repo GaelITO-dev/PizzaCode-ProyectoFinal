@@ -1,0 +1,39 @@
+meta {
+  name: Editar perfil datos inválidos
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/usuarios/me
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "nombre": "   ",
+    "telefono": "55abc"
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("datos inválidos: 400", () => {
+    expect(res.status).to.equal(400);
+  });
+
+  test("trae un error por cada campo inválido", () => {
+    expect(res.body.errors).to.have.property("nombre");
+    expect(res.body.errors).to.have.property("telefono");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

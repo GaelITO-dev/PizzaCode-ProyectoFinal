@@ -1,0 +1,33 @@
+meta {
+  name: Editar perfil canal inválido
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/usuarios/me
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "canalTicket": "PALOMA"
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("enum inválido: 400", () => {
+    expect(res.status).to.equal(400);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
