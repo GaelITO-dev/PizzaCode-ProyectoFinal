@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { KeyRound, Lock, Search } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { KeyRound, Lock, Pencil, Plus, Search } from 'lucide-react'
 import {
   desbloquearUsuario,
   listarUsuarios,
@@ -44,6 +45,17 @@ function nombreCompleto(u) {
 
 function UsuariosPage() {
   const { usuario: actual } = useAuth()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const [aviso, setAviso] = useState(location.state?.aviso ?? '')
+
+  // El aviso llega del formulario; se borra del historial para que no reaparezca al recargar
+  useEffect(() => {
+    if (location.state?.aviso) {
+      navigate(location.pathname, { replace: true, state: null })
+    }
+  }, [location, navigate])
+
   const [usuarios, setUsuarios] = useState([])
   const [resumen, setResumen] = useState({ clientes: 0, cajeros: 0, administradores: 0, bloqueados: 0 })
   const [filtros, setFiltros] = useState({ rol: '', estado: '', busqueda: '' })
@@ -104,6 +116,7 @@ function UsuariosPage() {
 
   function cambiarFiltro(nombre, valor) {
     setCargando(true)
+    setAviso('')
     setFiltros((actuales) => ({ ...actuales, [nombre]: valor }))
     setPagina(0) // al filtrar se vuelve a la primera página
   }
@@ -135,6 +148,10 @@ function UsuariosPage() {
           <h1 className={styles.titulo}>Usuarios</h1>
           <p className={styles.subtitulo}>Clientes y empleados del sistema.</p>
         </div>
+        <Link to="/admin/usuarios/nuevo" className={styles.botonNuevo}>
+          <Plus size={18} aria-hidden="true" />
+          Nuevo empleado
+        </Link>
       </header>
 
       <div className={styles.resumen}>
@@ -183,6 +200,12 @@ function UsuariosPage() {
             </select>
           </div>
         </div>
+
+        {aviso && (
+          <p className={styles.aviso} role="status">
+            {aviso}
+          </p>
+        )}
 
         {error && (
           <p className={styles.error} role="alert">
@@ -243,6 +266,14 @@ function UsuariosPage() {
                       </td>
                       <td>
                         <div className={styles.acciones}>
+                          <Link
+                            to={`/admin/usuarios/${u.idUsuario}/editar`}
+                            className={styles.botonEditar}
+                            aria-label={`Editar a ${nombre}`}
+                          >
+                            <Pencil size={16} aria-hidden="true" />
+                            Editar
+                          </Link>
                           {esYo ? (
                             <span className={styles.tu}>Tú</span>
                           ) : bloqueado ? (
