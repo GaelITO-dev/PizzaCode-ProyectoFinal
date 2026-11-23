@@ -1,0 +1,39 @@
+meta {
+  name: Editar perfil
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/usuarios/me
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "telefono": "5512345678",
+    "canalTicket": "WHATSAPP"
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("editar perfil: 200", () => {
+    expect(res.status).to.equal(200);
+  });
+
+  test("actualiza teléfono y canal del ticket", () => {
+    expect(res.body.telefono).to.equal("5512345678");
+    expect(res.body.canalTicket).to.equal("WHATSAPP");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

@@ -41,17 +41,24 @@ export function AuthProvider({ children }) {
     return datosUsuario
   }, [])
 
-  const logout = useCallback(async () => {
-  try {
-    await logoutApi()
-  } catch {
-  } finally {
-    tokenStorage.remove()
-    usuarioStorage.remove()
-    setUsuario(null)
-    navigate('/login', { replace: true })
-  }
-}, [navigate])
+    const logout = useCallback(async () => {
+    try {
+      await logoutApi()
+    } catch {
+      // Si el backend no responde, la sesión se cierra igual en el navegador (finally).
+    } finally {
+      tokenStorage.remove()
+      usuarioStorage.remove()
+      setUsuario(null)
+      navigate('/login', { replace: true })
+    }
+  }, [navigate])
+
+  const actualizarUsuario = useCallback((cambios) => {
+    const actualizado = { ...usuarioStorage.get(), ...cambios }
+    usuarioStorage.set(actualizado)
+    setUsuario(actualizado)
+  }, [])
 
   useEffect(() => {
     registrarManejadorNoAutorizado(() => {
@@ -94,8 +101,9 @@ export function AuthProvider({ children }) {
       estaAutenticado: usuario !== null,
       login,
       logout,
+      actualizarUsuario,
     }),
-    [usuario, login, logout],
+    [usuario, login, logout, actualizarUsuario],
   )
 
   return <AuthContext.Provider value={valor}>{children}</AuthContext.Provider>

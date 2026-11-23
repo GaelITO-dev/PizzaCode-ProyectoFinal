@@ -4,6 +4,7 @@ import LoginPage from './pages/auth/LoginPage'
 import RegistroPage from './pages/auth/RegistroPage'
 import PanelProvisional from './pages/PanelProvisional'
 import NoAutorizadoPage from './pages/NoAutorizadoPage'
+import PerfilPage from './pages/perfil/PerfilPage'
 import RutaProtegida from './auth/RutaProtegida'
 import RedireccionInicio from './auth/RedireccionInicio'
 import AppLayout from './components/layout/AppLayout'
@@ -22,7 +23,7 @@ function App() {
 
         {/* Parte interna: barra lateral + barra superior */}
         <Route element={<AppLayout />}>
-          <Route path="/perfil" element={<PanelProvisional titulo="Mi perfil" />} />
+          <Route path="/perfil" element={<PerfilPage />} />
 
           <Route element={<RutaProtegida rolesPermitidos={['CLIENTE']} />}>
             <Route path="/cliente" element={<PanelProvisional titulo="Inicio" />} />

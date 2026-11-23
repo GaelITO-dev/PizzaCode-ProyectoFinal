@@ -43,6 +43,10 @@ public class Usuario {
 
     @Column(name = "telefono", nullable = false, length = 15)
     private String telefono;
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    @Column(name = "canal_ticket", nullable = false, length = 20)
+    private CanalTicket canalTicket = CanalTicket.AMBOS;
 
     @Column(name = "contrasena", nullable = false, length = 255)
     private String contrasena;

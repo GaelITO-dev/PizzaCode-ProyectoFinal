@@ -1,0 +1,33 @@
+meta {
+  name: Mi perfil
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/usuarios/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("regresa mi perfil: 200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.correo).to.be.a("string");
+    expect(res.body.canalTicket).to.be.oneOf(["WHATSAPP", "CORREO", "AMBOS"]);
+  });
+  
+  test("no expone la contraseña", () => {
+    expect(res.body).to.not.have.property("contrasena");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

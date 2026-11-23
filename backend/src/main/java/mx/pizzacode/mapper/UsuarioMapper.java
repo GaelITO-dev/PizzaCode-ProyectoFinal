@@ -22,6 +22,7 @@ public final class UsuarioMapper {
                 usuario.getApellidoMat(),
                 usuario.getCorreo(),
                 usuario.getTelefono(),
+                usuario.getCanalTicket(),
                 rol,
                 usuario.getEstado(),
                 usuario.getMotivoBloqueo()

@@ -44,6 +44,12 @@ function validarTelefono(telefono) {
   return null
 }
 
+function validarApellidoMat(apellidoMat) {
+  return apellidoMat.trim().length > 50
+    ? 'El apellido materno no debe superar los 50 caracteres'
+    : null
+}
+
 function validarContrasena(contrasena) {
   if (!contrasena) return 'La contraseña es obligatoria'
   const requisitos = requisitosContrasena(contrasena)
@@ -71,9 +77,7 @@ export function validarRegistro(datos) {
   return sinNulos({
     nombre: validarTextoObligatorio(datos.nombre, 'nombre'),
     apellidoPat: validarTextoObligatorio(datos.apellidoPat, 'apellido paterno'),
-    apellidoMat: datos.apellidoMat.trim().length > 50
-      ? 'El apellido materno no debe superar los 50 caracteres'
-      : null,
+    apellidoMat: validarApellidoMat(datos.apellidoMat),
     correo: validarCorreo(datos.correo),
     telefono: validarTelefono(datos.telefono),
     contrasena: validarContrasena(datos.contrasena),
@@ -85,5 +89,36 @@ export function validarRegistro(datos) {
     aceptaTerminos: datos.aceptaTerminos
       ? null
       : 'Debes aceptar los términos y el aviso de privacidad',
+  })
+}
+
+export function validarNombrePerfil(datos) {
+  return sinNulos({
+    nombre: validarTextoObligatorio(datos.nombre, 'nombre'),
+    apellidoPat: validarTextoObligatorio(datos.apellidoPat, 'apellido paterno'),
+    apellidoMat: validarApellidoMat(datos.apellidoMat),
+  })
+}
+
+export function validarTelefonoPerfil(telefono) {
+  return sinNulos({
+    telefono: validarTelefono(telefono),
+  })
+}
+
+export function validarCambioContrasena(datos) {
+  const errorNueva = validarContrasena(datos.contrasenaNueva)
+
+  return sinNulos({
+    contrasenaActual: datos.contrasenaActual ? null : 'La contraseña actual es obligatoria',
+    contrasenaNueva: errorNueva
+      ?? (datos.contrasenaNueva === datos.contrasenaActual
+        ? 'La nueva contraseña debe ser diferente a la actual'
+        : null),
+    confirmarContrasena: !datos.confirmarContrasena
+      ? 'Confirma tu nueva contraseña'
+      : datos.confirmarContrasena !== datos.contrasenaNueva
+        ? 'Las contraseñas no coinciden'
+        : null,
   })
 }
