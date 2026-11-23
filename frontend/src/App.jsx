@@ -11,6 +11,7 @@ import CarritoPage from './pages/cliente/CarritoPage'
 import PagoPage from './pages/cliente/PagoPage'
 import PedidoConfirmadoPage from './pages/cliente/PedidoConfirmadoPage'
 import PedidosHoyPage from './pages/cajero/PedidosHoyPage'
+import HistorialDiaPage from './pages/cajero/HistorialDiaPage'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/auth/LoginPage'
 import RegistroPage from './pages/auth/RegistroPage'
@@ -50,9 +51,7 @@ function App() {
           <Route element={<RutaProtegida rolesPermitidos={['CAJERO']} />}>
             <Route path="/cajero" element={<PuntoVentaPage />} />
             <Route path="/cajero/pedidos" element={<PedidosHoyPage />} />
-            <Route path="/cajero/historial" element={<PanelProvisional titulo="Pedidos de la semana" />} />
-            <Route path="/cajero/clientes" element={<PanelProvisional titulo="Buscar cliente" />} />
-            <Route path="/cajero/clientes/:idUsuario" element={<PanelProvisional titulo="Historial del cliente" />} />
+            <Route path="/cajero/historial" element={<HistorialDiaPage />} />
           </Route>
 
           <Route element={<RutaProtegida rolesPermitidos={['ADMIN']} />}>

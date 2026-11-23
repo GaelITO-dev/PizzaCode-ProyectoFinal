@@ -1,0 +1,31 @@
+meta {
+  name: Primer producto
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/productos?size=1
+  body: none
+  auth: none
+}
+
+params:query {
+  size: 1
+}
+
+script:post-response {
+  bru.setVar("idProducto", res.body.content[0].idProducto);
+}
+
+tests {
+  test("primer producto: 200", () => {
+    expect(res.status).to.equal(200);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

@@ -1,0 +1,32 @@
+meta {
+  name: Búsqueda muy corta
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/clientes?busqueda=a
+  body: none
+  auth: bearer
+}
+
+params:query {
+  busqueda: a
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("búsqueda muy corta: 200 y sin resultados", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.content.length).to.equal(0);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

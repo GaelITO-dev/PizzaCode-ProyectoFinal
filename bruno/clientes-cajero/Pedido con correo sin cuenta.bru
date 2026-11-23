@@ -1,0 +1,37 @@
+meta {
+  name: Pedido con correo sin cuenta
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/pedidos/sucursal
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "metodoPago": "TARJETA",
+    "correoCliente": "nadie@correo.com",
+    "renglones": [
+      { "idProducto": {{idProducto}}, "cantidad": 1 }
+    ]
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("pedido con correo sin cuenta: 422", () => {
+    expect(res.status).to.equal(422);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

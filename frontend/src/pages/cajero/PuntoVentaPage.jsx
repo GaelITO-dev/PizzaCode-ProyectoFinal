@@ -7,31 +7,41 @@ import ModalConfirmacion from '../../components/ui/ModalConfirmacion'
 import { limpiarTelefono } from '../../utils/validaciones'
 import { formatearMoneda } from '../../utils/moneda'
 import PedidoRegistrado from './PedidoRegistrado'
+import SelectorCliente from './SelectorCliente'
 import styles from './PuntoVentaPage.module.css'
 
-const REGEX_CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const CLIENTE_VACIO = { nombre: '', telefono: '', correo: '' }
+const CLIENTE_VACIO = { nombre: '', telefono: '' }
+
+const MODOS_CLIENTE = [
+  { valor: 'CUENTA', texto: 'Con cuenta' },
+  { valor: 'SIN', texto: 'Sin cuenta' },
+]
 
 const METODOS = [
   { valor: 'EFECTIVO', texto: 'Efectivo', icono: Banknote },
   { valor: 'TARJETA', texto: 'Tarjeta', icono: CreditCard },
 ]
 
-function validarCobro({ carrito, cliente, metodoPago, pagaCon, total }) {
+function validarCobro({ carrito, modoCliente, clienteCuenta, cliente, metodoPago, pagaCon, total }) {
   const errores = {}
 
   if (carrito.length === 0) {
     errores.carrito = 'Agrega al menos un producto'
   }
-  if (cliente.nombre.trim().length > 100) {
-    errores.nombreCliente = 'El nombre no debe superar los 100 caracteres'
+
+  if (modoCliente === 'CUENTA') {
+    if (!clienteCuenta) {
+      errores.clienteCuenta = 'Busca y elige un cliente, o cambia a Sin cuenta'
+    }
+  } else {
+    if (cliente.nombre.trim().length > 100) {
+      errores.nombreCliente = 'El nombre no debe superar los 100 caracteres'
+    }
+    if (cliente.telefono.trim() && !/^\d{10,15}$/.test(limpiarTelefono(cliente.telefono))) {
+      errores.telefonoCliente = 'El teléfono debe contener entre 10 y 15 dígitos'
+    }
   }
-  if (cliente.telefono.trim() && !/^\d{10,15}$/.test(limpiarTelefono(cliente.telefono))) {
-    errores.telefonoCliente = 'El teléfono debe contener entre 10 y 15 dígitos'
-  }
-  if (cliente.correo.trim() && !REGEX_CORREO.test(cliente.correo.trim())) {
-    errores.correoCliente = 'El correo no tiene un formato válido'
-  }
+
   if (metodoPago === 'EFECTIVO' && !(Number(pagaCon) >= total)) {
     errores.pagaCon = 'El pago no cubre el total'
   }
@@ -50,6 +60,8 @@ function PuntoVentaPage() {
   const [busqueda, setBusqueda] = useState('')
 
   const [carrito, setCarrito] = useState([]) // [{ producto, cantidad }]
+  const [modoCliente, setModoCliente] = useState('SIN')
+  const [clienteCuenta, setClienteCuenta] = useState(null)
   const [cliente, setCliente] = useState(CLIENTE_VACIO)
   const [metodoPago, setMetodoPago] = useState('EFECTIVO')
   const [pagaCon, setPagaCon] = useState('')
@@ -140,10 +152,25 @@ function PuntoVentaPage() {
     setCarrito((actual) => actual.filter((r) => r.producto.idProducto !== idProducto))
   }
 
+  function elegirModoCliente(valor) {
+    setModoCliente(valor)
+    setErrores((actuales) => ({
+      ...actuales,
+      clienteCuenta: undefined,
+      nombreCliente: undefined,
+      telefonoCliente: undefined,
+    }))
+  }
+
+  function elegirClienteCuenta(elegido) {
+    setClienteCuenta(elegido)
+    setErrores((actuales) => ({ ...actuales, clienteCuenta: undefined }))
+  }
+
   function cambiarCliente(evento) {
     const { name, value } = evento.target
     setCliente((actual) => ({ ...actual, [name]: value }))
-    const campo = { nombre: 'nombreCliente', telefono: 'telefonoCliente', correo: 'correoCliente' }[name]
+    const campo = { nombre: 'nombreCliente', telefono: 'telefonoCliente' }[name]
     setErrores((actuales) => ({ ...actuales, [campo]: undefined }))
   }
 
@@ -155,7 +182,7 @@ function PuntoVentaPage() {
   function cobrar() {
     setErrorGeneral('')
 
-    const encontrados = validarCobro({ carrito, cliente, metodoPago, pagaCon, total })
+    const encontrados = validarCobro({ carrito, modoCliente, clienteCuenta, cliente, metodoPago, pagaCon, total })
     if (Object.keys(encontrados).length > 0) {
       setErrores(encontrados)
       return
@@ -172,13 +199,20 @@ function PuntoVentaPage() {
   async function registrar() {
     setGuardando(true)
 
+    // Con cuenta: el backend liga el pedido a la cuenta por su correo. Sin cuenta: nombre y teléfono.
+    const datosCliente =
+      modoCliente === 'CUENTA'
+        ? { correoCliente: clienteCuenta.correo }
+        : {
+            nombreCliente: cliente.nombre.trim() || undefined,
+            telefonoCliente: limpiarTelefono(cliente.telefono) || undefined,
+          }
+
     try {
       const pedido = await crearPedidoSucursal({
         metodoPago,
         renglones: carrito.map((r) => ({ idProducto: r.producto.idProducto, cantidad: r.cantidad })),
-        nombreCliente: cliente.nombre.trim() || undefined,
-        telefonoCliente: limpiarTelefono(cliente.telefono) || undefined,
-        correoCliente: cliente.correo.trim() || undefined,
+        ...datosCliente,
       })
 
       setRegistrado({
@@ -186,6 +220,8 @@ function PuntoVentaPage() {
         cambio: metodoPago === 'EFECTIVO' ? Number(pagaCon) - Number(pedido.total) : null,
       })
       setCarrito([])
+      setModoCliente('SIN')
+      setClienteCuenta(null)
       setCliente(CLIENTE_VACIO)
       setMetodoPago('EFECTIVO')
       setPagaCon('')
@@ -306,41 +342,55 @@ function PuntoVentaPage() {
         <h2 id="titulo-ticket" className={styles.tituloTicket}>Ticket</h2>
 
         <fieldset className={styles.grupo}>
-          <legend className={styles.etiquetaGrupo}>Cliente (opcional)</legend>
-          <div className={styles.camposCliente}>
-            <CampoTexto
-              etiqueta="Nombre"
-              name="nombre"
-              value={cliente.nombre}
-              onChange={cambiarCliente}
-              error={errores.nombreCliente}
-              maxLength={100}
-              autoComplete="off"
+          <legend className={styles.etiquetaGrupo}>Cliente</legend>
+
+          <div className={styles.pestanas} role="group" aria-label="Tipo de cliente">
+            {MODOS_CLIENTE.map((m) => {
+              const activo = modoCliente === m.valor
+              return (
+                <button
+                  key={m.valor}
+                  type="button"
+                  className={activo ? `${styles.pestana} ${styles.pestanaActiva}` : styles.pestana}
+                  aria-pressed={activo}
+                  onClick={() => elegirModoCliente(m.valor)}
+                >
+                  {m.texto}
+                </button>
+              )
+            })}
+          </div>
+
+          {modoCliente === 'CUENTA' ? (
+            <SelectorCliente
+              seleccionado={clienteCuenta}
+              onSeleccionar={elegirClienteCuenta}
+              error={errores.clienteCuenta}
             />
-            <CampoTexto
-              etiqueta="Teléfono"
-              tipo="tel"
-              name="telefono"
-              value={cliente.telefono}
-              onChange={cambiarCliente}
-              error={errores.telefonoCliente}
-              inputMode="numeric"
-              maxLength={20}
-              autoComplete="off"
-            />
-            <div className={styles.completo}>
+          ) : (
+            <div className={styles.camposCliente}>
               <CampoTexto
-                etiqueta="Correo"
-                tipo="email"
-                name="correo"
-                value={cliente.correo}
+                etiqueta="Nombre (opcional)"
+                name="nombre"
+                value={cliente.nombre}
                 onChange={cambiarCliente}
-                error={errores.correoCliente}
+                error={errores.nombreCliente}
                 maxLength={100}
                 autoComplete="off"
               />
+              <CampoTexto
+                etiqueta="Teléfono (opcional)"
+                tipo="tel"
+                name="telefono"
+                value={cliente.telefono}
+                onChange={cambiarCliente}
+                error={errores.telefonoCliente}
+                inputMode="numeric"
+                maxLength={20}
+                autoComplete="off"
+              />
             </div>
-          </div>
+          )}
         </fieldset>
 
         <div className={styles.grupo}>

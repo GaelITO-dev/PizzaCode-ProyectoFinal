@@ -38,4 +38,7 @@ public class PedidoResumenResponseDTO {
 
     // Productos del pedido; solo viene en los listados (en cambiar estado y cancelar es null)
     private List<PedidoRenglonResponseDTO> productos;
+
+    // Solo tiene valor cuando el pedido está CANCELADO
+    private String motivoCancelacion;
 }
