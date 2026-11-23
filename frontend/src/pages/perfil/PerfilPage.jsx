@@ -5,6 +5,7 @@ import { actualizarPerfilApi, obtenerPerfilApi } from '../../api/perfilApi'
 import { useAuth } from '../../auth/useAuth'
 import Avatar from '../../components/ui/Avatar'
 import { NOMBRE_ROL } from '../../components/layout/navegacion'
+import { formatearTelefono } from '../../utils/telefono'
 import EditarNombre from './EditarNombre'
 import EditarTelefono from './EditarTelefono'
 import SelectorCanal from './SelectorCanal'
@@ -13,14 +14,6 @@ import styles from './PerfilPage.module.css'
 
 function nombreCompleto({ nombre, apellidoPat, apellidoMat }) {
   return [nombre, apellidoPat, apellidoMat].filter(Boolean).join(' ')
-}
-
-function formatearTelefono(telefono) {
-  if (!telefono) return 'Sin registrar'
-  if (/^\d{10}$/.test(telefono)) {
-    return `${telefono.slice(0, 2)} ${telefono.slice(2, 6)} ${telefono.slice(6)}`
-  }
-  return telefono
 }
 
 function PerfilPage() {
