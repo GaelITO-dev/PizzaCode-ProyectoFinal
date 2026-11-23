@@ -19,4 +19,8 @@ public class ComentarioResponseDTO {
     private Boolean visible;
     private LocalDateTime fecha;
     private String nombreUsuario;
+
+    private Long totalLikes;      
+    private Boolean yaDioLike;    
+
 }

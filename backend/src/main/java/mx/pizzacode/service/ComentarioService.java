@@ -1,6 +1,11 @@
 package mx.pizzacode.service;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +18,9 @@ import mx.pizzacode.entity.Comentario;
 import mx.pizzacode.entity.TipoComentario;
 import mx.pizzacode.exception.ReglaNegocioException;
 import mx.pizzacode.mapper.ComentarioMapper;
+import mx.pizzacode.repository.ComentarioLikeRepository;
 import mx.pizzacode.repository.ComentarioRepository;
+import mx.pizzacode.repository.ConteoLikes;
 import mx.pizzacode.repository.UsuarioRepository;
 
 @Service
@@ -21,10 +28,14 @@ public class ComentarioService {
 
     private final ComentarioRepository comentarioRepository;
     private final UsuarioRepository usuarioRepository;
+    private final ComentarioLikeRepository likeRepository;
 
-    public ComentarioService(ComentarioRepository comentarioRepository, UsuarioRepository usuarioRepository) {
+    public ComentarioService(ComentarioRepository comentarioRepository,
+                             UsuarioRepository usuarioRepository,
+                             ComentarioLikeRepository likeRepository) {
         this.comentarioRepository = comentarioRepository;
         this.usuarioRepository = usuarioRepository;
+        this.likeRepository = likeRepository;
     }
 
     // del admin----------------------------------------------------------------------------------------------
@@ -33,10 +44,28 @@ public class ComentarioService {
         return comentarioRepository.buscar(tipo, visible, null, pageable).map(ComentarioMapper::toResponse);
     }
 
-    // Cualquiera autenticado: solo los visibles
+    // Cualquiera autenticado: solo los visibles, con su total de likes y si el usuario actual dio like.
+    // Siempre son 3 consultas por página (comentarios, conteos y mis likes), sin N+1.
     @Transactional(readOnly = true)
-    public Page<ComentarioResponseDTO> listarPublicos(Pageable pageable) {
-        return comentarioRepository.buscar(null, true, null, pageable).map(ComentarioMapper::toResponse);
+    public Page<ComentarioResponseDTO> listarPublicos(String correo, Pageable pageable) {
+        Page<Comentario> pagina = comentarioRepository.buscar(null, true, null, pageable);
+        List<Integer> ids = pagina.getContent().stream()
+                .map(Comentario::getIdComentario)
+                .toList();
+
+        Map<Integer, Long> conteos = ids.isEmpty() ? Map.of()
+                : likeRepository.contarPorComentarios(ids).stream()
+                        .collect(Collectors.toMap(ConteoLikes::getIdComentario, ConteoLikes::getTotal));
+
+        Set<Integer> conMiLike = ids.isEmpty() ? Set.of()
+                : new HashSet<>(likeRepository.idsConLikeDelUsuario(correo, ids));
+
+        return pagina.map(c -> {
+            ComentarioResponseDTO dto = ComentarioMapper.toResponse(c);
+            dto.setTotalLikes(conteos.getOrDefault(c.getIdComentario(), 0L));
+            dto.setYaDioLike(conMiLike.contains(c.getIdComentario()));
+            return dto;
+        });
     }
 
     // del cliente--------------------------------------------------------------------------------------------
