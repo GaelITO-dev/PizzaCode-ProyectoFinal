@@ -41,17 +41,18 @@ export function AuthProvider({ children }) {
     return datosUsuario
   }, [])
 
-  const logout = useCallback(async () => {
-  try {
-    await logoutApi()
-  } catch {
-  } finally {
-    tokenStorage.remove()
-    usuarioStorage.remove()
-    setUsuario(null)
-    navigate('/login', { replace: true })
-  }
-}, [navigate])
+    const logout = useCallback(async () => {
+    try {
+      await logoutApi()
+    } catch {
+      // Si el backend no responde, la sesión se cierra igual en el navegador (finally).
+    } finally {
+      tokenStorage.remove()
+      usuarioStorage.remove()
+      setUsuario(null)
+      navigate('/login', { replace: true })
+    }
+  }, [navigate])
 
   useEffect(() => {
     registrarManejadorNoAutorizado(() => {
