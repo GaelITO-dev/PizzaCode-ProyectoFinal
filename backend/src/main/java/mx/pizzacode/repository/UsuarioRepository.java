@@ -37,4 +37,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     long countByRol_Nombre(String nombre);
 
     long countByEstado(EstadoUsuario estado);
+
+    @EntityGraph(attributePaths = "rol")
+    Optional<Usuario> findConRolByIdUsuario(Integer idUsuario);
 }
