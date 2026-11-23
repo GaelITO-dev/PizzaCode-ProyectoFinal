@@ -122,3 +122,14 @@ export function validarCambioContrasena(datos) {
         : null,
   })
 }
+
+export function validarFormularioUsuario(datos, { esNuevo }) {
+  return sinNulos({
+    nombre: validarTextoObligatorio(datos.nombre, 'nombre'),
+    apellidoPat: validarTextoObligatorio(datos.apellidoPat, 'apellido paterno'),
+    apellidoMat: validarApellidoMat(datos.apellidoMat),
+    correo: esNuevo ? validarCorreo(datos.correo) : null,
+    telefono: validarTelefono(datos.telefono),
+    contrasena: esNuevo ? validarContrasena(datos.contrasena) : null,
+  })
+}
