@@ -3,6 +3,7 @@ import PromocionFormularioPage from './pages/admin/PromocionFormularioPage'
 import ComentariosPage from './pages/admin/ComentariosPage'
 import ProductosPage from './pages/admin/ProductosPage'
 import UsuariosPage from './pages/admin/UsuariosPage'
+import UsuarioFormularioPage from './pages/admin/UsuarioFormularioPage'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/auth/LoginPage'
 import RegistroPage from './pages/auth/RegistroPage'
@@ -48,6 +49,8 @@ function App() {
             <Route path="/admin/pedidos" element={<PanelProvisional titulo="Todos los pedidos" />} />
             <Route path="/admin/productos" element={<ProductosPage />} />
             <Route path="/admin/usuarios" element={<UsuariosPage />} />
+            <Route path="/admin/usuarios/nuevo" element={<UsuarioFormularioPage key="nuevo" />} />
+            <Route path="/admin/usuarios/:id/editar" element={<UsuarioFormularioPage key="editar" />} />
             <Route path="/admin/promociones" element={<PromocionesPage />} />
             <Route path="/admin/promociones/nueva" element={<PromocionFormularioPage />} />
             <Route path="/admin/promociones/:id/editar" element={<PromocionFormularioPage />} />
