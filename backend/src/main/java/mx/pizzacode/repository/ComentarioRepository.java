@@ -17,6 +17,9 @@ public interface ComentarioRepository extends JpaRepository<Comentario, Integer>
             WHERE (:tipo IS NULL OR c.tipo = :tipo)
               AND (:visible IS NULL OR c.visible = :visible)
               AND (:correo IS NULL OR c.usuario.correo = :correo)
+              AND (:texto IS NULL
+                   OR c.texto LIKE CONCAT('%', :texto, '%')
+                   OR CONCAT(c.usuario.nombre, ' ', c.usuario.apellidoPat) LIKE CONCAT('%', :texto, '%'))
             """)
-    Page<Comentario> buscar(TipoComentario tipo, Boolean visible, String correo, Pageable pageable);
+    Page<Comentario> buscar(TipoComentario tipo, Boolean visible, String correo, String texto, Pageable pageable);
 }
