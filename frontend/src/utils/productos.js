@@ -45,3 +45,9 @@ export function agruparProductos(productos) {
     imagen: g.productos.find((p) => p.imagen)?.imagen ?? null,
   }))
 }
+
+// "Pepperoni grande" -> "Grande" (para los botones de tamaño)
+export function etiquetaTamano(nombre) {
+  const tamano = tamanoDe(nombre)
+  return tamano ? tamano.charAt(0).toUpperCase() + tamano.slice(1) : null
+}

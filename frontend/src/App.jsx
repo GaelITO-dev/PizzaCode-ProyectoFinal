@@ -6,6 +6,10 @@ import UsuariosPage from './pages/admin/UsuariosPage'
 import UsuarioFormularioPage from './pages/admin/UsuarioFormularioPage'
 import PuntoVentaPage from './pages/cajero/PuntoVentaPage'
 import InicioClientePage from './pages/cliente/InicioClientePage'
+import ProductoDetallePage from './pages/cliente/ProductoDetallePage'
+import CarritoPage from './pages/cliente/CarritoPage'
+import PagoPage from './pages/cliente/PagoPage'
+import PedidoConfirmadoPage from './pages/cliente/PedidoConfirmadoPage'
 import PedidosHoyPage from './pages/cajero/PedidosHoyPage'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/auth/LoginPage'
@@ -35,6 +39,10 @@ function App() {
 
           <Route element={<RutaProtegida rolesPermitidos={['CLIENTE']} />}>
             <Route path="/cliente" element={<InicioClientePage />} />
+            <Route path="/cliente/producto/:id" element={<ProductoDetallePage />} />
+            <Route path="/cliente/carrito" element={<CarritoPage />} />
+            <Route path="/cliente/pago" element={<PagoPage />} />
+            <Route path="/cliente/pedido-confirmado" element={<PedidoConfirmadoPage />} />
             <Route path="/cliente/menu" element={<PanelProvisional titulo="Menú" />} />
             <Route path="/cliente/historial" element={<PanelProvisional titulo="Historial de pedidos" />} />
           </Route>
