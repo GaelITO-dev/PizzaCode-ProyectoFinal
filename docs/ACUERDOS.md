@@ -33,3 +33,19 @@ La siguiente versión libre es la V6. Antes de crear una migración, se anota aq
 - `usuarios.canal_ticket` guarda por dónde quiere el cliente recibir su ticket: WHATSAPP, CORREO o AMBOS.
 - Se edita desde el perfil (PATCH /api/usuarios/me).
 - Los envíos del pedido (#48 SMS, #49 WhatsApp y el correo de #47) deben leerlo. Los pedidos de sucursal sin cuenta usan `pedidos.telefono_cliente`.
+
+## Paginación
+
+Todos los listados paginados usan el `Page` de Spring Data (igual que `/api/productos`), serializado con `PageSerializationMode.VIA_DTO` (`PaginacionConfig`).
+
+- Parámetros: `page` (empieza en 0), `size` y `sort` (por ejemplo, `sort=nombre,asc`).
+- Respuesta:
+
+```json
+{
+  "content": [ ... ],
+  "page": { "size": 8, "number": 0, "totalElements": 12, "totalPages": 2 }
+}
+```
+
+- Cada controlador define su tamaño por defecto con `@PageableDefault`.
