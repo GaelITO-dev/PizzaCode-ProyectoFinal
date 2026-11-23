@@ -1,0 +1,85 @@
+.titulo {
+  margin: 0 0 1rem;
+}
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.control {
+  flex: 1 1 200px;
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgb(31 27 20 / 15%);
+  border-radius: var(--radio-control);
+  background-color: var(--color-superficie);
+}
+
+.error {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radio-control);
+  background-color: rgb(198 40 40 / 10%);
+  color: var(--color-error);
+}
+
+/* En celular la tabla se desliza de lado en vez de romper la pantalla */
+.tablaContenedor {
+  overflow-x: auto;
+  border-radius: var(--radio-tarjeta);
+  background-color: var(--color-superficie);
+  box-shadow: var(--sombra-tarjeta);
+}
+
+.tabla {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+}
+
+.tabla th,
+.tabla td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgb(31 27 20 / 8%);
+  text-align: left;
+}
+
+.tabla th {
+  color: var(--color-texto-secundario);
+  font-size: var(--texto-label);
+  text-transform: uppercase;
+}
+
+.boton {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid rgb(31 27 20 / 15%);
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+}
+
+.disponible {
+  background-color: var(--color-primario);
+  border-color: var(--color-primario);
+}
+
+.eliminar {
+  color: var(--color-error);
+  border-color: var(--color-error);
+}
+
+.paginacion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.paginacion button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
