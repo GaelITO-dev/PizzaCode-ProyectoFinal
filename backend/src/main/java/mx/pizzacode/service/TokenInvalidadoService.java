@@ -13,9 +13,14 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HexFormat;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
+
 @Service
 public class TokenInvalidadoService {
 
+    private static final Logger log = LoggerFactory.getLogger(TokenInvalidadoService.class);
     private final TokenInvalidadoRepository tokenInvalidadoRepository;
     private final JwtService jwtService;
 
@@ -53,4 +58,13 @@ public class TokenInvalidadoService {
             throw new IllegalStateException("SHA-256 no está disponible", ex);
         }
     }
+
+    @Scheduled(cron = "${app.tokens.limpieza-cron:0 0 * * * *}")
+    @Transactional
+    public void limpiarExpirados() {
+    int borrados = tokenInvalidadoRepository.borrarExpirados(LocalDateTime.now());
+    if (borrados > 0) {
+        log.info("Se borraron {} tokens invalidados ya expirados", borrados);
+    }
+}
 }
