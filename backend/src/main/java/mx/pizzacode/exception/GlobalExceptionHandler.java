@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
 import java.util.LinkedHashMap;
@@ -97,6 +98,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(new ApiError(HttpStatus.BAD_REQUEST.value(),
                         "El cuerpo de la petición no es válido", Map.of()));
+    }
+
+    // 400: un parámetro de la URL no tiene el tipo esperado (por ejemplo, ?estado=OTRO)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ApiError> handleParametroInvalido(MethodArgumentTypeMismatchException ex) {
+        String mensaje = "El parámetro '" + ex.getName() + "' no es válido";
+        return ResponseEntity.badRequest()
+                .body(new ApiError(HttpStatus.BAD_REQUEST.value(), mensaje, Map.of(ex.getName(), mensaje)));
     }
 
     // 500: cualquier error no previsto, el detalle va al log, no al cliente, esta excepción me pareció interesante
