@@ -1,0 +1,33 @@
+.contador {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem;
+  border: 1px solid rgb(31 27 20 / 12%);
+  border-radius: 999px;
+  background-color: var(--color-superficie);
+}
+
+.contador button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background-color: #f0ece3;
+  color: var(--color-texto);
+  cursor: pointer;
+}
+
+.contador button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.contador span {
+  min-width: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+}

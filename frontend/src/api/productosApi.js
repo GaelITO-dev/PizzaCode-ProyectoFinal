@@ -41,3 +41,9 @@ export async function listarMenu(params) {
   const { data } = await api.get('/productos', { params })
   return data
 }
+
+// Detalle de un producto (cualquier usuario con sesión)
+export async function obtenerProducto(id) {
+  const { data } = await api.get(`/productos/${id}`)
+  return data
+}
