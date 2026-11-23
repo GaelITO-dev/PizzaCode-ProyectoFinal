@@ -35,3 +35,9 @@ export async function cambiarDisponible(id, valor) {
 export async function eliminarProducto(id) {
   await api.delete(`/productos/${id}`)
 }
+
+// Menú público: solo productos disponibles (lo usan el punto de venta y el cliente)
+export async function listarMenu(params) {
+  const { data } = await api.get('/productos', { params })
+  return data
+}
