@@ -20,6 +20,18 @@ export async function eliminarComentario(id) {
   await api.delete(`/comentarios/${id}`)
 }
 
+// CLIENTE: comentarios públicos (solo COMENTARIO visibles), con totalLikes y yaDioLike
+export async function listarComentariosPublicos(params) {
+  const { data } = await api.get('/comentarios/publicos', { params })
+  return data
+}
+
+// CLIENTE: tipo COMENTARIO (público) o SUGERENCIA (solo la ve el admin)
+export async function crearComentario(comentario) {
+  const { data } = await api.post('/comentarios', comentario)
+  return data
+}
+
 // Likes: responden { idComentario, totalLikes, yaDioLike }
 export async function darLike(id) {
   const { data } = await api.post(`/comentarios/${id}/like`)
