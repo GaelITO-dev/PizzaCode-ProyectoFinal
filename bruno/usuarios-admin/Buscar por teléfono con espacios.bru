@@ -1,0 +1,27 @@
+meta {
+  name: Buscar por teléfono con espacios
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/usuarios?busqueda=55 1234
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("buscar por teléfono con espacios: 200", () => {
+    expect(res.status).to.equal(200);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

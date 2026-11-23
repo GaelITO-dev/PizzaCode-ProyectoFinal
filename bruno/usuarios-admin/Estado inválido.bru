@@ -1,0 +1,28 @@
+meta {
+  name: Estado inválido
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/usuarios?estado=OTRO
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("estado inválido: 400", () => {
+    expect(res.status).to.equal(400);
+    expect(res.body.errors).to.have.property("estado");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

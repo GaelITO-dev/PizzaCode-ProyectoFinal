@@ -1,0 +1,31 @@
+meta {
+  name: Listar cajeros
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/usuarios?rol=CAJERO
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("listar cajeros: 200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.content).to.be.an("array");
+    res.body.content.forEach((usuario) => {
+      expect(usuario.rol.nombre).to.equal("CAJERO");
+    });
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

@@ -1,0 +1,27 @@
+meta {
+  name: Rol inválido
+  type: http
+  seq: 8
+}
+
+get {
+  url: {{baseUrl}}/usuarios?rol=JEFE
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("rol inválido: 422", () => {
+    expect(res.status).to.equal(422);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

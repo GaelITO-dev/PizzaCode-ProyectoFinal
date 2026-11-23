@@ -1,0 +1,31 @@
+meta {
+  name: Listar bloqueados
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/usuarios?estado=BLOQUEADO
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("listar bloqueados: 200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.content).to.be.an("array");
+    res.body.content.forEach((usuario) => {
+      expect(usuario.estado).to.equal("BLOQUEADO");
+    });
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

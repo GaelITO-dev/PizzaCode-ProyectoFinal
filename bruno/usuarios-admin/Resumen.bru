@@ -1,0 +1,31 @@
+meta {
+  name: Resumen
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/usuarios/resumen
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("resumen: 200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.clientes).to.be.a("number");
+    expect(res.body.cajeros).to.be.a("number");
+    expect(res.body.administradores).to.be.a("number");
+    expect(res.body.bloqueados).to.be.a("number");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

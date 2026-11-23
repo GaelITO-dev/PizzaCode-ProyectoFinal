@@ -1,0 +1,27 @@
+meta {
+  name: Listar como cajero
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/usuarios
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("listar como cajero: 403", () => {
+    expect(res.status).to.equal(403);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
