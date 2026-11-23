@@ -1,0 +1,335 @@
+.pagina {
+  --verde-claro: #eef6e4;
+  --verde-borde: #b9dc8f;
+  --borde: rgb(31 27 20 / 10%);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  align-self: flex-start;
+  color: var(--color-texto);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.volver:hover {
+  text-decoration: underline;
+}
+
+.estado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem 1rem;
+  color: var(--color-texto-secundario);
+  text-align: center;
+}
+
+.error {
+  margin: 0;
+  color: var(--color-error);
+}
+
+/* ---------- Tarjeta del producto ---------- */
+.tarjeta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-tarjeta);
+  background-color: var(--color-superficie);
+}
+
+.imagen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 16px;
+  background-color: #fbe3b6;
+  color: var(--color-acento);
+  object-fit: cover;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.disponible,
+.agotado,
+.categoria {
+  padding: 0.125rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+}
+
+.disponible {
+  background-color: #c9f2c0;
+  color: #2f6b12;
+}
+
+.agotado {
+  background-color: #ffd9b5;
+  color: #8a4a0b;
+}
+
+.categoria {
+  background-color: #f0ece3;
+  color: var(--color-texto-secundario);
+}
+
+.titulo {
+  margin: 0.75rem 0 0;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.descripcion {
+  margin: 0.75rem 0 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.875rem;
+}
+
+.subtitulo {
+  margin: 1.25rem 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tamanos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.75rem;
+}
+
+.tamano {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0.75rem;
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  background-color: var(--color-superficie);
+  text-align: left;
+  cursor: pointer;
+}
+
+.tamano:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tamanoActivo {
+  border: 2px solid var(--color-primario);
+  background-color: var(--verde-claro);
+}
+
+.tamanoNombre {
+  font-weight: 700;
+}
+
+.tamanoPrecio {
+  color: var(--color-primario-oscuro);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.cantidad {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.cantidad .subtitulo {
+  margin: 0;
+}
+
+.pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--borde);
+}
+
+.totalEtiqueta {
+  margin: 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.75rem;
+}
+
+.total {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+}
+
+.botonAgregar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--color-primario);
+  color: var(--color-sobre-primario);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.botonAgregar:disabled {
+  background-color: #e5e1d8;
+  color: var(--color-texto-secundario);
+  cursor: not-allowed;
+}
+
+.agregado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  margin: 0.75rem 0 0;
+  color: var(--color-primario-oscuro);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.agregado a {
+  color: inherit;
+}
+
+/* ---------- También te puede gustar ---------- */
+.seccionTitulo {
+  margin: 0 0 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+.recomendados {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.recomendado {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem 0.5rem 0.5rem;
+  border: 1px solid var(--verde-borde);
+  border-radius: 14px;
+  background-color: var(--verde-claro);
+}
+
+.recomendadoInfo {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-texto);
+  text-align: left;
+  cursor: pointer;
+}
+
+.recomendadoInfo > span:last-child {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.recomendadoImagen {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background-color: #fbe3b6;
+  color: var(--color-acento);
+  object-fit: cover;
+}
+
+.recomendadoNombre {
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.recomendadoTamano {
+  color: var(--color-texto-secundario);
+  font-size: 0.75rem;
+}
+
+.recomendadoPrecio {
+  color: var(--color-primario-oscuro);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.botonMas {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--color-primario);
+  color: var(--color-sobre-primario);
+  cursor: pointer;
+}
+
+/* ---------- Responsivo ---------- */
+@media (max-width: 1000px) {
+  .recomendados {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .tarjeta {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .imagen {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+@media (max-width: 480px) {
+  .recomendados {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

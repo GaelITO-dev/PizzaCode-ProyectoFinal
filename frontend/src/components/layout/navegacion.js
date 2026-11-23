@@ -5,6 +5,7 @@ import {
   LayoutDashboard,
   MessageSquare,
   Pizza,
+  ShoppingCart,
   Tag,
   User,
   Users,
@@ -13,7 +14,7 @@ import {
 export const NAVEGACION_POR_ROL = {
   CLIENTE: [
     { texto: 'Inicio', ruta: '/cliente', icono: House, exacta: true },
-    { texto: 'Menú', ruta: '/cliente/menu', icono: Pizza },
+    { texto: 'Carrito', ruta: '/cliente/carrito', icono: ShoppingCart },
     { texto: 'Historial', ruta: '/cliente/historial', icono: History },
     { texto: 'Mi perfil', ruta: '/perfil', icono: User },
   ],
