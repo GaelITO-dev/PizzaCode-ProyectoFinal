@@ -1,0 +1,27 @@
+meta {
+  name: Token de usuario bloqueado
+  type: http
+  seq: 17
+}
+
+get {
+  url: {{baseUrl}}/usuarios/me
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{tokenEmpleado}}
+}
+
+tests {
+  test("token de usuario bloqueado: 401", () => {
+    expect(res.status).to.equal(401);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

@@ -1,0 +1,33 @@
+meta {
+  name: Cambiar mi propio rol
+  type: http
+  seq: 12
+}
+
+patch {
+  url: {{baseUrl}}/usuarios/{{idAdmin}}
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "rol": "CAJERO"
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("cambiar mi propio rol: 422", () => {
+    expect(res.status).to.equal(422);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

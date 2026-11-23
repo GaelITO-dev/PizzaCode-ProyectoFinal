@@ -1,0 +1,34 @@
+meta {
+  name: Ascender a admin
+  type: http
+  seq: 9
+}
+
+patch {
+  url: {{baseUrl}}/usuarios/{{idEmpleado}}
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "rol": "ADMIN"
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("ascender a admin: 200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.rol.nombre).to.equal("ADMIN");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

@@ -1,0 +1,33 @@
+meta {
+  name: Bloquearme a mí mismo
+  type: http
+  seq: 19
+}
+
+patch {
+  url: {{baseUrl}}/usuarios/{{idAdmin}}/bloqueo
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "motivo": "Prueba"
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("bloquearme a mí mismo: 422", () => {
+    expect(res.status).to.equal(422);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

@@ -1,0 +1,31 @@
+meta {
+  name: Login usuario bloqueado
+  type: http
+  seq: 18
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "correo": "{{correoEmpleado}}",
+    "contrasena": "Empleado#2026"
+  }
+}
+
+tests {
+  test("login usuario bloqueado: 401", () => {
+    expect(res.status).to.equal(401);
+    expect(res.body.message).to.equal("El usuario está bloqueado");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

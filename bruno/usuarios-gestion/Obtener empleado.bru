@@ -1,0 +1,28 @@
+meta {
+  name: Obtener empleado
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/usuarios/{{idEmpleado}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("obtener empleado: 200", () => {
+    expect(res.status).to.equal(200);
+    expect(String(res.body.idUsuario)).to.equal(String(bru.getVar("idEmpleado")));
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

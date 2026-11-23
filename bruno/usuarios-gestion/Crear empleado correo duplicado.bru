@@ -1,0 +1,39 @@
+meta {
+  name: Crear empleado correo duplicado
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/usuarios/empleados
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "nombre": "Prueba",
+    "apellidoPat": "Empleado",
+    "apellidoMat": "",
+    "correo": "cliente@pizzacode.mx",
+    "telefono": "5511112222",
+    "contrasena": "Empleado#2026",
+    "rol": "CAJERO"
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("crear empleado con correo duplicado: 409", () => {
+    expect(res.status).to.equal(409);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

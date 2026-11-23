@@ -1,0 +1,51 @@
+meta {
+  name: Crear empleado
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/usuarios/empleados
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "nombre": "Prueba",
+    "apellidoPat": "Empleado",
+    "apellidoMat": "",
+    "correo": "{{correoEmpleado}}",
+    "telefono": "5511112222",
+    "contrasena": "Empleado#2026",
+    "rol": "CAJERO"
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+script:pre-request {
+  bru.setVar("correoEmpleado", "empleado.prueba." + Date.now() + "@pizzacode.mx");
+}
+
+script:post-response {
+  bru.setVar("idEmpleado", res.body.idUsuario);
+}
+
+tests {
+  test("crear empleado: 201", () => {
+    expect(res.status).to.equal(201);
+    expect(res.body.rol.nombre).to.equal("CAJERO");
+    expect(res.body.estado).to.equal("ACTIVO");
+    expect(res.body.apellidoMat).to.equal(null);
+    expect(res.body).to.not.have.property("contrasena");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

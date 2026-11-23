@@ -61,7 +61,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (correo != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(correo);
 
-                if (jwtService.isTokenValid(token, correo)) {
+                if (jwtService.isTokenValid(token, correo) && userDetails.isEnabled()) {
                     UsernamePasswordAuthenticationToken autenticacion =
                             new UsernamePasswordAuthenticationToken(
                                     userDetails, null, userDetails.getAuthorities());
@@ -70,7 +70,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(autenticacion);
                     log.debug("Autenticación JWT establecida para {}", correo);
                 } else {
-                    log.warn("Token JWT inválido para {}", correo);
+                    log.warn("Token JWT inválido o usuario bloqueado: {}", correo);
                 }
             }
         } catch (JwtException | IllegalArgumentException | UsernameNotFoundException ex) {
