@@ -1,0 +1,38 @@
+meta {
+  name: Cambiar contraseña débil
+  type: http
+  seq: 8
+}
+
+put {
+  url: {{baseUrl}}/usuarios/me/contrasena
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "contrasenaActual": "Cliente#2026",
+    "contrasenaNueva": "corta"
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("contraseña débil: 400", () => {
+    expect(res.status).to.equal(400);
+  });
+
+  test("trae error de contrasenaNueva", () => {
+    expect(res.body.errors).to.have.property("contrasenaNueva");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

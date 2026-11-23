@@ -1,0 +1,30 @@
+meta {
+  name: Cambiar contraseña sin token
+  type: http
+  seq: 12
+}
+
+put {
+  url: {{baseUrl}}/usuarios/me/contrasena
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "contrasenaActual": "Cliente#2026",
+    "contrasenaNueva": "Cliente#2027"
+  }
+}
+
+tests {
+  test("sin token: 401", () => {
+    expect(res.status).to.equal(401);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
