@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import mx.pizzacode.dto.PromocionRequestDTO;
 import mx.pizzacode.dto.PromocionResponseDTO;
+import mx.pizzacode.entity.EstadoPromocion;
 import mx.pizzacode.service.PromocionService;
 
 @RestController
@@ -28,9 +29,11 @@ public class PromocionController {
     @GetMapping("")
     public ResponseEntity<Page<PromocionResponseDTO>> listar(
             @RequestParam(required = false) String nombre,
-            @RequestParam(defaultValue = "false") boolean vigentes,
+            @RequestParam(required = false) EstadoPromocion estado,
+            @RequestParam(defaultValue = "false") boolean vigentes, // atajo: igual a estado=VIGENTE
             @PageableDefault(size = 10, sort = "fechaInicio") Pageable pageable) {
-        return ResponseEntity.ok(promocionService.listar(nombre, vigentes, pageable));
+        EstadoPromocion filtro = (estado == null && vigentes) ? EstadoPromocion.VIGENTE : estado;
+        return ResponseEntity.ok(promocionService.listar(nombre, filtro, pageable));
     }
 
     @GetMapping("/{id}")

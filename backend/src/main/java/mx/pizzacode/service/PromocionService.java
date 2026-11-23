@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import mx.pizzacode.dto.PromocionRequestDTO;
 import mx.pizzacode.dto.PromocionResponseDTO;
+import mx.pizzacode.entity.EstadoPromocion;
 import mx.pizzacode.entity.Producto;
 import mx.pizzacode.entity.Promocion;
 import mx.pizzacode.exception.ReglaNegocioException;
@@ -30,12 +31,13 @@ public class PromocionService {
         this.productoRepository = productoRepository;
     }
 
-    // vigentes=true -> solo las activas hoy
+    // estado null = todas
     @Transactional(readOnly = true)
-    public Page<PromocionResponseDTO> listar(String nombre, boolean vigentes, Pageable pageable) {
+    public Page<PromocionResponseDTO> listar(String nombre, EstadoPromocion estado, Pageable pageable) {
         String filtro = (nombre == null || nombre.isBlank()) ? null : nombre.trim();
-        LocalDate hoy = vigentes ? LocalDate.now() : null;
-        return promocionRepository.buscar(filtro, hoy, pageable).map(PromocionMapper::toResponse);
+        String textoEstado = estado == null ? null : estado.name();
+        return promocionRepository.buscar(filtro, textoEstado, LocalDate.now(), pageable)
+                .map(PromocionMapper::toResponse);
     }
 
     @Transactional(readOnly = true)
