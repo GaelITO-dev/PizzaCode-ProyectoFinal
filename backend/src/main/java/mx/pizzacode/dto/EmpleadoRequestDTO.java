@@ -1,0 +1,46 @@
+package mx.pizzacode.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class EmpleadoRequestDTO {
+
+    @NotBlank(message = "El nombre es obligatorio")
+    @Size(min = 2, max = 50, message = "El nombre debe tener entre 2 y 50 caracteres")
+    private String nombre;
+
+    @NotBlank(message = "El apellido paterno es obligatorio")
+    @Size(min = 2, max = 50, message = "El apellido paterno debe tener entre 2 y 50 caracteres")
+    private String apellidoPat;
+
+    @Size(max = 50, message = "El apellido materno no debe superar los 50 caracteres")
+    private String apellidoMat;
+
+    @NotBlank(message = "El correo es obligatorio")
+    @Email(message = "El correo no tiene un formato válido")
+    @Size(max = 100, message = "El correo no debe superar los 100 caracteres")
+    private String correo;
+
+    @NotBlank(message = "El teléfono es obligatorio")
+    @Pattern(regexp = "^\\d{10,15}$", message = "El teléfono debe contener entre 10 y 15 dígitos")
+    private String telefono;
+
+    @NotBlank(message = "La contraseña es obligatoria")
+    @Pattern(
+            regexp = "^(?=.*[A-ZÁÉÍÓÚÜÑ])(?=.*\\d)(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?¿¡]).{8,72}$",
+            message = "La contraseña debe tener al menos 8 caracteres, una mayúscula, un número y un carácter especial"
+    )
+    private String contrasena;
+
+    @NotBlank(message = "El rol es obligatorio")
+    @Pattern(regexp = "CAJERO|ADMIN", message = "El rol debe ser CAJERO o ADMIN")
+    private String rol;
+}
