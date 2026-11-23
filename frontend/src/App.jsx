@@ -5,6 +5,7 @@ import ProductosPage from './pages/admin/ProductosPage'
 import UsuariosPage from './pages/admin/UsuariosPage'
 import UsuarioFormularioPage from './pages/admin/UsuarioFormularioPage'
 import PuntoVentaPage from './pages/cajero/PuntoVentaPage'
+import PedidosHoyPage from './pages/cajero/PedidosHoyPage'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/auth/LoginPage'
 import RegistroPage from './pages/auth/RegistroPage'
@@ -39,7 +40,7 @@ function App() {
 
           <Route element={<RutaProtegida rolesPermitidos={['CAJERO']} />}>
             <Route path="/cajero" element={<PuntoVentaPage />} />
-            <Route path="/cajero/pedidos" element={<PanelProvisional titulo="Pedidos de hoy" />} />
+            <Route path="/cajero/pedidos" element={<PedidosHoyPage />} />
             <Route path="/cajero/historial" element={<PanelProvisional titulo="Pedidos de la semana" />} />
             <Route path="/cajero/clientes" element={<PanelProvisional titulo="Buscar cliente" />} />
             <Route path="/cajero/clientes/:idUsuario" element={<PanelProvisional titulo="Historial del cliente" />} />

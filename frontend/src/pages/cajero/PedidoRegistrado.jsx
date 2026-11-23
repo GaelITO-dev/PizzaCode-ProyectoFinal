@@ -1,22 +1,11 @@
 import { Link } from 'react-router-dom'
 import { Check, Clock, Plus, Printer } from 'lucide-react'
 import { formatearMoneda } from '../../utils/moneda'
+import { imprimirTicket } from '../../utils/impresion'
 import TicketCocina from './TicketCocina'
 import styles from './PedidoRegistrado.module.css'
 
 const NOMBRE_METODO = { EFECTIVO: 'Efectivo', TARJETA: 'Tarjeta' }
-const CLASE_IMPRESION = 'imprimiendo-ticket'
-
-function imprimirTicket() {
-  function limpiar() {
-    document.body.classList.remove(CLASE_IMPRESION)
-    window.removeEventListener('afterprint', limpiar)
-  }
-
-  window.addEventListener('afterprint', limpiar)
-  document.body.classList.add(CLASE_IMPRESION)
-  window.print()
-}
 
 function PedidoRegistrado({ pedido, cambio, descripciones, onNuevo }) {
   const datos = [pedido.nombreCliente, NOMBRE_METODO[pedido.metodoPago], `Total ${formatearMoneda(pedido.total)}`]

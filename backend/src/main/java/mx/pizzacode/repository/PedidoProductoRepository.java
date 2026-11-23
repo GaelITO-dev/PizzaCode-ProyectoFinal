@@ -1,5 +1,6 @@
 package mx.pizzacode.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -25,4 +26,8 @@ public interface PedidoProductoRepository extends JpaRepository<PedidoProducto, 
     // Renglones de un pedido con su producto en una sola consulta (evita N+1)
     @EntityGraph(attributePaths = { "producto" })
     List<PedidoProducto> findByPedido_IdPedido(Integer idPedido);
+
+    // Renglones de VARIOS pedidos con su producto en una sola consulta (lista de pedidos sin N+1)
+    @EntityGraph(attributePaths = { "pedido", "producto" })
+    List<PedidoProducto> findByPedido_IdPedidoIn(Collection<Integer> idsPedido);
 }
