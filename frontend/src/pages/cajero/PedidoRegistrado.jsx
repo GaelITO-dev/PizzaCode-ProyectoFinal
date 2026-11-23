@@ -1,11 +1,24 @@
 import { Link } from 'react-router-dom'
-import { Check, Clock, Plus } from 'lucide-react'
+import { Check, Clock, Plus, Printer } from 'lucide-react'
 import { formatearMoneda } from '../../utils/moneda'
+import TicketCocina from './TicketCocina'
 import styles from './PedidoRegistrado.module.css'
 
 const NOMBRE_METODO = { EFECTIVO: 'Efectivo', TARJETA: 'Tarjeta' }
+const CLASE_IMPRESION = 'imprimiendo-ticket'
 
-function PedidoRegistrado({ pedido, cambio, onNuevo }) {
+function imprimirTicket() {
+  function limpiar() {
+    document.body.classList.remove(CLASE_IMPRESION)
+    window.removeEventListener('afterprint', limpiar)
+  }
+
+  window.addEventListener('afterprint', limpiar)
+  document.body.classList.add(CLASE_IMPRESION)
+  window.print()
+}
+
+function PedidoRegistrado({ pedido, cambio, descripciones, onNuevo }) {
   const datos = [pedido.nombreCliente, NOMBRE_METODO[pedido.metodoPago], `Total ${formatearMoneda(pedido.total)}`]
     .filter(Boolean)
     .join(' · ')
@@ -28,6 +41,20 @@ function PedidoRegistrado({ pedido, cambio, onNuevo }) {
           </div>
         )}
 
+        <div className={styles.paso}>
+          <span className={styles.iconoPaso} aria-hidden="true">
+            <Printer size={18} />
+          </span>
+          <div className={styles.pasoTexto}>
+            <p className={styles.pasoTitulo}>Imprime el ticket de cocina</p>
+            <p className={styles.pasoDescripcion}>Pégalo en la orden para que cocina la prepare.</p>
+          </div>
+          <button type="button" className={styles.botonPrimario} onClick={imprimirTicket}>
+            <Printer size={18} aria-hidden="true" />
+            Imprimir
+          </button>
+        </div>
+
         <div className={styles.acciones}>
           <Link to="/cajero/pedidos" className={styles.botonSecundario}>
             <Clock size={18} aria-hidden="true" />
@@ -39,6 +66,8 @@ function PedidoRegistrado({ pedido, cambio, onNuevo }) {
           </button>
         </div>
       </div>
+
+      <TicketCocina pedido={pedido} descripciones={descripciones} />
     </section>
   )
 }

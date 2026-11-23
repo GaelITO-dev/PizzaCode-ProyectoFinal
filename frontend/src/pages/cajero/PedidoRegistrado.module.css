@@ -95,3 +95,47 @@
   outline: 2px solid var(--color-primario-oscuro);
   outline-offset: 2px;
 }
+
+/* ---------- Paso: imprimir ticket ---------- */
+.paso {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid rgb(31 27 20 / 10%);
+  border-radius: var(--radio-control);
+  text-align: left;
+}
+
+.iconoPaso {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background-color: var(--color-acento);
+}
+
+.pasoTexto {
+  flex: 1;
+  min-width: 0;
+}
+
+.pasoTitulo {
+  margin: 0;
+  font-weight: 700;
+}
+
+.pasoDescripcion {
+  margin: 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 480px) {
+  .paso {
+    flex-wrap: wrap;
+  }
+}

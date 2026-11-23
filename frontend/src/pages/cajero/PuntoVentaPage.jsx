@@ -95,6 +95,12 @@ function PuntoVentaPage() {
     })
   }, [productos, categoria, busqueda])
 
+  // La respuesta del pedido no trae la descripción (tamaño); el ticket de cocina la toma de aquí
+  const descripciones = useMemo(
+    () => Object.fromEntries(productos.map((p) => [p.idProducto, p.descripcion])),
+    [productos],
+  )
+
   // Total de referencia en pantalla; el que vale es el que calcula el servidor
   const total = carrito.reduce((suma, r) => suma + Number(r.producto.precio) * r.cantidad, 0)
   const cambio = Number(pagaCon) - total
@@ -201,6 +207,7 @@ function PuntoVentaPage() {
       <PedidoRegistrado
         pedido={registrado.pedido}
         cambio={registrado.cambio}
+        descripciones={descripciones}
         onNuevo={() => setRegistrado(null)}
       />
     )
