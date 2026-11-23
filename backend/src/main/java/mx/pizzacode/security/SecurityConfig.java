@@ -31,7 +31,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import jakarta.servlet.http.HttpServletResponse;
 import mx.pizzacode.exception.ApiError;
 
-import java.util.LinkedHashMap;
+
 import java.util.Map;
 
 @Configuration
@@ -101,6 +101,7 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(HttpMethod.POST, "/api/auth/logout").authenticated()
                         .requestMatchers("/api/auth/**", "/error").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/productos/**", "/api/categorias/**").permitAll()
                         .anyRequest().authenticated())

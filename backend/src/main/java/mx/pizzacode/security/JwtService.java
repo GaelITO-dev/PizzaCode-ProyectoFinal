@@ -70,6 +70,10 @@ public class JwtService {
         }
     }
 
+    public Instant extractExpiration(String token) {
+    return parsear(token).getExpiration().toInstant();
+}
+
     private Claims parsear(String token) {
         return Jwts.parser()
                 .verifyWith(key)

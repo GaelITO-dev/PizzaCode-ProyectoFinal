@@ -12,3 +12,7 @@ export async function registrarApi(datos) {
   const { data } = await api.post('/auth/registro', datos)
   return data
 }
+
+export async function logoutApi() {
+  await api.post('/auth/logout')
+}

@@ -15,21 +15,24 @@ import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.OncePerRequestFilter;
-
+import mx.pizzacode.service.TokenInvalidadoService;
 import java.io.IOException;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    
     private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     private static final String PREFIJO = "Bearer ";
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final TokenInvalidadoService tokenInvalidadoService;
 
-    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService) {
+    public JwtAuthenticationFilter(JwtService jwtService, UserDetailsService userDetailsService, TokenInvalidadoService tokenInvalidadoService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
+        this.tokenInvalidadoService = tokenInvalidadoService;
     }
 
     @Override
@@ -45,6 +48,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String token = cabecera.substring(PREFIJO.length());
+
+        if (tokenInvalidadoService.estaInvalidado(token)) {
+            log.warn("Se intentó usar un token invalidado por logout");
+            filterChain.doFilter(request, response);
+         return;
+}
 
         try {
             String correo = jwtService.extractUsername(token);

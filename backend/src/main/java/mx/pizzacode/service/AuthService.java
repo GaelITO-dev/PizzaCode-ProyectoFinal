@@ -31,18 +31,21 @@ public class AuthService {
     private final RolRepository rolRepository;
     private final org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final TokenInvalidadoService tokenInvalidadoService;
 
     public AuthService(AuthenticationManager authenticationManager,
-                       UsuarioRepository usuarioRepository,
-                       RolRepository rolRepository,
-                       org.springframework.security.crypto.password.PasswordEncoder passwordEncoder,
-                       JwtService jwtService) {
-        this.authenticationManager = authenticationManager;
-        this.usuarioRepository = usuarioRepository;
-        this.rolRepository = rolRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
-    }
+                   UsuarioRepository usuarioRepository,
+                   RolRepository rolRepository,
+                   org.springframework.security.crypto.password.PasswordEncoder passwordEncoder,
+                   JwtService jwtService,
+                   TokenInvalidadoService tokenInvalidadoService) {
+    this.authenticationManager = authenticationManager;
+    this.usuarioRepository = usuarioRepository;
+    this.rolRepository = rolRepository;
+    this.passwordEncoder = passwordEncoder;
+    this.jwtService = jwtService;
+    this.tokenInvalidadoService = tokenInvalidadoService;
+}
 
     @Transactional(readOnly = true)
     public AuthResponseDTO login(LoginRequestDTO dto) {
@@ -89,4 +92,8 @@ public class AuthService {
 
         return UsuarioMapper.toResponse(usuarioRepository.save(usuario));
     }
+
+    public void logout(String token) {
+    tokenInvalidadoService.invalidar(token);
+}
 }
