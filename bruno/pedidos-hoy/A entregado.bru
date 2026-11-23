@@ -1,0 +1,31 @@
+meta {
+  name: A entregado
+  type: http
+  seq: 9
+}
+
+patch {
+  url: {{baseUrl}}/pedidos/{{idPedidoA}}/estado
+  body: json
+  auth: bearer
+}
+
+body:json {
+  { "estado": "ENTREGADO" }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("A entregado: 200", () => {
+    expect(res.status).to.equal(200);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,16 +57,14 @@ public class PedidoService {
         LocalDateTime inicio = desde == null ? null : desde.atStartOfDay();
         LocalDateTime fin = hasta == null ? null : hasta.plusDays(1).atStartOfDay();
         String tel = (telefono == null || telefono.isBlank()) ? null : telefono.trim();
-        return pedidoRepository.buscar(estado, inicio, fin, idCliente, tel, pageable)
-                .map(PedidoMapper::toResumen);
+        return conProductos(pedidoRepository.buscar(estado, inicio, fin, idCliente, tel, pageable));
     }
 
     // Cliente: solo sus pedidos 
     @Transactional(readOnly = true)
     public Page<PedidoResumenResponseDTO> misPedidos(String correo, Pageable pageable) {
         Integer idCliente = buscarUsuario(correo).getIdUsuario();
-        return pedidoRepository.buscar(null, null, null, idCliente, null, pageable)
-                .map(PedidoMapper::toResumen);
+        return conProductos(pedidoRepository.buscar(null, null, null, idCliente, null, pageable));
     }
 
     @Transactional(readOnly = true)
@@ -163,6 +163,19 @@ public class PedidoService {
         pedidoProductoRepository.saveAll(renglones);
 
         return PedidoMapper.toResponse(pedido, renglones);
+    }
+
+    // 1 consulta para los renglones de toda la página, en lugar de 1 por pedido (evita N+1)
+    private Page<PedidoResumenResponseDTO> conProductos(Page<Pedido> pagina) {
+        List<Integer> ids = pagina.getContent().stream().map(Pedido::getIdPedido).toList();
+
+        Map<Integer, List<PedidoProducto>> renglonesPorPedido = ids.isEmpty()
+                ? Map.of()
+                : pedidoProductoRepository.findByPedido_IdPedidoIn(ids).stream()
+                        .collect(Collectors.groupingBy(r -> r.getPedido().getIdPedido()));
+
+        return pagina.map(pedido -> PedidoMapper.toResumen(
+                pedido, renglonesPorPedido.getOrDefault(pedido.getIdPedido(), List.of())));
     }
 
     private PedidoResponseDTO detalle(Pedido pedido) {

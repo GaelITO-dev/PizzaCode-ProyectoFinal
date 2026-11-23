@@ -1,0 +1,42 @@
+meta {
+  name: Pedidos de hoy con productos
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/pedidos?desde={{hoy}}&hasta={{hoy}}&size=100
+  body: none
+  auth: bearer
+}
+
+params:query {
+  desde: {{hoy}}
+  hasta: {{hoy}}
+  size: 100
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+script:pre-request {
+  const d = new Date(); bru.setVar("hoy", d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"));
+}
+
+tests {
+  test("la lista trae los productos de cada pedido", () => {
+    expect(res.status).to.equal(200);
+    const pedido = res.body.content.find((p) => String(p.idPedido) === String(bru.getVar("idPedidoA")));
+    expect(pedido).to.not.equal(undefined);
+    expect(pedido.productos).to.be.an("array").with.lengthOf(1);
+    expect(pedido.productos[0].cantidad).to.equal(2);
+    expect(pedido.productos[0].nombreProducto).to.be.a("string");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
