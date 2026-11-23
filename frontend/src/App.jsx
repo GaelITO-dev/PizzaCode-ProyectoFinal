@@ -1,3 +1,4 @@
+import ProductosPage from './pages/admin/ProductosPage'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/auth/LoginPage'
 import RegistroPage from './pages/auth/RegistroPage'
@@ -40,7 +41,7 @@ function App() {
           <Route element={<RutaProtegida rolesPermitidos={['ADMIN']} />}>
             <Route path="/admin" element={<PanelProvisional titulo="Ganancias" />} />
             <Route path="/admin/pedidos" element={<PanelProvisional titulo="Todos los pedidos" />} />
-            <Route path="/admin/productos" element={<PanelProvisional titulo="Productos" />} />
+            <Route path="/admin/productos" element={<ProductosPage />} />
             <Route path="/admin/usuarios" element={<PanelProvisional titulo="Usuarios" />} />
             <Route path="/admin/promociones" element={<PanelProvisional titulo="Promociones" />} />
             <Route path="/admin/comentarios" element={<PanelProvisional titulo="Comentarios y sugerencias" />} />
