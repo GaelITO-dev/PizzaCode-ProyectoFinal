@@ -37,8 +37,10 @@ public class ComentarioController {
     public ResponseEntity<Page<ComentarioResponseDTO>> listar(
             @RequestParam(required = false) TipoComentario tipo,
             @RequestParam(required = false) Boolean visible,
+            @RequestParam(required = false) String texto,
+            Authentication auth,
             @PageableDefault(size = 10, sort = "fecha", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(comentarioService.listar(tipo, visible, pageable));
+        return ResponseEntity.ok(comentarioService.listar(tipo, visible, texto, auth.getName(), pageable));
     }
 
     @GetMapping("/publicos")

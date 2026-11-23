@@ -1,0 +1,238 @@
+.volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  align-self: flex-start;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-texto);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.contenido {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  align-items: start;
+  gap: 1.25rem;
+}
+
+.columna {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.seccion {
+  padding: 1.25rem;
+  border: 1px solid rgb(31 27 20 / 10%);
+  border-radius: var(--radio-tarjeta);
+  background-color: var(--color-superficie);
+}
+
+.tituloSeccion {
+  margin: 0 0 1rem;
+  font-size: 1.0625rem;
+}
+
+.cuadricula {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.barraProductos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.contador {
+  color: var(--color-texto-secundario);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.buscadorProductos {
+  flex: 0 1 240px;
+}
+
+.listaProductos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.opcion {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgb(31 27 20 / 12%);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.opcionMarcada {
+  border-color: rgb(134 195 58 / 50%);
+  background-color: rgb(134 195 58 / 15%);
+}
+
+.opcion input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-primario);
+}
+
+.opcionNombre {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.opcionDetalle {
+  margin: 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.6875rem;
+}
+
+.mensaje {
+  margin: 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.875rem;
+}
+
+/* ---------- Vista previa ---------- */
+.etiquetaVista {
+  margin: 0 0 0.5rem;
+  color: var(--color-texto-secundario);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.vista {
+  overflow: hidden;
+  border: 1px solid rgb(31 27 20 / 10%);
+  border-radius: var(--radio-tarjeta);
+  background-color: var(--color-superficie);
+}
+
+.vistaImagen {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+}
+
+.vistaCuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 1rem;
+}
+
+.vistaDescuento {
+  align-self: flex-start;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  background-color: var(--color-acento);
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.vistaNombre {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.vistaTexto {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin: 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.75rem;
+}
+
+.precios {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.precioAntes {
+  color: var(--color-texto-secundario);
+  font-size: 0.8125rem;
+  text-decoration: line-through;
+}
+
+.precioAhora {
+  color: var(--color-primario-oscuro);
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.vistaBoton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  border-radius: 999px;
+  background-color: var(--color-primario);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.botones {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.botones > * {
+  flex: 1;
+}
+
+.botonCancelar {
+  min-height: 48px;
+  border: none;
+  border-radius: 999px;
+  background-color: #f0ece3;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.errorGeneral {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radio-control);
+  background-color: rgb(198 40 40 / 10%);
+  color: var(--color-error);
+}
+
+@media (max-width: 900px) {
+  .contenido {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .cuadricula,
+  .listaProductos {
+    grid-template-columns: 1fr;
+  }
+
+  .buscadorProductos {
+    flex-basis: 100%;
+  }
+}

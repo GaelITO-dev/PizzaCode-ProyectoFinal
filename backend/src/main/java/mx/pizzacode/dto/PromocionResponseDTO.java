@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mx.pizzacode.entity.EstadoPromocion;
 
 @Getter
 @Setter
@@ -20,6 +21,7 @@ public class PromocionResponseDTO {
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private boolean vigente;
+    private EstadoPromocion estado;
     private List<Integer> idsProductos;
     private List<String> nombresProductos;
 }

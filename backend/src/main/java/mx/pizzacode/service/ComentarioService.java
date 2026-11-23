@@ -39,39 +39,43 @@ public class ComentarioService {
     }
 
     // del admin----------------------------------------------------------------------------------------------
+    // Todos (visibles y ocultos, comentarios y sugerencias) con filtros y su total de likes
     @Transactional(readOnly = true)
-    public Page<ComentarioResponseDTO> listar(TipoComentario tipo, Boolean visible, Pageable pageable) {
-        return comentarioRepository.buscar(tipo, visible, null, pageable).map(ComentarioMapper::toResponse);
+    public Page<ComentarioResponseDTO> listar(TipoComentario tipo, Boolean visible, String texto,
+                                              String correo, Pageable pageable) {
+        String filtro = (texto == null || texto.isBlank()) ? null : texto.trim();
+        return conLikes(comentarioRepository.buscar(tipo, visible, null, filtro, pageable), correo);
     }
 
-    // Cualquiera autenticado: solo los visibles, con su total de likes y si el usuario actual dio like.
-    // Siempre son 3 consultas por página (comentarios, conteos y mis likes), sin N+1.
+    // Cualquiera autenticado: solo COMENTARIOS visibles (las sugerencias son privadas)
     @Transactional(readOnly = true)
     public Page<ComentarioResponseDTO> listarPublicos(String correo, Pageable pageable) {
-        Page<Comentario> pagina = comentarioRepository.buscar(null, true, null, pageable);
+        return conLikes(comentarioRepository.buscar(TipoComentario.COMENTARIO, true, null, null, pageable), correo);
+    }
+
+    // del cliente--------------------------------------------------------------------------------------------
+    @Transactional(readOnly = true)
+    public Page<ComentarioResponseDTO> misComentarios(String correo, Pageable pageable) {
+        return conLikes(comentarioRepository.buscar(null, null, correo, null, pageable), correo);
+    }
+
+    // Agrega a cada comentario su total de likes y si el usuario actual ya dio like.
+    // Siempre son 3 consultas por página (comentarios, conteos y mis likes), sin N+1.
+    private Page<ComentarioResponseDTO> conLikes(Page<Comentario> pagina, String correo) {
         List<Integer> ids = pagina.getContent().stream()
                 .map(Comentario::getIdComentario)
                 .toList();
-
         Map<Integer, Long> conteos = ids.isEmpty() ? Map.of()
                 : likeRepository.contarPorComentarios(ids).stream()
                         .collect(Collectors.toMap(ConteoLikes::getIdComentario, ConteoLikes::getTotal));
-
         Set<Integer> conMiLike = ids.isEmpty() ? Set.of()
                 : new HashSet<>(likeRepository.idsConLikeDelUsuario(correo, ids));
-
         return pagina.map(c -> {
             ComentarioResponseDTO dto = ComentarioMapper.toResponse(c);
             dto.setTotalLikes(conteos.getOrDefault(c.getIdComentario(), 0L));
             dto.setYaDioLike(conMiLike.contains(c.getIdComentario()));
             return dto;
         });
-    }
-
-    // del cliente--------------------------------------------------------------------------------------------
-    @Transactional(readOnly = true)
-    public Page<ComentarioResponseDTO> misComentarios(String correo, Pageable pageable) {
-        return comentarioRepository.buscar(null, null, correo, pageable).map(ComentarioMapper::toResponse);
     }
 
     @Transactional
