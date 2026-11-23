@@ -105,3 +105,20 @@ export function validarTelefonoPerfil(telefono) {
     telefono: validarTelefono(telefono),
   })
 }
+
+export function validarCambioContrasena(datos) {
+  const errorNueva = validarContrasena(datos.contrasenaNueva)
+
+  return sinNulos({
+    contrasenaActual: datos.contrasenaActual ? null : 'La contraseña actual es obligatoria',
+    contrasenaNueva: errorNueva
+      ?? (datos.contrasenaNueva === datos.contrasenaActual
+        ? 'La nueva contraseña debe ser diferente a la actual'
+        : null),
+    confirmarContrasena: !datos.confirmarContrasena
+      ? 'Confirma tu nueva contraseña'
+      : datos.confirmarContrasena !== datos.contrasenaNueva
+        ? 'Las contraseñas no coinciden'
+        : null,
+  })
+}
