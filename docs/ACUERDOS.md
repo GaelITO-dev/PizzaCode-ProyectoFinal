@@ -18,3 +18,18 @@
 - Respuesta plana (sin objeto `usuario` anidado).
 - `apellidoPat` se agregó en #35 para el avatar con iniciales del navbar.
 - El frontend guarda `token` en localStorage (tokenStorage) y el resto en el AuthContext.
+
+## Migraciones
+
+| Versión | Dueño | Tarjeta | Contenido |
+|---|---|---|---|
+| V4 | Oliver (B) | — | `comentario_likes` (votos de comentarios, N:M) |
+| V5 | Gael (A) | #58 | `usuarios.canal_ticket` (WHATSAPP, CORREO, AMBOS; por defecto AMBOS) |
+
+La siguiente versión libre es la V6. Antes de crear una migración, se anota aquí.
+
+## Canal del ticket
+
+- `usuarios.canal_ticket` guarda por dónde quiere el cliente recibir su ticket: WHATSAPP, CORREO o AMBOS.
+- Se edita desde el perfil (PATCH /api/usuarios/me).
+- Los envíos del pedido (#48 SMS, #49 WhatsApp y el correo de #47) deben leerlo. Los pedidos de sucursal sin cuenta usan `pedidos.telefono_cliente`.

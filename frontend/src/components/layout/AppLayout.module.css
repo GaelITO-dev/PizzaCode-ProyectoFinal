@@ -12,6 +12,9 @@
 }
 
 .barraSuperior {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -19,6 +22,7 @@
   min-height: 64px;
   padding: 0.75rem 1.5rem;
   border-bottom: 1px solid rgb(31 27 20 / 8%);
+  background-color: var(--color-fondo);
 }
 
 .botonMenu,
@@ -37,14 +41,10 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .barraSuperior {
-    position: sticky;
-    top: 0;
-    z-index: 10;
+    .barraSuperior {
     gap: 0.5rem;
     min-height: 56px;
     padding: 0.5rem 1rem;
-    background-color: var(--color-fondo);
   }
 
   .botonMenu {

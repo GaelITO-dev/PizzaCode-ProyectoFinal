@@ -1,0 +1,34 @@
+meta {
+  name: Restaurar contraseña
+  type: http
+  seq: 11
+}
+
+put {
+  url: {{baseUrl}}/usuarios/me/contrasena
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "contrasenaActual": "Cliente#2027",
+    "contrasenaNueva": "Cliente#2026"
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("contraseña restaurada: 204", () => {
+    expect(res.status).to.equal(204);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

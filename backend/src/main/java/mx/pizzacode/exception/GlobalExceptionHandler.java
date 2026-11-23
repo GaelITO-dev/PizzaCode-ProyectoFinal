@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -88,6 +89,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ApiError(HttpStatus.NOT_FOUND.value(),
                         "El recurso solicitado no existe", Map.of()));
+    }
+
+    // 400: JSON mal formado o valor inválido para un enum
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiError> handleCuerpoNoLegible(HttpMessageNotReadableException ex) {
+        return ResponseEntity.badRequest()
+                .body(new ApiError(HttpStatus.BAD_REQUEST.value(),
+                        "El cuerpo de la petición no es válido", Map.of()));
     }
 
     // 500: cualquier error no previsto, el detalle va al log, no al cliente, esta excepción me pareció interesante

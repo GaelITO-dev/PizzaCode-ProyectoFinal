@@ -1,0 +1,34 @@
+meta {
+  name: Cambiar contraseña igual
+  type: http
+  seq: 9
+}
+
+put {
+  url: {{baseUrl}}/usuarios/me/contrasena
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "contrasenaActual": "Cliente#2026",
+    "contrasenaNueva": "Cliente#2026"
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("contraseña igual: 422", () => {
+    expect(res.status).to.equal(422);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
