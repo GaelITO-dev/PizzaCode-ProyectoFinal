@@ -59,10 +59,6 @@
   border-bottom: 1px solid rgb(31 27 20 / 8%);
 }
 
-.lista {
-  margin: 0;
-}
-
 .fila {
   display: flex;
   align-items: center;
@@ -78,6 +74,8 @@
 }
 
 .etiqueta {
+  display: block;
+  margin: 0;
   font-size: var(--texto-label);
   color: var(--color-texto-secundario);
 }
@@ -102,6 +100,45 @@
   font-weight: 600;
 }
 
+/* Formularios de edición */
+.formulario {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.camposNombre {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.errorGeneral {
+  margin: 8px 0 0;
+  font-size: 0.8125rem;
+  color: var(--color-error);
+}
+
+.aviso {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-primario-oscuro);
+}
+
+.aviso:not(:empty) {
+  margin-top: 12px;
+}
+
+/* Canal del ticket */
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -116,16 +153,24 @@
   border: 1px solid rgb(31 27 20 / 15%);
   border-radius: 999px;
   background: var(--color-superficie);
+  color: var(--color-texto);
   font-size: 0.8125rem;
+  cursor: pointer;
 }
 
-.chipSeleccionado {
+.chip:hover {
+  background: var(--color-fondo);
+}
+
+.chipSeleccionado,
+.chipSeleccionado:hover {
   background: var(--color-primario);
   border-color: var(--color-primario);
   color: var(--color-sobre-primario);
   font-weight: 600;
 }
 
+/* Mi actividad */
 .enlaces {
   display: flex;
   flex-direction: column;
@@ -147,12 +192,6 @@
   background: var(--color-fondo);
 }
 
-.enlace:focus-visible,
-.botonSecundario:focus-visible {
-  outline: 2px solid var(--color-primario-oscuro);
-  outline-offset: 2px;
-}
-
 .icono {
   display: grid;
   place-items: center;
@@ -168,25 +207,56 @@
   min-width: 0;
 }
 
-.botonSecundario {
+/* Botones */
+.botonSecundario,
+.botonPrimario {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 8px 14px;
   border: none;
   border-radius: 999px;
-  background: rgb(31 27 20 / 7%);
-  color: var(--color-texto);
   font-size: 0.8125rem;
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
 }
 
+.botonSecundario {
+  background: rgb(31 27 20 / 7%);
+  color: var(--color-texto);
+}
+
 .botonSecundario:hover {
   background: rgb(31 27 20 / 12%);
 }
 
+.botonPrimario {
+  background: var(--color-primario);
+  color: var(--color-sobre-primario);
+}
+
+.botonPrimario:hover {
+  background: var(--color-primario-oscuro);
+  color: var(--color-superficie);
+}
+
+.botonSecundario:disabled,
+.botonPrimario:disabled,
+.chip:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.enlace:focus-visible,
+.chip:focus-visible,
+.botonSecundario:focus-visible,
+.botonPrimario:focus-visible {
+  outline: 2px solid var(--color-primario-oscuro);
+  outline-offset: 2px;
+}
+
+/* Estados de carga y error */
 .estado {
   display: flex;
   align-items: center;
@@ -201,6 +271,12 @@
 
 @media (max-width: 960px) {
   .cuadricula {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .camposNombre {
     grid-template-columns: minmax(0, 1fr);
   }
 }

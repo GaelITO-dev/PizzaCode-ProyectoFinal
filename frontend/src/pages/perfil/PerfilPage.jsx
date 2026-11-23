@@ -1,26 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  BellRing,
-  Check,
-  ChevronRight,
-  History,
-  LogOut,
-  Mail,
-  MessageCircle,
-  MessageSquare,
-} from 'lucide-react'
-import { obtenerPerfilApi } from '../../api/perfilApi'
+import { ChevronRight, History, LogOut, MessageSquare, Pencil } from 'lucide-react'
+import { actualizarPerfilApi, obtenerPerfilApi } from '../../api/perfilApi'
 import { useAuth } from '../../auth/useAuth'
 import Avatar from '../../components/ui/Avatar'
 import { NOMBRE_ROL } from '../../components/layout/navegacion'
+import EditarNombre from './EditarNombre'
+import EditarTelefono from './EditarTelefono'
+import SelectorCanal from './SelectorCanal'
 import styles from './PerfilPage.module.css'
-
-const CANALES = [
-  { valor: 'WHATSAPP', texto: 'WhatsApp', icono: MessageCircle },
-  { valor: 'CORREO', texto: 'Correo', icono: Mail },
-  { valor: 'AMBOS', texto: 'Ambos', icono: BellRing },
-]
 
 function nombreCompleto({ nombre, apellidoPat, apellidoMat }) {
   return [nombre, apellidoPat, apellidoMat].filter(Boolean).join(' ')
@@ -35,10 +23,12 @@ function formatearTelefono(telefono) {
 }
 
 function PerfilPage() {
-  const { usuario, logout } = useAuth()
+  const { usuario, logout, actualizarUsuario } = useAuth()
   const [perfil, setPerfil] = useState(null)
   const [error, setError] = useState('')
   const [intento, setIntento] = useState(0)
+  const [editando, setEditando] = useState(null)
+  const [aviso, setAviso] = useState('')
 
   useEffect(() => {
     let activo = true
@@ -59,6 +49,30 @@ function PerfilPage() {
   function reintentar() {
     setError('')
     setIntento((n) => n + 1)
+  }
+
+  function iniciarEdicion(campo) {
+    setAviso('')
+    setEditando(campo)
+  }
+
+  function cancelarEdicion() {
+    setEditando(null)
+  }
+
+  async function guardarCambios(cambios) {
+    const actualizado = await actualizarPerfilApi(cambios)
+    setPerfil(actualizado)
+    actualizarUsuario({
+      nombre: actualizado.nombre,
+      apellidoPat: actualizado.apellidoPat,
+    })
+  }
+
+  async function guardarCampo(cambios) {
+    await guardarCambios(cambios)
+    setEditando(null)
+    setAviso('Tus datos se guardaron correctamente.')
   }
 
   const esCliente = usuario?.rol === 'CLIENTE'
@@ -102,30 +116,66 @@ function PerfilPage() {
                 </div>
               </div>
 
-              <dl className={styles.lista}>
+              <div className={styles.lista}>
                 <div className={styles.fila}>
-                  <div>
-                    <dt className={styles.etiqueta}>Nombre</dt>
-                    <dd className={styles.valor}>{nombreCompleto(perfil)}</dd>
-                  </div>
+                  {editando === 'nombre' ? (
+                    <EditarNombre perfil={perfil} alGuardar={guardarCampo} alCancelar={cancelarEdicion} />
+                  ) : (
+                    <>
+                      <div>
+                        <p className={styles.etiqueta}>Nombre</p>
+                        <p className={styles.valor}>{nombreCompleto(perfil)}</p>
+                      </div>
+                      <button
+                        type="button"
+                        className={styles.botonSecundario}
+                        onClick={() => iniciarEdicion('nombre')}
+                        aria-label="Editar nombre"
+                      >
+                        <Pencil size={16} aria-hidden="true" />
+                        Editar
+                      </button>
+                    </>
+                  )}
                 </div>
 
                 <div className={styles.fila}>
                   <div>
-                    <dt className={styles.etiqueta}>Correo electrónico</dt>
-                    <dd className={styles.valor}>{perfil.correo}</dd>
-                    <dd className={styles.ayuda}>Lo usas para iniciar sesión. No se puede cambiar.</dd>
+                    <p className={styles.etiqueta}>Correo electrónico</p>
+                    <p className={styles.valor}>{perfil.correo}</p>
+                    <p className={styles.ayuda}>Lo usas para iniciar sesión. No se puede cambiar.</p>
                   </div>
                 </div>
 
                 <div className={styles.fila}>
-                  <div>
-                    <dt className={styles.etiqueta}>Teléfono</dt>
-                    <dd className={styles.valor}>{formatearTelefono(perfil.telefono)}</dd>
-                    <dd className={styles.ayuda}>Aquí te llega tu ticket digital por WhatsApp.</dd>
-                  </div>
+                  {editando === 'telefono' ? (
+                    <EditarTelefono
+                      telefonoActual={perfil.telefono}
+                      alGuardar={guardarCampo}
+                      alCancelar={cancelarEdicion}
+                    />
+                  ) : (
+                    <>
+                      <div>
+                        <p className={styles.etiqueta}>Teléfono</p>
+                        <p className={styles.valor}>{formatearTelefono(perfil.telefono)}</p>
+                        <p className={styles.ayuda}>Aquí te llega tu ticket digital por WhatsApp.</p>
+                      </div>
+                      <button
+                        type="button"
+                        className={styles.botonSecundario}
+                        onClick={() => iniciarEdicion('telefono')}
+                        aria-label="Editar teléfono"
+                      >
+                        <Pencil size={16} aria-hidden="true" />
+                        Editar
+                      </button>
+                    </>
+                  )}
                 </div>
-              </dl>
+              </div>
+
+              <p className={styles.aviso} aria-live="polite">{aviso}</p>
             </section>
 
             <section className={styles.tarjeta} aria-labelledby="titulo-seguridad">
@@ -134,14 +184,14 @@ function PerfilPage() {
                 Por seguridad, tu contraseña nunca se muestra; solo puedes cambiarla.
               </p>
 
-              <dl className={styles.lista}>
+              <div className={styles.lista}>
                 <div className={styles.fila}>
                   <div>
-                    <dt className={styles.etiqueta}>Contraseña</dt>
-                    <dd className={styles.valor}>••••••••••</dd>
+                    <p className={styles.etiqueta}>Contraseña</p>
+                    <p className={styles.valor}>••••••••••</p>
                   </div>
                 </div>
-              </dl>
+              </div>
             </section>
           </div>
 
@@ -150,22 +200,12 @@ function PerfilPage() {
               <h2 id="titulo-notificaciones" className={styles.tituloTarjeta}>Notificaciones</h2>
               <p className={styles.descripcion}>Elige cómo quieres recibir tus tickets.</p>
 
-              <p className={styles.subtituloSeccion}>Recibir mi ticket digital por</p>
-              <div className={styles.chips}>
-                {CANALES.map((canal) => {
-                  const seleccionado = perfil.canalTicket === canal.valor
-                  const Icono = seleccionado ? Check : canal.icono
-                  return (
-                    <span
-                      key={canal.valor}
-                      className={`${styles.chip} ${seleccionado ? styles.chipSeleccionado : ''}`}
-                    >
-                      <Icono size={16} aria-hidden="true" />
-                      {canal.texto}
-                    </span>
-                  )
-                })}
-              </div>
+              <p id="etiqueta-canal" className={styles.subtituloSeccion}>Recibir mi ticket digital por</p>
+              <SelectorCanal
+                valor={perfil.canalTicket}
+                alCambiar={guardarCambios}
+                idEtiqueta="etiqueta-canal"
+              />
             </section>
 
             {esCliente && (
