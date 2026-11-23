@@ -1,0 +1,33 @@
+.paginacion {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  color: var(--color-texto-secundario);
+  font-size: 0.875rem;
+}
+
+.numeros {
+  display: flex;
+  gap: 0.375rem;
+}
+
+.numero {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 0.5rem;
+  border: 1px solid rgb(31 27 20 / 12%);
+  border-radius: 10px;
+  background-color: var(--color-superficie);
+  color: var(--color-texto);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.activo {
+  border-color: var(--color-primario);
+  background-color: var(--color-primario);
+  color: var(--color-sobre-primario);
+}
