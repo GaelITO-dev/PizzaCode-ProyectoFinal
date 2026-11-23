@@ -1,0 +1,83 @@
+.fondo {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: rgb(31 27 20 / 45%);
+}
+
+.caja {
+  width: 100%;
+  max-width: 440px;
+  padding: 1.5rem;
+  border-radius: var(--radio-tarjeta);
+  background-color: var(--color-superficie);
+  box-shadow: var(--sombra-tarjeta);
+}
+
+.encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.cerrar {
+  display: inline-flex;
+  padding: 0.25rem;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--color-texto-secundario);
+  cursor: pointer;
+}
+
+.cerrar:hover {
+  background-color: var(--color-fondo);
+}
+
+.mensaje {
+  margin: 0 0 1.5rem;
+  color: var(--color-texto-secundario);
+}
+
+.acciones {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.acciones > * {
+  flex: 1;
+}
+
+.botonSecundario {
+  min-height: 48px;
+  padding: 0.75rem 1.25rem;
+  border: 2px solid var(--color-texto-secundario);
+  border-radius: var(--radio-control);
+  background: transparent;
+  color: var(--color-texto);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.botonSecundario:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* para el celular---------------------------------*/
+@media (max-width: 480px) {
+  .acciones {
+    flex-direction: column-reverse;
+  }
+}
