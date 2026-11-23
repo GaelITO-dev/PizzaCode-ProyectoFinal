@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import mx.pizzacode.dto.ComentarioRequestDTO;
 import mx.pizzacode.dto.ComentarioResponseDTO;
+import mx.pizzacode.dto.LikeResponseDTO;
 import mx.pizzacode.entity.TipoComentario;
+import mx.pizzacode.service.ComentarioLikeService;
 import mx.pizzacode.service.ComentarioService;
 
 @RestController
@@ -22,9 +24,12 @@ import mx.pizzacode.service.ComentarioService;
 public class ComentarioController {
 
     private final ComentarioService comentarioService;
+    private final ComentarioLikeService comentarioLikeService;
 
-    public ComentarioController(ComentarioService comentarioService) {
+    public ComentarioController(ComentarioService comentarioService,
+                                ComentarioLikeService comentarioLikeService) {
         this.comentarioService = comentarioService;
+        this.comentarioLikeService = comentarioLikeService;
     }
 
     @GetMapping("")
@@ -38,8 +43,9 @@ public class ComentarioController {
 
     @GetMapping("/publicos")
     public ResponseEntity<Page<ComentarioResponseDTO>> listarPublicos(
+            Authentication auth,
             @PageableDefault(size = 10, sort = "fecha", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(comentarioService.listarPublicos(pageable));
+        return ResponseEntity.ok(comentarioService.listarPublicos(auth.getName(), pageable));
     }
 
     @GetMapping("/mis-comentarios")
@@ -69,5 +75,18 @@ public class ComentarioController {
     public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
         comentarioService.eliminar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // likes---------------------------------------------------------------------------------------------
+    @PostMapping("/{id}/like")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<LikeResponseDTO> darLike(@PathVariable Integer id, Authentication auth) {
+        return ResponseEntity.ok(comentarioLikeService.darLike(id, auth.getName()));
+    }
+
+    @DeleteMapping("/{id}/like")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<LikeResponseDTO> quitarLike(@PathVariable Integer id, Authentication auth) {
+        return ResponseEntity.ok(comentarioLikeService.quitarLike(id, auth.getName()));
     }
 }
