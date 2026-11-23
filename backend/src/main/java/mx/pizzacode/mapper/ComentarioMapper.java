@@ -15,7 +15,9 @@ public final class ComentarioMapper {
                 c.getTexto(),
                 c.getVisible(),
                 c.getFecha(),
-                c.getUsuario().getNombre() + " " + c.getUsuario().getApellidoPat()
+                c.getUsuario().getNombre() + " " + c.getUsuario().getApellidoPat(),
+                0L,
+                false
         );
     }
 }
