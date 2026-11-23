@@ -269,6 +269,42 @@
   margin: 0;
 }
 
+/* Seguridad */
+.secreto {
+  font-size: 1.125rem;
+  letter-spacing: 0.2em;
+  line-height: 1.2;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 16px;
+  border: 1px solid rgb(31 27 20 / 8%);
+  border-radius: var(--radio-control);
+  background: var(--color-fondo);
+}
+
+.tituloPanel {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.camposContrasena {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.textoChecklist {
+  margin: 0 0 8px;
+  font-size: var(--texto-label);
+  color: var(--color-texto-secundario);
+}
+
 @media (max-width: 960px) {
   .cuadricula {
     grid-template-columns: minmax(0, 1fr);
@@ -276,7 +312,8 @@
 }
 
 @media (max-width: 640px) {
-  .camposNombre {
+  .camposNombre,
+  .camposContrasena {
     grid-template-columns: minmax(0, 1fr);
   }
 }

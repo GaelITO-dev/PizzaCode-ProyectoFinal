@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ChevronRight, History, LogOut, MessageSquare, Pencil } from 'lucide-react'
+import { ChevronRight, History, Lock, LogOut, MessageSquare, Pencil } from 'lucide-react'
 import { actualizarPerfilApi, obtenerPerfilApi } from '../../api/perfilApi'
 import { useAuth } from '../../auth/useAuth'
 import Avatar from '../../components/ui/Avatar'
@@ -8,6 +8,7 @@ import { NOMBRE_ROL } from '../../components/layout/navegacion'
 import EditarNombre from './EditarNombre'
 import EditarTelefono from './EditarTelefono'
 import SelectorCanal from './SelectorCanal'
+import CambiarContrasena from './CambiarContrasena'
 import styles from './PerfilPage.module.css'
 
 function nombreCompleto({ nombre, apellidoPat, apellidoMat }) {
@@ -29,6 +30,7 @@ function PerfilPage() {
   const [intento, setIntento] = useState(0)
   const [editando, setEditando] = useState(null)
   const [aviso, setAviso] = useState('')
+  const [avisoContrasena, setAvisoContrasena] = useState('')
 
   useEffect(() => {
     let activo = true
@@ -53,6 +55,7 @@ function PerfilPage() {
 
   function iniciarEdicion(campo) {
     setAviso('')
+    setAvisoContrasena('')
     setEditando(campo)
   }
 
@@ -73,6 +76,11 @@ function PerfilPage() {
     await guardarCambios(cambios)
     setEditando(null)
     setAviso('Tus datos se guardaron correctamente.')
+  }
+
+  function terminarCambioContrasena() {
+    setEditando(null)
+    setAvisoContrasena('Tu contraseña se cambió correctamente.')
   }
 
   const esCliente = usuario?.rol === 'CLIENTE'
@@ -188,10 +196,29 @@ function PerfilPage() {
                 <div className={styles.fila}>
                   <div>
                     <p className={styles.etiqueta}>Contraseña</p>
-                    <p className={styles.valor}>••••••••••</p>
+                    <p className={`${styles.valor} ${styles.secreto}`} aria-label="Contraseña oculta">
+                      ••••••••••
+                    </p>
                   </div>
+                  {editando !== 'contrasena' && (
+                    <button
+                      type="button"
+                      className={styles.botonSecundario}
+                      onClick={() => iniciarEdicion('contrasena')}
+                      aria-label="Cambiar contraseña"
+                    >
+                      <Lock size={16} aria-hidden="true" />
+                      Cambiar
+                    </button>
+                  )}
                 </div>
               </div>
+
+              {editando === 'contrasena' && (
+                <CambiarContrasena alCancelar={cancelarEdicion} alTerminar={terminarCambioContrasena} />
+              )}
+
+              <p className={styles.aviso} aria-live="polite">{avisoContrasena}</p>
             </section>
           </div>
 
