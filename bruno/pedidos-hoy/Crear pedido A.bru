@@ -1,0 +1,41 @@
+meta {
+  name: Crear pedido A
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/pedidos/sucursal
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "metodoPago": "EFECTIVO",
+    "nombreCliente": "Prueba A",
+    "renglones": [
+      { "idProducto": {{idProducto}}, "cantidad": 2 }
+    ]
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+script:post-response {
+  bru.setVar("idPedidoA", res.body.idPedido);
+}
+
+tests {
+  test("crear pedido A: 201", () => {
+    expect(res.status).to.equal(201);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

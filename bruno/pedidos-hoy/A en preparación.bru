@@ -1,0 +1,32 @@
+meta {
+  name: A en preparación
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{baseUrl}}/pedidos/{{idPedidoA}}/estado
+  body: json
+  auth: bearer
+}
+
+body:json {
+  { "estado": "EN_PREPARACION" }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("A en preparación: 200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.estado).to.equal("EN_PREPARACION");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

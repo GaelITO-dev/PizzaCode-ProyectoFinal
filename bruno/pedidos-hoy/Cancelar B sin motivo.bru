@@ -1,0 +1,32 @@
+meta {
+  name: Cancelar B sin motivo
+  type: http
+  seq: 11
+}
+
+patch {
+  url: {{baseUrl}}/pedidos/{{idPedidoB}}/cancelar
+  body: json
+  auth: bearer
+}
+
+body:json {
+  { "motivo": "" }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("cancelar B sin motivo: 400", () => {
+    expect(res.status).to.equal(400);
+    expect(res.body.errors).to.have.property("motivo");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

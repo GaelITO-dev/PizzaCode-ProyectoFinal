@@ -1,0 +1,31 @@
+meta {
+  name: Avanzar B cancelado
+  type: http
+  seq: 13
+}
+
+patch {
+  url: {{baseUrl}}/pedidos/{{idPedidoB}}/estado
+  body: json
+  auth: bearer
+}
+
+body:json {
+  { "estado": "EN_PREPARACION" }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("avanzar B cancelado: 422", () => {
+    expect(res.status).to.equal(422);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
