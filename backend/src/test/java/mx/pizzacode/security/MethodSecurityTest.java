@@ -1,6 +1,8 @@
 package mx.pizzacode.security;
 
 import mx.pizzacode.controller.RolesController;
+import mx.pizzacode.service.TokenInvalidadoService;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -21,6 +23,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -55,7 +58,9 @@ class MethodSecurityTest {
         @Bean
         JwtAuthenticationFilter jwtAuthenticationFilter(JwtService jwtService,
                                                        UserDetailsService userDetailsService) {
-            return new JwtAuthenticationFilter(jwtService, userDetailsService);
+            // La lista negra se simula: un mock regresa false en estaInvalidado(...)
+            return new JwtAuthenticationFilter(jwtService, userDetailsService,
+                    mock(TokenInvalidadoService.class));
         }
     }
 
