@@ -1,0 +1,56 @@
+.interruptor {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+
+.input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.pista {
+  position: relative;
+  flex-shrink: 0;
+  width: 40px;
+  height: 22px;
+  border-radius: 999px;
+  background-color: #a8a196;
+  transition: background-color 0.15s;
+}
+
+.pista::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: transform 0.15s;
+}
+
+.input:checked + .pista {
+  background-color: var(--color-primario);
+}
+
+.input:checked + .pista::after {
+  transform: translateX(18px);
+}
+
+.input:focus-visible + .pista {
+  outline: 2px solid var(--color-primario-oscuro);
+  outline-offset: 2px;
+}
+
+.input:disabled + .pista {
+  opacity: 0.6;
+}
