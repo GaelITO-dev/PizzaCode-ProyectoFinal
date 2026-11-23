@@ -54,6 +54,12 @@ export function AuthProvider({ children }) {
     }
   }, [navigate])
 
+  const actualizarUsuario = useCallback((cambios) => {
+    const actualizado = { ...usuarioStorage.get(), ...cambios }
+    usuarioStorage.set(actualizado)
+    setUsuario(actualizado)
+  }, [])
+
   useEffect(() => {
     registrarManejadorNoAutorizado(() => {
       usuarioStorage.remove()
@@ -95,8 +101,9 @@ export function AuthProvider({ children }) {
       estaAutenticado: usuario !== null,
       login,
       logout,
+      actualizarUsuario,
     }),
-    [usuario, login, logout],
+    [usuario, login, logout, actualizarUsuario],
   )
 
   return <AuthContext.Provider value={valor}>{children}</AuthContext.Provider>
