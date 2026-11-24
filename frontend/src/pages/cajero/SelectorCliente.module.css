@@ -1,0 +1,122 @@
+.selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.buscador {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 0.875rem;
+  border: 1.5px solid transparent;
+  border-radius: var(--radio-control);
+  background-color: var(--color-input-fondo);
+  color: var(--color-texto-secundario);
+}
+
+.buscador:focus-within {
+  border-color: var(--color-primario);
+}
+
+.conError,
+.conError:focus-within {
+  border-color: var(--color-error);
+}
+
+.buscador input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-texto);
+  outline: none;
+}
+
+.estado {
+  margin: 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.8125rem;
+}
+
+.error {
+  margin: 0;
+  color: var(--color-error);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.resultados {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.resultado {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.5rem 0.625rem;
+  border: 1px solid rgb(31 27 20 / 10%);
+  border-radius: var(--radio-control);
+  background-color: var(--color-superficie);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.resultado:hover {
+  background-color: var(--color-fondo);
+}
+
+.seleccionado {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--color-primario);
+  border-radius: var(--radio-control);
+  background-color: #f1f8e8;
+}
+
+.datos {
+  display: block;
+  flex: 1;
+  min-width: 0;
+}
+
+.nombre {
+  display: block;
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.detalle {
+  display: block;
+  margin: 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.cambiar {
+  border: none;
+  background: transparent;
+  color: var(--color-primario-oscuro);
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.resultado:focus-visible,
+.cambiar:focus-visible {
+  outline: 2px solid var(--color-primario-oscuro);
+  outline-offset: 2px;
+}

@@ -1,0 +1,31 @@
+meta {
+  name: Cancelar pedido con cuenta
+  type: http
+  seq: 8
+}
+
+patch {
+  url: {{baseUrl}}/pedidos/{{idPedidoCuenta}}/cancelar
+  body: json
+  auth: bearer
+}
+
+body:json {
+  { "motivo": "Prueba de motivo" }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("cancelar pedido con cuenta: 200", () => {
+    expect(res.status).to.equal(200);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

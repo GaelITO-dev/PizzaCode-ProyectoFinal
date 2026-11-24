@@ -7,6 +7,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -106,6 +107,14 @@ public class GlobalExceptionHandler {
         String mensaje = "El parámetro '" + ex.getName() + "' no es válido";
         return ResponseEntity.badRequest()
                 .body(new ApiError(HttpStatus.BAD_REQUEST.value(), mensaje, Map.of(ex.getName(), mensaje)));
+    }
+
+    // 400: falta un parámetro obligatorio de la URL (por ejemplo, ?desde=)
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ApiError> handleParametroFaltante(MissingServletRequestParameterException ex) {
+        String mensaje = "El parámetro '" + ex.getParameterName() + "' es obligatorio";
+        return ResponseEntity.badRequest()
+                .body(new ApiError(HttpStatus.BAD_REQUEST.value(), mensaje, Map.of(ex.getParameterName(), mensaje)));
     }
 
     // 500: cualquier error no previsto, el detalle va al log, no al cliente, esta excepción me pareció interesante

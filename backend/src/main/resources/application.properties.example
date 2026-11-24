@@ -22,8 +22,11 @@ spring.mail.port=25
 spring.mail.username=CAMBIAR
 spring.mail.password=CAMBIAR
 
+
 # Twilio
 twilio.account-sid=CAMBIAR
 twilio.auth-token=CAMBIAR
 twilio.sms-from=CAMBIAR
 twilio.whatsapp-from=CAMBIAR
+# Solo cuenta de prueba de Twilio (no acepta texto propio). Vacío = se manda el texto de la app
+twilio.sms-plantilla=

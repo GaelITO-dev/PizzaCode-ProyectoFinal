@@ -28,8 +28,9 @@ public class ProductoController {
     public ResponseEntity<Page<ProductoResponseDTO>> listarMenu(
             @RequestParam(required = false) String nombre,
             @RequestParam(required = false) Integer idCategoria,
+            @RequestParam(defaultValue = "false") boolean todos,
             @PageableDefault(size = 10, sort = "nombre") Pageable pageable) {
-        return ResponseEntity.ok(productoService.listarMenu(nombre, idCategoria, pageable));
+        return ResponseEntity.ok(productoService.listarMenu(nombre, idCategoria, todos, pageable));
     }
 
     @GetMapping("/gestion")

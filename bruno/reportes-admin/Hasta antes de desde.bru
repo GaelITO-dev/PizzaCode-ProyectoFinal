@@ -1,0 +1,44 @@
+meta {
+  name: Hasta antes de desde
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/reportes/ganancias?desde={{hoy}}&hasta={{hace6}}
+  body: none
+  auth: bearer
+}
+
+params:query {
+  desde: {{hoy}}
+  hasta: {{hace6}}
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+script:pre-request {
+  const f = (d) => d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+  const hoy = new Date();
+  const hace6 = new Date(hoy); hace6.setDate(hoy.getDate() - 6);
+  const inicioMes = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+  const finMes = new Date(hoy.getFullYear(), hoy.getMonth() + 1, 0);
+  bru.setVar("hoy", f(hoy));
+  bru.setVar("hace6", f(hace6));
+  bru.setVar("inicioMes", f(inicioMes));
+  bru.setVar("finMes", f(finMes));
+}
+
+tests {
+  test("hasta antes de desde: 422", () => {
+    expect(res.status).to.equal(422);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

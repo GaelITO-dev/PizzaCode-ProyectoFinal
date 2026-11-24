@@ -2,6 +2,7 @@ package mx.pizzacode.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,4 +35,10 @@ public class PedidoResumenResponseDTO {
     private String telefonoCliente;
 
     private String nombreCajero;
+
+    // Productos del pedido; solo viene en los listados (en cambiar estado y cancelar es null)
+    private List<PedidoRenglonResponseDTO> productos;
+
+    // Solo tiene valor cuando el pedido está CANCELADO
+    private String motivoCancelacion;
 }

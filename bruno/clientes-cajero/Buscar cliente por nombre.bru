@@ -1,0 +1,36 @@
+meta {
+  name: Buscar cliente por nombre
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/clientes?busqueda=ana
+  body: none
+  auth: bearer
+}
+
+params:query {
+  busqueda: ana
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("buscar cliente por nombre: 200", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.content.length).to.be.at.least(1);
+    expect(res.body.content[0]).to.have.property("correo");
+    expect(res.body.content[0]).to.not.have.property("contrasena");
+    expect(res.body.content[0]).to.not.have.property("estado");
+    expect(res.body.content[0]).to.not.have.property("rol");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

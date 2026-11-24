@@ -30,10 +30,11 @@ public class ProductoService {
         this.pedidoProductoRepository = pedidoProductoRepository;
     }
 
-    // Menú público: solo productos disponibles
+    // Menú público: solo disponibles. Con todos=true también los agotados (el cliente los ve con su etiqueta)
     @Transactional(readOnly = true)
-    public Page<ProductoResponseDTO> listarMenu(String nombre, Integer idCategoria, Pageable pageable) {
-        return productoRepository.buscar(limpiar(nombre), idCategoria, true, pageable)
+    public Page<ProductoResponseDTO> listarMenu(String nombre, Integer idCategoria, boolean todos, Pageable pageable) {
+        Boolean disponible = todos ? null : true;
+        return productoRepository.buscar(limpiar(nombre), idCategoria, disponible, pageable)
                 .map(ProductoMapper::toResponse);
     }
 

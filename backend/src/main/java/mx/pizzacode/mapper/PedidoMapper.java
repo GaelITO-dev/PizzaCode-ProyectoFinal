@@ -16,6 +16,12 @@ public final class PedidoMapper {
     }
 
     public static PedidoResumenResponseDTO toResumen(Pedido pedido) {
+        return toResumen(pedido, null);
+    }
+
+    public static PedidoResumenResponseDTO toResumen(Pedido pedido, List<PedidoProducto> renglones) {
+        List<PedidoRenglonResponseDTO> productos = renglones == null ? null
+                : renglones.stream().map(PedidoMapper::toRenglonResponse).toList();
         return new PedidoResumenResponseDTO(
                 pedido.getIdPedido(),
                 pedido.getFecha(),
@@ -25,7 +31,9 @@ public final class PedidoMapper {
                 pedido.getTotal(),
                 nombreCliente(pedido),
                 telefonoCliente(pedido),
-                nombreCajero(pedido)
+                nombreCajero(pedido),
+                productos,
+                pedido.getMotivoCancelacion()
         );
     }
 

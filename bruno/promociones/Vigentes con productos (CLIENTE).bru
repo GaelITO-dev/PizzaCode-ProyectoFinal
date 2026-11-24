@@ -1,0 +1,25 @@
+meta {
+  name: Vigentes con productos (CLIENTE)
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/promociones?vigentes=true
+  body: none
+  auth: bearer
+}
+
+params:query {
+  vigentes: true
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

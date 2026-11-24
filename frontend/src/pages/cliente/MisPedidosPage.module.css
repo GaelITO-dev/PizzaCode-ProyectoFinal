@@ -1,0 +1,262 @@
+.pagina {
+  --gris-claro: #f0ece3;
+  --borde: rgb(31 27 20 / 10%);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.subtitulo {
+  margin: 0.25rem 0 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.875rem;
+}
+
+.botonNuevo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.625rem 1.25rem;
+  border-radius: 999px;
+  background-color: var(--color-primario);
+  color: var(--color-sobre-primario);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  padding: 0.375rem 0.875rem;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--gris-claro);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chipActivo {
+  background-color: var(--color-primario);
+  color: var(--color-sobre-primario);
+}
+
+.buscador {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: min(100%, 300px);
+  min-height: 40px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  background-color: var(--gris-claro);
+  color: var(--color-texto-secundario);
+}
+
+.buscador input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-texto);
+  outline: none;
+}
+
+.buscador:focus-within {
+  outline: 2px solid var(--color-primario);
+}
+
+.tarjeta {
+  padding: 1.25rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-tarjeta);
+  background-color: var(--color-superficie);
+}
+
+.tarjetaTitulo {
+  margin: 0 0 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 800;
+}
+
+.error {
+  margin: 0 0 1rem;
+  color: var(--color-error);
+}
+
+.estado {
+  padding: 2rem 0.5rem;
+  color: var(--color-texto-secundario);
+  text-align: center;
+}
+
+.lista {
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.renglon {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) auto 90px 150px auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 0;
+  border-bottom: 1px solid var(--borde);
+}
+
+.folio {
+  display: flex;
+  flex-direction: column;
+}
+
+.folio span {
+  color: var(--color-texto-secundario);
+  font-size: 0.75rem;
+}
+
+.productos {
+  margin: 0;
+  overflow: hidden;
+  font-size: 0.8125rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Insignia del estado (las clases se llaman igual que el enum) */
+.insignia {
+  padding: 0.125rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.RECIBIDO {
+  background-color: #e8eefc;
+  color: #2d4a8a;
+}
+
+.EN_PREPARACION {
+  background-color: #ffe7c2;
+  color: #8a4a0b;
+}
+
+.LISTO,
+.ENTREGADO {
+  background-color: #c9f2c0;
+  color: #2f6b12;
+}
+
+.CANCELADO {
+  background-color: #fdecea;
+  color: var(--color-error);
+}
+
+.total {
+  text-align: right;
+}
+
+.accion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-height: 36px;
+  padding: 0.375rem 0.875rem;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--gris-claro);
+  color: var(--color-texto);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.accionPrincipal {
+  background-color: var(--color-primario);
+  color: var(--color-sobre-primario);
+}
+
+.ver {
+  display: inline-flex;
+  padding: 0.25rem;
+  border-radius: 8px;
+  color: var(--color-texto-secundario);
+}
+
+.ver:hover {
+  background-color: var(--gris-claro);
+}
+
+/* ---------- Responsivo: en celular cada pedido es una tarjetita ---------- */
+@media (max-width: 900px) {
+  .renglon {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'folio insignia'
+      'productos productos'
+      'total accion';
+    gap: 0.5rem;
+  }
+
+  .folio {
+    grid-area: folio;
+  }
+
+  .productos {
+    grid-area: productos;
+    white-space: normal;
+  }
+
+  .insignia {
+    grid-area: insignia;
+    justify-self: end;
+  }
+
+  .total {
+    grid-area: total;
+    text-align: left;
+  }
+
+  .accion {
+    grid-area: accion;
+  }
+
+  .ver {
+    display: none;
+  }
+
+  .buscador {
+    width: 100%;
+  }
+}

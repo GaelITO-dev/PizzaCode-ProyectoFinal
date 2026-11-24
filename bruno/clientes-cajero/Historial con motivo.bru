@@ -1,0 +1,41 @@
+meta {
+  name: Historial con motivo
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/pedidos?desde={{hoy}}&hasta={{hoy}}&size=100
+  body: none
+  auth: bearer
+}
+
+params:query {
+  desde: {{hoy}}
+  hasta: {{hoy}}
+  size: 100
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+script:pre-request {
+  const d = new Date(); bru.setVar("hoy", d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"));
+}
+
+tests {
+  test("el historial trae el motivo de cancelación", () => {
+    expect(res.status).to.equal(200);
+    const pedido = res.body.content.find((p) => String(p.idPedido) === String(bru.getVar("idPedidoCuenta")));
+    expect(pedido).to.not.equal(undefined);
+    expect(pedido.estado).to.equal("CANCELADO");
+    expect(pedido.motivoCancelacion).to.equal("Prueba de motivo");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

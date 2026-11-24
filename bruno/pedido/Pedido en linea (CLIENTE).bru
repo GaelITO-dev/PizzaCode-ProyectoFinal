@@ -1,0 +1,31 @@
+meta {
+  name: Pedido en linea (CLIENTE)
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/pedidos
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "metodoPago": "TARJETA",
+    "renglones": [
+      { "idProducto": 4, "cantidad": 2 },
+      { "idProducto": 1, "cantidad": 1 }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

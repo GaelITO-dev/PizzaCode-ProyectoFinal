@@ -1,0 +1,42 @@
+meta {
+  name: Pedido con cuenta
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/pedidos/sucursal
+  body: json
+  auth: bearer
+}
+
+body:json {
+  {
+    "metodoPago": "TARJETA",
+    "correoCliente": "cliente@pizzacode.mx",
+    "renglones": [
+      { "idProducto": {{idProducto}}, "cantidad": 1 }
+    ]
+  }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+script:post-response {
+  bru.setVar("idPedidoCuenta", res.body.idPedido);
+}
+
+tests {
+  test("pedido con cuenta: 201", () => {
+    expect(res.status).to.equal(201);
+    expect(res.body.nombreCliente).to.be.a("string");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

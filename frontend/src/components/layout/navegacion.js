@@ -5,6 +5,7 @@ import {
   LayoutDashboard,
   MessageSquare,
   Pizza,
+  ShoppingCart,
   Tag,
   User,
   Users,
@@ -13,7 +14,8 @@ import {
 export const NAVEGACION_POR_ROL = {
   CLIENTE: [
     { texto: 'Inicio', ruta: '/cliente', icono: House, exacta: true },
-    { texto: 'Menú', ruta: '/cliente/menu', icono: Pizza },
+    { texto: 'Promociones', ruta: '/cliente/promociones', icono: Tag },
+    { texto: 'Carrito', ruta: '/cliente/carrito', icono: ShoppingCart },
     { texto: 'Historial', ruta: '/cliente/historial', icono: History },
     { texto: 'Mi perfil', ruta: '/perfil', icono: User },
   ],
@@ -21,7 +23,6 @@ export const NAVEGACION_POR_ROL = {
     { texto: 'Inicio', ruta: '/cajero', icono: House, exacta: true },
     { texto: 'Pedidos de hoy', ruta: '/cajero/pedidos', icono: ClipboardList },
     { texto: 'Historial', ruta: '/cajero/historial', icono: History },
-    { texto: 'Clientes', ruta: '/cajero/clientes', icono: Users },
     { texto: 'Mi perfil', ruta: '/perfil', icono: User },
   ],
   ADMIN: [

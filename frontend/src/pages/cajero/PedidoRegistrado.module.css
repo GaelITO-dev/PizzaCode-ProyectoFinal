@@ -1,0 +1,141 @@
+.contenedor {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 560px;
+  padding: 2rem 1.5rem;
+  border: 1px solid rgb(31 27 20 / 10%);
+  border-radius: var(--radio-tarjeta);
+  background-color: var(--color-superficie);
+  text-align: center;
+}
+
+.icono {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--color-primario);
+  color: var(--color-sobre-primario);
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+}
+
+.datos {
+  margin: 0;
+  color: var(--color-texto-secundario);
+}
+
+.cambio {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid rgb(76 122 16 / 25%);
+  border-radius: var(--radio-control);
+  background-color: #e3f3d3;
+  color: var(--color-primario-oscuro);
+}
+
+.etiquetaCambio {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.montoCambio {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.botonSecundario,
+.botonPrimario {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.botonSecundario {
+  background-color: #f0ece3;
+  color: var(--color-texto);
+}
+
+.botonPrimario {
+  background-color: var(--color-primario);
+  color: var(--color-sobre-primario);
+}
+
+.botonSecundario:focus-visible,
+.botonPrimario:focus-visible {
+  outline: 2px solid var(--color-primario-oscuro);
+  outline-offset: 2px;
+}
+
+/* ---------- Paso: imprimir ticket ---------- */
+.paso {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid rgb(31 27 20 / 10%);
+  border-radius: var(--radio-control);
+  text-align: left;
+}
+
+.iconoPaso {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background-color: var(--color-acento);
+}
+
+.pasoTexto {
+  flex: 1;
+  min-width: 0;
+}
+
+.pasoTitulo {
+  margin: 0;
+  font-weight: 700;
+}
+
+.pasoDescripcion {
+  margin: 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 480px) {
+  .paso {
+    flex-wrap: wrap;
+  }
+}

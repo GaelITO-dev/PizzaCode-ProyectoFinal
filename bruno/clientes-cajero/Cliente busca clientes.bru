@@ -1,0 +1,31 @@
+meta {
+  name: Cliente busca clientes
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{baseUrl}}/clientes?busqueda=ana
+  body: none
+  auth: bearer
+}
+
+params:query {
+  busqueda: ana
+}
+
+auth:bearer {
+  token: {{tokenCliente}}
+}
+
+tests {
+  test("cliente busca clientes: 403", () => {
+    expect(res.status).to.equal(403);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

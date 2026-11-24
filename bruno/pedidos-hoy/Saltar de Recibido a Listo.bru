@@ -1,0 +1,31 @@
+meta {
+  name: Saltar de Recibido a Listo
+  type: http
+  seq: 6
+}
+
+patch {
+  url: {{baseUrl}}/pedidos/{{idPedidoA}}/estado
+  body: json
+  auth: bearer
+}
+
+body:json {
+  { "estado": "LISTO" }
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("saltar de Recibido a Listo: 422", () => {
+    expect(res.status).to.equal(422);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
