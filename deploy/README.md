@@ -74,3 +74,44 @@ sudo systemctl restart pizzacode
 | Reiniciar | `sudo systemctl restart pizzacode` |
 | Detener | `sudo systemctl stop pizzacode` |
 | Editar configuración | `sudo nano /opt/pizzacode/application.properties` y luego reiniciar |
+
+
+
+## Frontend con Nginx (#37)
+
+Nginx sirve el build de React desde `/var/www/pizzacode` y reenvía `/api/` al backend en `127.0.0.1:8090`
+(proxy inverso: el front y la API salen del mismo sitio, sin CORS, y el 8090 no se abre en el firewall).
+
+### 1. Subir el build
+```powershell
+# En la compu, desde frontend/
+npm run build
+scp -r dist deploy@<IP>:/tmp/pizzacode-dist
+```
+```bash
+# En el VPS
+sudo mkdir -p /var/www/pizzacode
+sudo cp -r /tmp/pizzacode-dist/. /var/www/pizzacode/
+sudo chmod -R a+rX /var/www/pizzacode   # al subir desde Windows las carpetas pueden quedar en 700
+rm -rf /tmp/pizzacode-dist
+```
+
+### 2. Configurar el sitio
+```bash
+sudo cp pizzacode.conf /etc/nginx/sites-available/pizzacode   # archivo de deploy/nginx/
+sudo ln -s /etc/nginx/sites-available/pizzacode /etc/nginx/sites-enabled/pizzacode
+sudo rm /etc/nginx/sites-enabled/default
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+### 3. Comprobar
+- `http://<IP>` muestra el login de Pizza Code.
+- Al recargar una ruta interna (por ejemplo `/cliente/carrito`) no da 404, gracias a `try_files`.
+- `curl http://127.0.0.1/api/productos` desde el VPS regresa JSON.
+
+## Actualizar el frontend
+Desde la raíz del proyecto, en la compu:
+```powershell
+.\deploy\actualizar-frontend.ps1
+```
