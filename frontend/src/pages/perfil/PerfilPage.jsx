@@ -10,6 +10,7 @@ import EditarNombre from './EditarNombre'
 import EditarTelefono from './EditarTelefono'
 import SelectorCanal from './SelectorCanal'
 import CambiarContrasena from './CambiarContrasena'
+import Cargando from '../../components/ui/Cargando'
 import styles from './PerfilPage.module.css'
 
 function nombreCompleto({ nombre, apellidoPat, apellidoMat }) {
@@ -98,7 +99,7 @@ function PerfilPage() {
 
       {!perfil && !error && (
         <p className={styles.estado} aria-live="polite">
-          Cargando tu perfil…
+          <Cargando texto="Cargando tu perfil…" />
         </p>
       )}
 

@@ -5,6 +5,7 @@ import { obtenerMiPedido } from '../../api/pedidosClienteApi'
 import Modal from '../ui/Modal'
 import { imprimirTicket } from '../../utils/impresion'
 import TicketCliente from './TicketCliente'
+import Cargando from '../ui/Cargando'
 import styles from './VerTicketModal.module.css'
 
 // Modal "Ver ticket": trae el pedido del cliente y muestra su ticket digital.
@@ -28,7 +29,7 @@ function VerTicketModal({ idPedido, onCerrar }) {
       {error ? (
         <p className={styles.error} role="alert">{error}</p>
       ) : !pedido ? (
-        <p className={styles.estado}>Cargando ticket...</p>
+        <p className={styles.estado}><Cargando texto="Cargando ticket..." /></p>
       ) : (
         <>
           <TicketCliente pedido={pedido} />

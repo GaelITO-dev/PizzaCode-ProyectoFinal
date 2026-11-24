@@ -9,6 +9,7 @@ import campo from '../../components/ui/CampoTexto.module.css'
 import imagenPizza from '../../assets/pizza-auth.png'
 import { rangoFechas } from '../../utils/fechas'
 import base from './ProductosPage.module.css'
+import Cargando from '../../components/ui/Cargando'
 import styles from './PromocionFormularioPage.module.css'
 
 // Mismas reglas que PromocionRequestDTO (más la de fechas, que en el backend da 422)
@@ -143,7 +144,7 @@ function PromocionFormularioPage() {
       </header>
 
       {cargandoPromocion ? (
-        <p className={styles.mensaje}>Cargando promoción...</p>
+        <p className={styles.mensaje}><Cargando texto="Cargando promoción..." /></p>
       ) : (
         <form className={styles.contenido} onSubmit={guardar} noValidate>
           <div className={styles.columna}>

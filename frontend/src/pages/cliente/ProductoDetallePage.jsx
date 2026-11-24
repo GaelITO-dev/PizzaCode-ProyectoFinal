@@ -8,6 +8,7 @@ import Contador from '../../components/ui/Contador'
 import { formatearMoneda } from '../../utils/moneda'
 import { agruparProductos, etiquetaTamano, nombreBase, ordenarPorTamano, tamanoDe } from '../../utils/productos'
 import ImagenProducto from './ImagenProducto'
+import Cargando from '../../components/ui/Cargando'
 import styles from './ProductoDetallePage.module.css'
 
 // Trae el producto y, si tiene tamaño (pizzas), sus otros tamaños del mismo nombre y categoría
@@ -112,7 +113,7 @@ function ProductoDetalle({ id }) {
     setRecomendadoAgregado(producto.idProducto)
   }
 
-  if (cargando) return <p className={styles.estado}>Cargando producto...</p>
+  if (cargando) return <p className={styles.estado}><Cargando texto="Cargando producto..." /></p>
   if (error || !seleccionado) {
     return (
       <div className={styles.estado}>

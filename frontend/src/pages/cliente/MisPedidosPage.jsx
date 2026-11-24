@@ -6,6 +6,7 @@ import Paginacion from '../../components/ui/Paginacion'
 import VerTicketModal from '../../components/ticket/VerTicketModal'
 import { fechaCorta, hora } from '../../utils/fechas'
 import { formatearMoneda } from '../../utils/moneda'
+import Cargando from '../../components/ui/Cargando'
 import styles from './MisPedidosPage.module.css'
 
 const TAMANO_PAGINA = 5
@@ -115,7 +116,7 @@ function MisPedidosPage() {
         {error && <p className={styles.error} role="alert">{error}</p>}
 
         {cargando ? (
-          <p className={styles.estado}>Cargando pedidos...</p>
+          <p className={styles.estado}><Cargando texto="Cargando pedidos..." /></p>
         ) : pedidos.length === 0 ? (
           <p className={styles.estado}>No se encontraron pedidos.</p>
         ) : (

@@ -3,6 +3,7 @@ import { CalendarDays, ChevronLeft, ChevronRight, Search } from 'lucide-react'
 import { listarPedidos } from '../../api/pedidosApi'
 import { formatearMoneda } from '../../utils/moneda'
 import { NOMBRE_ORIGEN, formatearHora, resumenProductos } from '../../utils/pedidos'
+import Cargando from '../../components/ui/Cargando'
 import styles from './TodosPedidosPage.module.css'
 
 const TAMANO_PAGINA = 10
@@ -258,7 +259,7 @@ export default function TodosPedidosPage() {
           </button>
         </div>
       ) : !datos ? (
-        <p className={styles.estado}>Cargando pedidos…</p>
+        <p className={styles.estado}><Cargando texto="Cargando pedidos…" /></p>
       ) : (
         <div className={`${styles.tarjeta} ${alDia ? '' : styles.actualizando}`}>
           {pedidos.length === 0 ? (

@@ -1,13 +1,16 @@
-import { useEffect, useRef, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Suspense, useEffect, useRef, useState } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 import { Menu } from 'lucide-react'
 import BarraLateral from './BarraLateral'
 import MenuUsuario from './MenuUsuario'
+import LimiteErrores from './LimiteErrores'
+import Cargando from '../ui/Cargando'
 import styles from './AppLayout.module.css'
 
 const ID_BARRA = 'barra-lateral'
 
 function AppLayout() {
+  const ubicacion = useLocation()
   const [menuAbierto, setMenuAbierto] = useState(false)
   const botonMenuRef = useRef(null)
 
@@ -68,8 +71,13 @@ function AppLayout() {
           <MenuUsuario />
         </header>
 
+        {/* Si una pantalla truena o se está descargando, la barra lateral y la superior se quedan */}
         <main className={styles.contenido}>
-          <Outlet />
+          <LimiteErrores ubicacion={ubicacion.pathname}>
+            <Suspense fallback={<Cargando centrado />}>
+              <Outlet />
+            </Suspense>
+          </LimiteErrores>
         </main>
       </div>
     </div>

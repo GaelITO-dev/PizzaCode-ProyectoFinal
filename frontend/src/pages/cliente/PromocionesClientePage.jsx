@@ -6,6 +6,7 @@ import { precioConDescuento, useDescuentos } from '../../carrito/useDescuentos'
 import Paginacion from '../../components/ui/Paginacion'
 import { fechaCorta } from '../../utils/fechas'
 import { formatearMoneda } from '../../utils/moneda'
+import Cargando from '../../components/ui/Cargando'
 import styles from './PromocionesClientePage.module.css'
 
 const TAMANO_PAGINA = 6
@@ -128,7 +129,7 @@ function PromocionesClientePage() {
       {error && <p className={styles.error} role="alert">{error}</p>}
 
       {cargando ? (
-        <p className={styles.estado}>Cargando promociones...</p>
+        <p className={styles.estado}><Cargando texto="Cargando promociones..." /></p>
       ) : promociones.length === 0 ? (
         <p className={styles.estado}>No hay promociones vigentes por ahora.</p>
       ) : (

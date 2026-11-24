@@ -8,6 +8,7 @@ import { limpiarTelefono } from '../../utils/validaciones'
 import { formatearMoneda } from '../../utils/moneda'
 import PedidoRegistrado from './PedidoRegistrado'
 import SelectorCliente from './SelectorCliente'
+import Cargando from '../../components/ui/Cargando'
 import styles from './PuntoVentaPage.module.css'
 
 const CLIENTE_VACIO = { nombre: '', telefono: '' }
@@ -291,7 +292,7 @@ function PuntoVentaPage() {
         </div>
 
         {cargando ? (
-          <p className={styles.estado}>Cargando menú…</p>
+          <p className={styles.estado}><Cargando texto="Cargando menú…" /></p>
         ) : errorCarga ? (
           <div className={styles.estado} role="alert">
             <p>{errorCarga}</p>

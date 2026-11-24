@@ -1,0 +1,40 @@
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 420px;
+  margin: 3rem auto;
+  padding: 2rem 1.5rem;
+  border: 1px solid rgb(31 27 20 / 10%);
+  border-radius: var(--radio-tarjeta);
+  background-color: var(--color-superficie);
+  text-align: center;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.texto {
+  margin: 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.875rem;
+}
+
+.boton {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--color-primario);
+  color: var(--color-sobre-primario);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.boton:focus-visible {
+  outline: 2px solid var(--color-primario-oscuro);
+  outline-offset: 2px;
+}

@@ -13,6 +13,7 @@ import ModalConfirmacion from '../../components/ui/ModalConfirmacion'
 import Paginacion from '../../components/ui/Paginacion'
 import { fechaNumerica } from '../../utils/fechas'
 import base from './ProductosPage.module.css'
+import Cargando from '../../components/ui/Cargando'
 import styles from './ComentariosPage.module.css'
 
 const TAMANO_PAGINA = 6
@@ -200,7 +201,7 @@ function ComentariosPage() {
 
       <div className={styles.cuadricula}>
         {cargando ? (
-          <p className={styles.mensaje}>Cargando comentarios...</p>
+          <p className={styles.mensaje}><Cargando texto="Cargando comentarios..." /></p>
         ) : comentarios.length === 0 ? (
           <p className={styles.mensaje}>No se encontraron comentarios.</p>
         ) : (

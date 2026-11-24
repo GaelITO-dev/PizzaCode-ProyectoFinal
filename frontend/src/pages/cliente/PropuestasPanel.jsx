@@ -4,6 +4,7 @@ import { crearComentario, darLike, listarComentariosPublicos, quitarLike } from 
 import Avatar from '../../components/ui/Avatar'
 import Paginacion from '../../components/ui/Paginacion'
 import { fechaNumerica } from '../../utils/fechas'
+import Cargando from '../../components/ui/Cargando'
 import styles from './PropuestasPanel.module.css'
 
 const TAMANO_PAGINA = 5
@@ -100,7 +101,7 @@ function PropuestasPanel() {
       {error && <p className={styles.error} role="alert">{error}</p>}
 
       {cargando ? (
-        <p className={styles.estado}>Cargando propuestas...</p>
+        <p className={styles.estado}><Cargando texto="Cargando propuestas..." /></p>
       ) : comentarios.length === 0 ? (
         <p className={styles.estado}>Todavía no hay propuestas. ¡Sé el primero!</p>
       ) : (
