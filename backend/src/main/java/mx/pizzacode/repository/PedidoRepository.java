@@ -31,7 +31,8 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
     @EntityGraph(attributePaths = { "cliente", "cajero" })
     Page<Pedido> findByCliente(Usuario cliente, Pageable pageable);
 
-    // Modificación: Filtros opcionales: estado, rango de fechas, cliente con cuenta o teléfono.
+    // Filtros opcionales: estado, rango de fechas, cliente con cuenta, teléfono exacto,
+    // origen, método de pago y búsqueda libre (folio exacto, parte del nombre o del teléfono).
     @EntityGraph(attributePaths = { "cliente", "cajero" })
     @Query("""
             SELECT p FROM Pedido p LEFT JOIN p.cliente c
@@ -40,8 +41,17 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
               AND (:hasta IS NULL OR p.fecha < :hasta)
               AND (:idCliente IS NULL OR c.idUsuario = :idCliente)
               AND (:telefono IS NULL OR p.telefonoCliente = :telefono OR c.telefono = :telefono)
+              AND (:origen IS NULL OR p.origen = :origen)
+              AND (:metodoPago IS NULL OR p.metodoPago = :metodoPago)
+              AND (:patronNombre IS NULL
+                   OR p.idPedido = :folio
+                   OR LOWER(p.nombreCliente) LIKE :patronNombre
+                   OR LOWER(c.nombre) LIKE :patronNombre
+                   OR p.telefonoCliente LIKE :patronTelefono
+                   OR c.telefono LIKE :patronTelefono)
             """)
     Page<Pedido> buscar(EstadoPedido estado, LocalDateTime desde, LocalDateTime hasta,
-                        Integer idCliente, String telefono, Pageable pageable);
+                        Integer idCliente, String telefono, OrigenPedido origen, MetodoPago metodoPago,
+                        String patronNombre, String patronTelefono, Integer folio, Pageable pageable);
 
 }

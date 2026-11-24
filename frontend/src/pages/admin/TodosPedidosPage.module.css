@@ -1,0 +1,414 @@
+.pagina {
+  --gris-claro: #f0ece3;
+  --borde: rgb(31 27 20 / 10%);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.subtitulo {
+  margin: 0.25rem 0 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.875rem;
+}
+
+/* ---------- Rango de fechas ---------- */
+.rangoContenedor {
+  position: relative;
+}
+
+.botonRango {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--gris-claro);
+  color: var(--color-texto);
+  font-size: 0.875rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.panelFechas {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 220px;
+  padding: 1rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-tarjeta);
+  background-color: var(--color-superficie);
+  box-shadow: 0 8px 24px rgb(31 27 20 / 12%);
+}
+
+.campoFecha {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  color: var(--color-texto-secundario);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.campoFecha input {
+  padding: 0.5rem 0.625rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-control);
+  background-color: var(--color-superficie);
+  color: var(--color-texto);
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+.botonListo {
+  align-self: flex-end;
+  padding: 0.375rem 1rem;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--color-primario);
+  color: var(--color-sobre-primario);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ---------- Filtros ---------- */
+.barraFiltros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-tarjeta);
+  background-color: var(--color-superficie);
+}
+
+.buscador {
+  display: flex;
+  flex: 1 1 280px;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 999px;
+  background-color: var(--gris-claro);
+  color: var(--color-texto-secundario);
+}
+
+.buscador input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--color-texto);
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+.filtro {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 999px;
+  background-color: var(--gris-claro);
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.filtro select {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--color-texto);
+  font: inherit;
+  cursor: pointer;
+}
+
+.limpiar {
+  padding: 0.25rem 0.5rem;
+  border: none;
+  background: transparent;
+  color: var(--color-primario-oscuro);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.limpiar:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Estados de carga ---------- */
+.error {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radio-control);
+  background-color: rgb(198 40 40 / 10%);
+  color: var(--color-error);
+}
+
+.estado {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 2rem 0;
+  color: var(--color-texto-secundario);
+}
+
+.vacio {
+  margin: 0;
+  padding: 2rem 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+/* ---------- Tabla ---------- */
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.5rem 1.25rem 1rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-tarjeta);
+  background-color: var(--color-superficie);
+  transition: opacity 0.15s;
+}
+
+.actualizando {
+  opacity: 0.55;
+}
+
+.tablaContenedor {
+  overflow-x: auto;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla th {
+  padding: 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--borde);
+  color: var(--color-texto-secundario);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tabla td {
+  padding: 0.875rem 0.5rem;
+  border-bottom: 1px solid var(--borde);
+  font-size: 0.875rem;
+  vertical-align: middle;
+}
+
+.derecha {
+  text-align: right !important;
+}
+
+.folio {
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.cliente {
+  display: block;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.telefono {
+  display: block;
+  color: var(--color-texto-secundario);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.origen {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  background-color: var(--gris-claro);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.productos {
+  display: block;
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.total {
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.fecha {
+  color: var(--color-texto-secundario);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+/* ---------- Insignias de estado ---------- */
+.insignia {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.125rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.insignia::before {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: currentColor;
+  content: '';
+}
+
+.porImprimir {
+  background-color: #fdf1d6;
+  color: #8a5a00;
+}
+
+.enPreparacion {
+  background-color: #fde6cf;
+  color: #9a4a00;
+}
+
+.listo {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+}
+
+.entregado {
+  background-color: #e3f3d6;
+  color: #3f7a14;
+}
+
+.cancelado {
+  background-color: rgb(198 40 40 / 10%);
+  color: var(--color-error);
+}
+
+/* ---------- Paginación ---------- */
+.pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.conteo {
+  margin: 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.8125rem;
+}
+
+.paginacion {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.botonPagina {
+  display: grid;
+  place-items: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 0.5rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-control);
+  background-color: var(--color-superficie);
+  color: var(--color-texto);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.botonPagina:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.paginaActiva {
+  border-color: var(--color-primario);
+  background-color: var(--color-primario);
+  color: var(--color-sobre-primario);
+}
+
+.botonSecundario {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 999px;
+  background-color: var(--gris-claro);
+  color: var(--color-texto);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.buscador:focus-within,
+.filtro:focus-within,
+.botonRango:focus-visible,
+.botonListo:focus-visible,
+.limpiar:focus-visible,
+.botonPagina:focus-visible,
+.botonSecundario:focus-visible {
+  outline: 2px solid var(--color-primario-oscuro);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .filtro {
+    flex: 1 1 auto;
+  }
+
+  .panelFechas {
+    right: auto;
+    left: 0;
+  }
+}

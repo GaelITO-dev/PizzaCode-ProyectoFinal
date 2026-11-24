@@ -1,0 +1,32 @@
+meta {
+  name: Por origen en linea
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/pedidos?origen=EN_LINEA
+  body: none
+  auth: bearer
+}
+
+params:query {
+  origen: EN_LINEA
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("200 y solo pedidos en línea", function() {
+    expect(res.status).to.equal(200);
+    res.body.content.forEach(p => expect(p.origen).to.equal("EN_LINEA"));
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

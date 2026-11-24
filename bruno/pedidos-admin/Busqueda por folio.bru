@@ -1,0 +1,32 @@
+meta {
+  name: Busqueda por folio
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/pedidos?busqueda=%231&sort=idPedido,asc
+  ...
+}
+
+params:query {
+  busqueda: #1
+  sort: idPedido,asc
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("encuentra el folio 1", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.content.some(p => p.idPedido === 1)).to.equal(true);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

@@ -1,0 +1,31 @@
+meta {
+  name: Origen invalido
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/pedidos?origen=OTRO
+  body: none
+  auth: bearer
+}
+
+params:query {
+  origen: OTRO
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("origen inválido: 400", function() {
+    expect(res.status).to.equal(400);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

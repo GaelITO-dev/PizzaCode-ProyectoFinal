@@ -1,0 +1,32 @@
+meta {
+  name: Por metodo tarjeta
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/pedidos?metodoPago=TARJETA
+  body: none
+  auth: bearer
+}
+
+params:query {
+  metodoPago: TARJETA
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("200 y solo pedidos con tarjeta", function() {
+    expect(res.status).to.equal(200);
+    res.body.content.forEach(p => expect(p.metodoPago).to.equal("TARJETA"));
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

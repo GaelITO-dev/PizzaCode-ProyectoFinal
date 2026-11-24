@@ -21,6 +21,8 @@ import mx.pizzacode.dto.PedidoRequestDTO;
 import mx.pizzacode.dto.PedidoResponseDTO;
 import mx.pizzacode.dto.PedidoResumenResponseDTO;
 import mx.pizzacode.entity.EstadoPedido;
+import mx.pizzacode.entity.MetodoPago;
+import mx.pizzacode.entity.OrigenPedido;
 import mx.pizzacode.service.PedidoService;
 
 @RestController
@@ -43,8 +45,12 @@ public class PedidoController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta,
             @RequestParam(required = false) Integer idCliente,
             @RequestParam(required = false) String telefono,
+            @RequestParam(required = false) OrigenPedido origen,
+            @RequestParam(required = false) MetodoPago metodoPago,
+            @RequestParam(required = false) String busqueda,
             @PageableDefault(size = 10, sort = "fecha", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(pedidoService.listar(estado, desde, hasta, idCliente, telefono, pageable));
+        return ResponseEntity.ok(pedidoService.listar(estado, desde, hasta, idCliente, telefono,
+                origen, metodoPago, busqueda, pageable));
     }
 
     @GetMapping("/{id}")
