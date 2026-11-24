@@ -6,6 +6,7 @@ import ModalConfirmacion from '../../components/ui/ModalConfirmacion'
 import Paginacion from '../../components/ui/Paginacion'
 import { rangoFechas } from '../../utils/fechas'
 import base from './ProductosPage.module.css'
+import Cargando from '../../components/ui/Cargando'
 import styles from './PromocionesPage.module.css'
 
 const TAMANO_PAGINA = 6
@@ -173,7 +174,7 @@ function PromocionesPage() {
             <tbody>
               {cargando ? (
                 <tr>
-                  <td colSpan={6} className={base.estado}>Cargando promociones...</td>
+                  <td colSpan={6} className={base.estado}><Cargando texto="Cargando promociones..." /></td>
                 </tr>
               ) : promociones.length === 0 ? (
                 <tr>

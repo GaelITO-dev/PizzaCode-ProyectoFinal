@@ -10,6 +10,7 @@ import {
 import ModalConfirmacion from '../../components/ui/ModalConfirmacion'
 import Interruptor from '../../components/ui/Interruptor'
 import ProductoFormulario from './ProductoFormulario'
+import Cargando from '../../components/ui/Cargando'
 import styles from './ProductosPage.module.css'
 
 const TAMANO_PAGINA = 10
@@ -198,7 +199,7 @@ function ProductosPage() {
             <tbody>
               {cargando ? (
                 <tr>
-                  <td colSpan={5} className={styles.estado}>Cargando productos...</td>
+                  <td colSpan={5} className={styles.estado}><Cargando texto="Cargando productos..." /></td>
                 </tr>
               ) : productos.length === 0 ? (
                 <tr>

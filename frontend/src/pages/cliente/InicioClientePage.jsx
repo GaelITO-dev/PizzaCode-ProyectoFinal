@@ -6,6 +6,7 @@ import Paginacion from '../../components/ui/Paginacion'
 import { agruparProductos } from '../../utils/productos'
 import PropuestasPanel from './PropuestasPanel'
 import SugerenciaFormulario from './SugerenciaFormulario'
+import Cargando from '../../components/ui/Cargando'
 import styles from './InicioClientePage.module.css'
 
 const TAMANO_PAGINA = 24
@@ -134,7 +135,7 @@ function InicioClientePage() {
             {error && <p className={styles.error} role="alert">{error}</p>}
 
             {cargando ? (
-              <p className={styles.estado}>Cargando productos...</p>
+              <p className={styles.estado}><Cargando texto="Cargando productos..." /></p>
             ) : grupos.length === 0 ? (
               <p className={styles.estado}>No se encontraron productos.</p>
             ) : (

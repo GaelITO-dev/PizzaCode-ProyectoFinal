@@ -6,6 +6,7 @@ import { formatearMoneda } from '../../utils/moneda'
 import { imprimirTicket } from '../../utils/impresion'
 import { NOMBRE_ORIGEN, fechaDeHoy, formatearHora, resumenProductos, tituloDelDia } from '../../utils/pedidos'
 import TicketCocina from './TicketCocina'
+import Cargando from '../../components/ui/Cargando'
 import styles from './HistorialDiaPage.module.css'
 
 const ESTADOS = [
@@ -213,7 +214,7 @@ function HistorialDiaPage() {
             <tbody>
               {cargando ? (
                 <tr>
-                  <td colSpan={8} className={styles.vacio}>Cargando pedidos…</td>
+                  <td colSpan={8} className={styles.vacio}><Cargando texto="Cargando pedidos…" /></td>
                 </tr>
               ) : visibles.length === 0 ? (
                 <tr>

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { tokenStorage } from './tokenStorage'
 import { obtenerMensajeError } from './errores'
+import { marcarServidorCaido, marcarServidorDisponible } from '../conexion/estadoConexion'
 
 const api = axios.create({
   baseURL: '/api',
@@ -24,9 +25,28 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+// El servidor "no está" si no hubo respuesta (y no fue una cancelación), o si el proxy
+// devolvió 502/503/504, o un 500 sin el cuerpo de error del backend (ApiError siempre trae message).
+function servidorNoDisponible(error) {
+  const respuesta = error.response
+  if (!respuesta) return !axios.isCancel(error)
+  if ([502, 503, 504].includes(respuesta.status)) return true
+  return respuesta.status >= 500 && !respuesta.data?.message
+}
+
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    marcarServidorDisponible()
+    return response
+  },
   (error) => {
+    if (servidorNoDisponible(error)) {
+      marcarServidorCaido()
+    } else if (error.response) {
+      // El servidor sí contestó (aunque sea con 4xx): la conexión está bien
+      marcarServidorDisponible()
+    }
+
     const status = error.response?.status
     const url = error.config?.url ?? ''
     const esAutenticacion = url.includes('/auth/login') || url.includes('/auth/logout')

@@ -7,6 +7,7 @@ import ModalMotivo from '../../components/ui/ModalMotivo'
 import { imprimirTicket } from '../../utils/impresion'
 import { NOMBRE_ORIGEN, fechaDeHoy, formatearHora, resumenProductos, tituloDelDia } from '../../utils/pedidos'
 import TicketCocina from './TicketCocina'
+import Cargando from '../../components/ui/Cargando'
 import styles from './PedidosHoyPage.module.css'
 
 const INTERVALO_ACTUALIZACION_MS = 30000
@@ -151,7 +152,7 @@ function PedidosHoyPage() {
       )}
 
       {cargando ? (
-        <p className={styles.estado}>Cargando pedidos…</p>
+        <p className={styles.estado}><Cargando texto="Cargando pedidos…" /></p>
       ) : (
         <div className={styles.tablero}>
           {COLUMNAS.map((columna) => {

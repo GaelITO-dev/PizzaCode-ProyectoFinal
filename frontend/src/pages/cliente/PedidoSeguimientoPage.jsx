@@ -6,6 +6,7 @@ import VerTicketModal from '../../components/ticket/VerTicketModal'
 import { fechaNumerica, hora } from '../../utils/fechas'
 import { formatearMoneda } from '../../utils/moneda'
 import { estadoPago } from '../../utils/pago'
+import Cargando from '../../components/ui/Cargando'
 import styles from './PedidoSeguimientoPage.module.css'
 
 const PASOS = [
@@ -72,7 +73,7 @@ function PedidoSeguimiento({ id }) {
     }
   }, [id])
 
-  if (cargando) return <p className={styles.estado}>Cargando pedido...</p>
+  if (cargando) return <p className={styles.estado}><Cargando texto="Cargando pedido..." /></p>
   if (!pedido) {
     return (
       <div className={styles.estado}>

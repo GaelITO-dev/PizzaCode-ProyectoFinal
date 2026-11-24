@@ -15,6 +15,7 @@ import {
   rangoDelPeriodo,
 } from '../../utils/periodos'
 import { descargarReporteCsv } from '../../utils/reporteCsv'
+import Cargando from '../../components/ui/Cargando'
 import styles from './GananciasPage.module.css'
 
 const NOMBRE_METODO = { EFECTIVO: 'Efectivo', TARJETA: 'Tarjeta' }
@@ -146,7 +147,7 @@ function GananciasPage() {
             </button>
           </div>
         ) : (
-          <p className={styles.estado}>Cargando reporte…</p>
+          <p className={styles.estado}><Cargando texto="Cargando reporte…" /></p>
         )}
       </section>
     )

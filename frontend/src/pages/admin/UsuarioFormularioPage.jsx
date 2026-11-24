@@ -8,6 +8,7 @@ import CampoTexto from '../../components/ui/CampoTexto'
 import ChecklistContrasena from '../../components/ui/ChecklistContrasena'
 import { NOMBRE_ROL } from '../../components/layout/navegacion'
 import { limpiarTelefono, validarFormularioUsuario } from '../../utils/validaciones'
+import Cargando from '../../components/ui/Cargando'
 import styles from './UsuarioFormularioPage.module.css'
 
 const VACIO = {
@@ -158,7 +159,7 @@ function UsuarioFormularioPage() {
   }
 
   if (cargando) {
-    return <p className={styles.estado}>Cargando usuario…</p>
+    return <p className={styles.estado}><Cargando texto="Cargando usuario…" /></p>
   }
 
   if (errorCarga) {

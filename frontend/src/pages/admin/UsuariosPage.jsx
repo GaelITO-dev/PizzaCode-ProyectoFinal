@@ -13,6 +13,7 @@ import Paginacion from '../../components/ui/Paginacion'
 import { NOMBRE_ROL } from '../../components/layout/navegacion'
 import { formatearTelefono } from '../../utils/telefono'
 import ModalBloqueo from './ModalBloqueo'
+import Cargando from '../../components/ui/Cargando'
 import styles from './UsuariosPage.module.css'
 
 const TAMANO_PAGINA = 8
@@ -227,7 +228,7 @@ function UsuariosPage() {
             <tbody>
               {cargando ? (
                 <tr>
-                  <td colSpan={5} className={styles.estado}>Cargando usuarios…</td>
+                  <td colSpan={5} className={styles.estado}><Cargando texto="Cargando usuarios…" /></td>
                 </tr>
               ) : usuarios.length === 0 ? (
                 <tr>
