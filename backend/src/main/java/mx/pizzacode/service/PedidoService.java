@@ -1,6 +1,7 @@
 package mx.pizzacode.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ import mx.pizzacode.mapper.PedidoMapper;
 import mx.pizzacode.repository.PedidoProductoRepository;
 import mx.pizzacode.repository.PedidoRepository;
 import mx.pizzacode.repository.ProductoRepository;
+import mx.pizzacode.repository.PromocionRepository;
 import mx.pizzacode.repository.UsuarioRepository;
 
 @Service
@@ -40,13 +42,16 @@ public class PedidoService {
     private final PedidoProductoRepository pedidoProductoRepository;
     private final ProductoRepository productoRepository;
     private final UsuarioRepository usuarioRepository;
+    private final PromocionRepository promocionRepository;
 
     public PedidoService(PedidoRepository pedidoRepository, PedidoProductoRepository pedidoProductoRepository,
-                         ProductoRepository productoRepository, UsuarioRepository usuarioRepository) {
+                         ProductoRepository productoRepository, UsuarioRepository usuarioRepository,
+                         PromocionRepository promocionRepository) {
         this.pedidoRepository = pedidoRepository;
         this.pedidoProductoRepository = pedidoProductoRepository;
         this.productoRepository = productoRepository;
         this.usuarioRepository = usuarioRepository;
+        this.promocionRepository = promocionRepository;
     }
 
     // ---------- Metodos de consultas -------------------------------------------------------------------
@@ -72,12 +77,12 @@ public class PedidoService {
                 patronNombre, patronTelefono, folio, pageable));
     }
 
-    // Cliente: solo sus pedidos 
+    // Cliente: solo sus pedidos. filtro: EN_CURSO, ENTREGADO o CANCELADO (null = todos); buscar: folio o producto
     @Transactional(readOnly = true)
-    public Page<PedidoResumenResponseDTO> misPedidos(String correo, Pageable pageable) {
+    public Page<PedidoResumenResponseDTO> misPedidos(String correo, String filtro, String buscar, Pageable pageable) {
         Integer idCliente = buscarUsuario(correo).getIdUsuario();
-        return conProductos(pedidoRepository.buscar(null, null, null, idCliente, null, null, null,
-                null, null, null, pageable));
+        String texto = (buscar == null || buscar.isBlank()) ? null : buscar.trim();
+        return conProductos(pedidoRepository.buscarDelCliente(idCliente, estadosDelFiltro(filtro), texto, pageable));
     }
 
     @Transactional(readOnly = true)
@@ -160,9 +165,10 @@ public class PedidoService {
             PedidoProducto renglon = new PedidoProducto();
             renglon.setProducto(producto);
             renglon.setCantidad(r.getCantidad());
-            renglon.setPrecioUnitario(producto.getPrecio());
+            BigDecimal precio = precioConDescuento(producto); // aplica la promoción vigente, si hay
+            renglon.setPrecioUnitario(precio);
             renglones.add(renglon);
-            total = total.add(producto.getPrecio().multiply(BigDecimal.valueOf(r.getCantidad())));
+            total = total.add(precio.multiply(BigDecimal.valueOf(r.getCantidad())));
         }
 
         pedido.setMetodoPago(dto.getMetodoPago());
@@ -189,6 +195,29 @@ public class PedidoService {
 
         return pagina.map(pedido -> PedidoMapper.toResumen(
                 pedido, renglonesPorPedido.getOrDefault(pedido.getIdPedido(), List.of())));
+    }
+
+    // Precio con el mayor descuento vigente hoy. Ej. 199.00 con 15% -> 169.15
+    private BigDecimal precioConDescuento(Producto producto) {
+        BigDecimal descuento = promocionRepository.mejorDescuento(producto.getIdProducto(), LocalDate.now());
+        if (descuento == null) {
+            return producto.getPrecio();
+        }
+        BigDecimal porcentajeAPagar = BigDecimal.valueOf(100).subtract(descuento);
+        return producto.getPrecio().multiply(porcentajeAPagar)
+                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+    }
+
+    private List<EstadoPedido> estadosDelFiltro(String filtro) {
+        if (filtro == null || filtro.isBlank()) {
+            return List.of(EstadoPedido.values());
+        }
+        return switch (filtro) {
+            case "EN_CURSO" -> List.of(EstadoPedido.RECIBIDO, EstadoPedido.EN_PREPARACION, EstadoPedido.LISTO);
+            case "ENTREGADO" -> List.of(EstadoPedido.ENTREGADO);
+            case "CANCELADO" -> List.of(EstadoPedido.CANCELADO);
+            default -> throw new ReglaNegocioException("Filtro no válido: usa EN_CURSO, ENTREGADO o CANCELADO");
+        };
     }
 
     private PedidoResponseDTO detalle(Pedido pedido) {

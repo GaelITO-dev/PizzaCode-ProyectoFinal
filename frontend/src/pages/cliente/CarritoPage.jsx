@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, CreditCard, ShoppingCart, Store, Trash2 } from 'lucide-react'
 import { useCarrito } from '../../carrito/useCarrito'
+import { useDescuentos } from '../../carrito/useDescuentos'
 import Contador from '../../components/ui/Contador'
 import ModalConfirmacion from '../../components/ui/ModalConfirmacion'
 import { formatearMoneda } from '../../utils/moneda'
@@ -10,7 +11,9 @@ import styles from './CarritoPage.module.css'
 
 function CarritoPage() {
   const navigate = useNavigate()
-  const { items, cambiarCantidad, quitar, vaciar, totalPiezas, subtotal, maximo } = useCarrito()
+  const { items, cambiarCantidad, quitar, vaciar, totalPiezas, maximo } = useCarrito()
+  const { descuentoDe, precioDe, totales } = useDescuentos()
+  const { subtotal, descuento, total } = totales(items)
   const [confirmarVaciar, setConfirmarVaciar] = useState(false)
 
   return (
@@ -47,7 +50,10 @@ function CarritoPage() {
                   <ImagenProducto imagen={i.imagen} className={styles.imagen} tamanoIcono={22} />
                   <div className={styles.datos}>
                     <p className={styles.nombre}>{i.nombre}</p>
-                    <p className={styles.precioUnitario}>{formatearMoneda(i.precio)} c/u</p>
+                    <p className={styles.precioUnitario}>
+                      {descuentoDe(i.idProducto) > 0 && <s className={styles.antes}>{formatearMoneda(i.precio)}</s>}
+                      {formatearMoneda(precioDe(i))} c/u
+                    </p>
                   </div>
                   <Contador
                     valor={i.cantidad}
@@ -55,7 +61,7 @@ function CarritoPage() {
                     etiqueta={`Cantidad de ${i.nombre}`}
                     onCambiar={(n) => cambiarCantidad(i.idProducto, n)}
                   />
-                  <p className={styles.importe}>{formatearMoneda(i.precio * i.cantidad)}</p>
+                  <p className={styles.importe}>{formatearMoneda(precioDe(i) * i.cantidad)}</p>
                   <button
                     type="button"
                     className={styles.botonQuitar}
@@ -75,9 +81,15 @@ function CarritoPage() {
               <span>Subtotal ({totalPiezas} productos)</span>
               <span>{formatearMoneda(subtotal)}</span>
             </div>
+            {descuento > 0 && (
+              <div className={`${styles.fila} ${styles.filaDescuento}`}>
+                <span>Descuento por promociones</span>
+                <span>−{formatearMoneda(descuento)}</span>
+              </div>
+            )}
             <div className={`${styles.fila} ${styles.filaTotal}`}>
               <span>Total</span>
-              <span>{formatearMoneda(subtotal)}</span>
+              <span>{formatearMoneda(total)}</span>
             </div>
             <p className={styles.nota}>Precios con IVA incluido.</p>
             <button type="button" className={styles.botonPrincipal} onClick={() => navigate('/cliente/pago')}>

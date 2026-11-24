@@ -1,5 +1,6 @@
 package mx.pizzacode.repository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import org.springframework.data.domain.Page;
@@ -21,4 +22,12 @@ public interface PromocionRepository extends JpaRepository<Promocion, Integer> {
                    OR (:estado = 'TERMINADA' AND p.fechaFin < :hoy))
             """)
     Page<Promocion> buscar(String nombre, String estado, LocalDate hoy, Pageable pageable);
+
+    // Mayor % de descuento de las promociones vigentes hoy que incluyen el producto (null si no tiene)
+    @Query("""
+            SELECT MAX(p.descuento) FROM Promocion p JOIN p.productos pr
+            WHERE pr.idProducto = :idProducto
+              AND p.fechaInicio <= :hoy AND p.fechaFin >= :hoy
+            """)
+    BigDecimal mejorDescuento(Integer idProducto, LocalDate hoy);
 }

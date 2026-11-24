@@ -93,8 +93,10 @@ public class PedidoController {
     @PreAuthorize("hasRole('CLIENTE')")
     public ResponseEntity<Page<PedidoResumenResponseDTO>> misPedidos(
             Authentication auth,
+            @RequestParam(required = false) String filtro,
+            @RequestParam(required = false) String buscar,
             @PageableDefault(size = 10, sort = "fecha", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(pedidoService.misPedidos(auth.getName(), pageable));
+        return ResponseEntity.ok(pedidoService.misPedidos(auth.getName(), filtro, buscar, pageable));
     }
 
     @GetMapping("/mis-pedidos/{id}")

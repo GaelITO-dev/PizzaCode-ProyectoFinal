@@ -75,7 +75,8 @@
 
 .disponible,
 .agotado,
-.categoria {
+.categoria,
+.promo {
   padding: 0.125rem 0.625rem;
   border-radius: 999px;
   font-size: 0.6875rem;
@@ -95,6 +96,11 @@
 .categoria {
   background-color: #f0ece3;
   color: var(--color-texto-secundario);
+}
+
+.promo {
+  background-color: var(--color-acento);
+  color: var(--color-texto);
 }
 
 .titulo {
@@ -182,6 +188,13 @@
   margin: 0;
   color: var(--color-texto-secundario);
   font-size: 0.75rem;
+}
+
+.antes {
+  margin: 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.8125rem;
+  text-decoration: line-through;
 }
 
 .total {

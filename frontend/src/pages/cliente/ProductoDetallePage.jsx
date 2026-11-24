@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, Check, Plus, ShoppingBag } from 'lucide-react'
 import { listarMenu, obtenerProducto } from '../../api/productosApi'
 import { useCarrito } from '../../carrito/useCarrito'
+import { useDescuentos } from '../../carrito/useDescuentos'
 import Contador from '../../components/ui/Contador'
 import { formatearMoneda } from '../../utils/moneda'
 import { agruparProductos, etiquetaTamano, nombreBase, ordenarPorTamano, tamanoDe } from '../../utils/productos'
@@ -20,7 +21,7 @@ async function cargarProductoConTamanos(id) {
   return { producto, tamanos: ordenarPorTamano(tamanos) }
 }
 
-function Recomendado({ grupo, onAbrir, onAgregar, agregado }) {
+function Recomendado({ grupo, onAbrir, onAgregar, agregado, precioDe }) {
   const producto = grupo.productos[0]
   return (
     <div className={styles.recomendado}>
@@ -31,7 +32,7 @@ function Recomendado({ grupo, onAbrir, onAgregar, agregado }) {
           {etiquetaTamano(producto.nombre) && (
             <span className={styles.recomendadoTamano}>{etiquetaTamano(producto.nombre)}</span>
           )}
-          <span className={styles.recomendadoPrecio}>{formatearMoneda(producto.precio)}</span>
+          <span className={styles.recomendadoPrecio}>{formatearMoneda(precioDe(producto))}</span>
         </span>
       </button>
       <button
@@ -55,6 +56,7 @@ function ProductoDetallePage() {
 function ProductoDetalle({ id }) {
   const navigate = useNavigate()
   const { agregar } = useCarrito()
+  const { descuentoDe, precioDe } = useDescuentos()
   const [tamanos, setTamanos] = useState([])
   const [seleccionado, setSeleccionado] = useState(null)
   const [recomendados, setRecomendados] = useState([])
@@ -139,6 +141,9 @@ function ProductoDetalle({ id }) {
               {seleccionado.disponible ? 'Disponible' : 'Agotado'}
             </span>
             <span className={styles.categoria}>{seleccionado.nombreCategoria}</span>
+            {descuentoDe(seleccionado.idProducto) > 0 && (
+              <span className={styles.promo}>-{descuentoDe(seleccionado.idProducto)}% de promoción</span>
+            )}
           </div>
 
           <h1 className={styles.titulo}>{base}</h1>
@@ -158,7 +163,7 @@ function ProductoDetalle({ id }) {
                     onClick={() => elegirTamano(p)}
                   >
                     <span className={styles.tamanoNombre}>{etiquetaTamano(p.nombre)}</span>
-                    <span className={styles.tamanoPrecio}>{p.disponible ? formatearMoneda(p.precio) : 'Agotado'}</span>
+                    <span className={styles.tamanoPrecio}>{p.disponible ? formatearMoneda(precioDe(p)) : 'Agotado'}</span>
                   </button>
                 ))}
               </div>
@@ -173,7 +178,10 @@ function ProductoDetalle({ id }) {
           <div className={styles.pie}>
             <div>
               <p className={styles.totalEtiqueta}>Total</p>
-              <p className={styles.total}>{formatearMoneda(seleccionado.precio * cantidad)}</p>
+              <p className={styles.total}>{formatearMoneda(precioDe(seleccionado) * cantidad)}</p>
+              {descuentoDe(seleccionado.idProducto) > 0 && (
+                <p className={styles.antes}>Antes {formatearMoneda(seleccionado.precio * cantidad)}</p>
+              )}
             </div>
             <button
               type="button"
@@ -204,6 +212,7 @@ function ProductoDetalle({ id }) {
                 key={`${g.idCategoria}-${g.nombre}`}
                 grupo={g}
                 agregado={recomendadoAgregado === g.productos[0].idProducto}
+                precioDe={precioDe}
                 onAbrir={() => navigate(`/cliente/producto/${g.productos[0].idProducto}`)}
                 onAgregar={agregarRecomendado}
               />
