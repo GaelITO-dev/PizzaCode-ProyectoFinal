@@ -1,0 +1,21 @@
+# Servicio de systemd del backend de Pizza Code.
+# En el VPS va en: /etc/systemd/system/pizzacode.service
+[Unit]
+Description=Pizza Code API (Spring Boot)
+After=network.target mysql.service
+
+[Service]
+# Usuario de sistema sin login ni sudo, solo para correr el JAR
+User=pizzacode
+# Aquí Spring encuentra el application.properties de producción
+WorkingDirectory=/opt/pizzacode
+ExecStart=/usr/bin/java -jar /opt/pizzacode/pizza-code.jar
+# 143 = detenido con systemctl stop (no es un error)
+SuccessExitStatus=143
+# Si se cae, se vuelve a levantar a los 10 segundos
+Restart=always
+RestartSec=10
+
+[Install]
+# Arranca solo cuando se reinicia el servidor
+WantedBy=multi-user.target
