@@ -1,0 +1,25 @@
+meta {
+  name: Error 422 - filtro de mis pedidos invalido
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{baseUrl}}/pedidos/mis-pedidos?filtro=PENDIENTE
+  body: none
+  auth: bearer
+}
+
+params:query {
+  filtro: PENDIENTE
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

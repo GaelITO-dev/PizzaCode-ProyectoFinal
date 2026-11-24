@@ -12,6 +12,7 @@ import mx.pizzacode.entity.Pedido;
 import mx.pizzacode.entity.Usuario;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 
 public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
@@ -43,5 +44,19 @@ public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
             """)
     Page<Pedido> buscar(EstadoPedido estado, LocalDateTime desde, LocalDateTime hasta,
                         Integer idCliente, String telefono, Pageable pageable);
+
+    // Cliente (Mis pedidos): sus pedidos con ciertos estados; texto = folio exacto o parte del nombre de un producto
+    @EntityGraph(attributePaths = { "cliente", "cajero" })
+    @Query("""
+            SELECT p FROM Pedido p
+            WHERE p.cliente.idUsuario = :idCliente
+              AND p.estado IN :estados
+              AND (:texto IS NULL
+                   OR CAST(p.idPedido AS String) = :texto
+                   OR EXISTS (SELECT 1 FROM PedidoProducto pp
+                              WHERE pp.pedido = p
+                                AND LOWER(pp.producto.nombre) LIKE LOWER(CONCAT('%', :texto, '%'))))
+            """)
+    Page<Pedido> buscarDelCliente(Integer idCliente, List<EstadoPedido> estados, String texto, Pageable pageable);
 
 }

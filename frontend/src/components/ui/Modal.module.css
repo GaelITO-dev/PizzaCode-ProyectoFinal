@@ -12,6 +12,8 @@
 .caja {
   width: 100%;
   max-width: 440px;
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto; /* contenido largo (ej. el ticket) se desplaza dentro del modal */
   padding: 1.5rem;
   border-radius: var(--radio-tarjeta);
   background-color: var(--color-superficie);

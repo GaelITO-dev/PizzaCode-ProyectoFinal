@@ -2,6 +2,7 @@ package mx.pizzacode.mapper;
 
 import java.time.LocalDate;
 
+import mx.pizzacode.dto.PromocionProductoDTO;
 import mx.pizzacode.dto.PromocionResponseDTO;
 import mx.pizzacode.entity.EstadoPromocion;
 import mx.pizzacode.entity.Producto;
@@ -26,7 +27,12 @@ public final class PromocionMapper {
                 estado == EstadoPromocion.VIGENTE,
                 estado,
                 p.getProductos().stream().map(Producto::getIdProducto).toList(),
-                p.getProductos().stream().map(Producto::getNombre).toList()
+                p.getProductos().stream().map(Producto::getNombre).toList(),
+                p.getProductos().stream().map(PromocionMapper::toProducto).toList()
         );
+    }
+
+    private static PromocionProductoDTO toProducto(Producto pr) {
+        return new PromocionProductoDTO(pr.getIdProducto(), pr.getNombre(), pr.getPrecio(), pr.getDisponible(), pr.getImagen());
     }
 }

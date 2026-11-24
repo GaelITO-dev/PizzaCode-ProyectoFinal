@@ -24,4 +24,5 @@ public class PromocionResponseDTO {
     private EstadoPromocion estado;
     private List<Integer> idsProductos;
     private List<String> nombresProductos;
+    private List<PromocionProductoDTO> productos;
 }

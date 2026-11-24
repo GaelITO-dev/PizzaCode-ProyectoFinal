@@ -10,6 +10,9 @@ import ProductoDetallePage from './pages/cliente/ProductoDetallePage'
 import CarritoPage from './pages/cliente/CarritoPage'
 import PagoPage from './pages/cliente/PagoPage'
 import PedidoConfirmadoPage from './pages/cliente/PedidoConfirmadoPage'
+import PedidoSeguimientoPage from './pages/cliente/PedidoSeguimientoPage'
+import MisPedidosPage from './pages/cliente/MisPedidosPage'
+import PromocionesClientePage from './pages/cliente/PromocionesClientePage'
 import PedidosHoyPage from './pages/cajero/PedidosHoyPage'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/auth/LoginPage'
@@ -43,8 +46,10 @@ function App() {
             <Route path="/cliente/carrito" element={<CarritoPage />} />
             <Route path="/cliente/pago" element={<PagoPage />} />
             <Route path="/cliente/pedido-confirmado" element={<PedidoConfirmadoPage />} />
+            <Route path="/cliente/historial/:id" element={<PedidoSeguimientoPage />} />
             <Route path="/cliente/menu" element={<PanelProvisional titulo="Menú" />} />
-            <Route path="/cliente/historial" element={<PanelProvisional titulo="Historial de pedidos" />} />
+            <Route path="/cliente/historial" element={<MisPedidosPage />} />
+            <Route path="/cliente/promociones" element={<PromocionesClientePage />} />
           </Route>
 
           <Route element={<RutaProtegida rolesPermitidos={['CAJERO']} />}>
