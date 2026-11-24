@@ -115,3 +115,30 @@ Desde la raíz del proyecto, en la compu:
 ```powershell
 .\deploy\actualizar-frontend.ps1
 ```
+
+## HTTPS con Certbot (#38)
+
+El sitio usa un certificado gratuito de Let's Encrypt para `pizzacode.tech` y `www.pizzacode.tech`.
+
+Instalación (una sola vez, en el VPS):
+
+```bash
+sudo apt install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d pizzacode.tech -d www.pizzacode.tech
+```
+
+Requisitos:
+- El dominio (y `www`) deben apuntar a la IP del VPS.
+- Puertos 80 y 443 abiertos en **ufw** y en el **firewall del panel de Hostinger** (son independientes).
+- En `server_name` deben estar los dos nombres; si falta uno, Certbot duplica el bloque `server`.
+
+Después de Certbot, la configuración quedó en `deploy/nginx/pizzacode.conf`:
+- Un bloque en el **443** (HTTPS) que sirve el frontend y manda `/api/` al backend.
+- Un bloque en el **80** que redirige todo a HTTPS (301).
+
+Renovación: es automática con `certbot.timer` (revisa dos veces al día y renueva cuando faltan menos de 30 días). Para probarla:
+
+```bash
+sudo certbot renew --dry-run
+systemctl list-timers | grep certbot
+```
