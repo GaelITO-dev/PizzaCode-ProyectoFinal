@@ -181,3 +181,62 @@ sudo tail -n 20 /var/log/mail.log   # resultado de cada envío
 
 Sin SPF/DKIM, Gmail rechaza los correos con `550 5.7.26` (se resuelve en #46).
 
+## SPF, DKIM y DMARC (#46)
+
+Sin estos registros Gmail rechaza los correos con `550 5.7.26`.
+
+### DKIM en el VPS (OpenDKIM)
+
+```bash
+sudo apt install -y opendkim opendkim-tools
+sudo mkdir -p /etc/opendkim/keys/pizzacode.tech
+sudo opendkim-genkey -b 2048 -d pizzacode.tech -D /etc/opendkim/keys/pizzacode.tech -s mail -v
+sudo chown -R opendkim:opendkim /etc/opendkim
+sudo chmod 600 /etc/opendkim/keys/pizzacode.tech/mail.private
+```
+
+Al final de `/etc/opendkim.conf` (y comentar cualquier otra línea `Socket`):
+
+```ini
+Domain                  pizzacode.tech
+Selector                mail
+KeyFile                 /etc/opendkim/keys/pizzacode.tech/mail.private
+Canonicalization        relaxed/simple
+Mode                    s
+OversignHeaders         From
+Socket                  inet:8891@localhost
+```
+
+Conectar Postfix:
+
+```bash
+sudo postconf -e "milter_default_action = accept"
+sudo postconf -e "milter_protocol = 6"
+sudo postconf -e "smtpd_milters = inet:localhost:8891"
+sudo postconf -e "non_smtpd_milters = inet:localhost:8891"
+sudo systemctl restart opendkim postfix
+```
+
+`mail.private` es la llave privada: **nunca** sale del VPS ni se sube al repo.
+
+### Registros DNS (hPanel de Hostinger, tipo TXT)
+
+| Nombre | Valor |
+|---|---|
+| `@` | `v=spf1 ip4:179.236.236.29 ~all` |
+| `mail._domainkey` | contenido de `mail.txt` unido en una línea (`v=DKIM1; h=sha256; k=rsa; p=...`) |
+| `_dmarc` | `v=DMARC1; p=none` |
+
+Solo puede haber **un** registro SPF por dominio.
+
+### Comprobar
+
+```bash
+dig TXT mail._domainkey.pizzacode.tech +short
+sudo opendkim-testkey -d pizzacode.tech -s mail -vvv    # "key OK"
+echo "Prueba" | mail -s "Prueba" -a "From: Pizza Code <no-responder@pizzacode.tech>" tu@gmail.com
+sudo tail -n 10 /var/log/mail.log   # "DKIM-Signature field added" y "status=sent (250 ...)"
+```
+
+En Gmail, "Mostrar original" debe indicar SPF, DKIM y DMARC en PASS.
+
