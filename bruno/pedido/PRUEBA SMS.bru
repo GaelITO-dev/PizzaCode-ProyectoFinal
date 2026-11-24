@@ -1,0 +1,25 @@
+meta {
+  name: PRUEBA SMS
+  type: http
+  seq: 10
+}
+
+patch {
+  url: {{baseUrl}}/pedidos/19/estado
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  { "estado": "LISTO" }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

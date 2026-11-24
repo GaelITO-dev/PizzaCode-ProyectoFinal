@@ -43,15 +43,17 @@ public class PedidoService {
     private final ProductoRepository productoRepository;
     private final UsuarioRepository usuarioRepository;
     private final PromocionRepository promocionRepository;
+    private final SmsService smsService; // SMS #48
 
     public PedidoService(PedidoRepository pedidoRepository, PedidoProductoRepository pedidoProductoRepository,
                          ProductoRepository productoRepository, UsuarioRepository usuarioRepository,
-                         PromocionRepository promocionRepository) {
+                         PromocionRepository promocionRepository, SmsService smsService) {
         this.pedidoRepository = pedidoRepository;
         this.pedidoProductoRepository = pedidoProductoRepository;
         this.productoRepository = productoRepository;
         this.usuarioRepository = usuarioRepository;
         this.promocionRepository = promocionRepository;
+        this.smsService = smsService;
     }
 
     // ---------- Metodos de consultas -------------------------------------------------------------------
@@ -136,6 +138,11 @@ public class PedidoService {
             throw new ReglaNegocioException("No se puede pasar el pedido de " + actual + " a " + nuevo);
         }
         pedido.setEstado(nuevo);
+        // SMS #48: avisar al cliente que ya puede recoger su pedido
+        if (nuevo == EstadoPedido.LISTO) {
+            smsService.enviar(telefonoDe(pedido),
+                    "Pizza Code: tu pedido #" + pedido.getIdPedido() + " ya está listo. ¡Te esperamos!");
+        }
         return PedidoMapper.toResumen(pedido);
     }
 
@@ -227,6 +234,14 @@ public class PedidoService {
     private Pedido buscarPedido(Integer id) {
         return pedidoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("No se encontró el pedido con id " + id));
+    }
+
+    // SMS #48: pedido con cuenta usa el teléfono del cliente; sucursal sin cuenta usa el capturado en el pedido
+    private String telefonoDe(Pedido pedido) {
+        if (pedido.getCliente() != null) {
+            return pedido.getCliente().getTelefono();
+        }
+        return pedido.getTelefonoCliente();
     }
 
     private Usuario buscarUsuario(String correo) {
