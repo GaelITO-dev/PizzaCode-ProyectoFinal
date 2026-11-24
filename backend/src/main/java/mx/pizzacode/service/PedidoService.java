@@ -20,6 +20,7 @@ import mx.pizzacode.dto.PedidoRequestDTO;
 import mx.pizzacode.dto.PedidoResponseDTO;
 import mx.pizzacode.dto.PedidoResumenResponseDTO;
 import mx.pizzacode.entity.EstadoPedido;
+import mx.pizzacode.entity.MetodoPago;
 import mx.pizzacode.entity.OrigenPedido;
 import mx.pizzacode.entity.Pedido;
 import mx.pizzacode.entity.PedidoProducto;
@@ -56,13 +57,24 @@ public class PedidoService {
     // ---------- Metodos de consultas -------------------------------------------------------------------
 
     // Cajero/Admin: filtros opcionales. "hasta" incluye todo ese día.
+    // "busqueda" encuentra por folio (1045 o #1045), parte del nombre o parte del teléfono.
     @Transactional(readOnly = true)
     public Page<PedidoResumenResponseDTO> listar(EstadoPedido estado, LocalDate desde, LocalDate hasta,
-                                                 Integer idCliente, String telefono, Pageable pageable) {
+                                                 Integer idCliente, String telefono, OrigenPedido origen,
+                                                 MetodoPago metodoPago, String busqueda, Pageable pageable) {
         LocalDateTime inicio = desde == null ? null : desde.atStartOfDay();
         LocalDateTime fin = hasta == null ? null : hasta.plusDays(1).atStartOfDay();
         String tel = (telefono == null || telefono.isBlank()) ? null : telefono.trim();
-        return conProductos(pedidoRepository.buscar(estado, inicio, fin, idCliente, tel, pageable));
+
+        // Un solo cuadro de búsqueda se convierte en tres criterios
+        String texto = busqueda == null ? "" : busqueda.replace("#", "").trim().toLowerCase();
+        String patronNombre = texto.isEmpty() ? null : "%" + texto + "%";
+        String digitos = texto.replaceAll("\\D", "");
+        String patronTelefono = digitos.isEmpty() ? null : "%" + digitos + "%";
+        Integer folio = texto.matches("\\d{1,9}") ? Integer.valueOf(texto) : null;
+
+        return conProductos(pedidoRepository.buscar(estado, inicio, fin, idCliente, tel, origen, metodoPago,
+                patronNombre, patronTelefono, folio, pageable));
     }
 
     // Cliente: solo sus pedidos. filtro: EN_CURSO, ENTREGADO o CANCELADO (null = todos); buscar: folio o producto

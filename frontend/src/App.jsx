@@ -4,6 +4,8 @@ import ComentariosPage from './pages/admin/ComentariosPage'
 import ProductosPage from './pages/admin/ProductosPage'
 import UsuariosPage from './pages/admin/UsuariosPage'
 import UsuarioFormularioPage from './pages/admin/UsuarioFormularioPage'
+import GananciasPage from './pages/admin/GananciasPage'
+import TodosPedidosPage from './pages/admin/TodosPedidosPage'
 import PuntoVentaPage from './pages/cajero/PuntoVentaPage'
 import InicioClientePage from './pages/cliente/InicioClientePage'
 import ProductoDetallePage from './pages/cliente/ProductoDetallePage'
@@ -60,8 +62,8 @@ function App() {
           </Route>
 
           <Route element={<RutaProtegida rolesPermitidos={['ADMIN']} />}>
-            <Route path="/admin" element={<PanelProvisional titulo="Ganancias" />} />
-            <Route path="/admin/pedidos" element={<PanelProvisional titulo="Todos los pedidos" />} />
+            <Route path="/admin" element={<GananciasPage />} />
+            <Route path="/admin/pedidos" element={<TodosPedidosPage />} />
             <Route path="/admin/productos" element={<ProductosPage />} />
             <Route path="/admin/usuarios" element={<UsuariosPage />} />
             <Route path="/admin/usuarios/nuevo" element={<UsuarioFormularioPage key="nuevo" />} />

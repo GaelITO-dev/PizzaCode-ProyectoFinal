@@ -1,0 +1,32 @@
+meta {
+  name: Busqueda sin resultados
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{baseUrl}}/pedidos?busqueda=zzzzzz
+  body: none
+  auth: bearer
+}
+
+params:query {
+  busqueda: zzzzzz
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("búsqueda sin resultados: 200 y totalElements 0", function() {
+    expect(res.status).to.equal(200);
+    expect(res.body.page.totalElements).to.equal(0);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

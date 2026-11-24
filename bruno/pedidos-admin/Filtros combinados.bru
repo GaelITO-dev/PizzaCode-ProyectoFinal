@@ -1,0 +1,38 @@
+meta {
+  name: Filtros combinados
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/pedidos?estado=ENTREGADO&origen=SUCURSAL&metodoPago=EFECTIVO
+  body: none
+  auth: bearer
+}
+
+params:query {
+  estado: ENTREGADO
+  origen: SUCURSAL
+  metodoPago: EFECTIVO
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("200 y los tres filtros aplicados", function() {
+    expect(res.status).to.equal(200);
+    res.body.content.forEach(p => {
+      expect(p.estado).to.equal("ENTREGADO");
+      expect(p.origen).to.equal("SUCURSAL");
+      expect(p.metodoPago).to.equal("EFECTIVO");
+    });
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
