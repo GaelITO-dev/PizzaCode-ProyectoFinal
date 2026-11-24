@@ -24,3 +24,8 @@ export function fechaNumerica(iso) {
   const { anio, mes, dia } = partes(iso)
   return `${dosDigitos(dia)}/${dosDigitos(mes)}/${anio}`
 }
+
+// "5:40 p. m."
+export function hora(iso) {
+  return new Date(iso).toLocaleTimeString('es-MX', { hour: 'numeric', minute: '2-digit' })
+}

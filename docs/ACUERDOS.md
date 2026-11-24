@@ -25,8 +25,9 @@
 |---|---|---|---|
 | V4 | Oliver (B) | — | `comentario_likes` (votos de comentarios, N:M) |
 | V5 | Gael (A) | #58 | `usuarios.canal_ticket` (WHATSAPP, CORREO, AMBOS; por defecto AMBOS) |
+| V6 | Oliver (B) | #106 | Promociones del seed solo con % (sin días ni 2x1); una pizza no queda en dos promociones |
 
-La siguiente versión libre es la V6. Antes de crear una migración, se anota aquí.
+La siguiente versión libre es la V7. Antes de crear una migración, se anota aquí.
 
 ## Canal del ticket
 

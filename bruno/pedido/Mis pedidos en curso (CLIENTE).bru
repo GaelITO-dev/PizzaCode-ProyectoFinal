@@ -1,0 +1,25 @@
+meta {
+  name: Mis pedidos en curso (CLIENTE)
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/pedidos/mis-pedidos?filtro=EN_CURSO
+  body: none
+  auth: bearer
+}
+
+params:query {
+  filtro: EN_CURSO
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

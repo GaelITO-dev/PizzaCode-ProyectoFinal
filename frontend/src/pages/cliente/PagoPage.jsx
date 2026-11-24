@@ -4,6 +4,7 @@ import { ArrowLeft, Calendar, CreditCard, Lock, ShieldCheck, Store, User } from 
 import { obtenerPerfilApi, actualizarPerfilApi } from '../../api/perfilApi'
 import { crearPedidoEnLinea } from '../../api/pedidosClienteApi'
 import { useCarrito } from '../../carrito/useCarrito'
+import { useDescuentos } from '../../carrito/useDescuentos'
 import BotonPrimario from '../../components/ui/BotonPrimario'
 import { formatearMoneda } from '../../utils/moneda'
 import PasosCompra from './PasosCompra'
@@ -64,7 +65,9 @@ function Campo({ etiqueta, icono: Icono, error, children }) {
 
 function PagoPage() {
   const navigate = useNavigate()
-  const { items, subtotal, vaciar } = useCarrito()
+  const { items, vaciar } = useCarrito()
+  const { precioDe, totales } = useDescuentos()
+  const { subtotal, descuento, total } = totales(items)
   const [perfil, setPerfil] = useState(null)
   const [canal, setCanal] = useState('AMBOS')
   const [metodo, setMetodo] = useState('TARJETA')
@@ -231,13 +234,25 @@ function PagoPage() {
             {items.map((i) => (
               <li key={i.idProducto}>
                 <span>{i.cantidad} × {i.nombre}</span>
-                <span>{formatearMoneda(i.precio * i.cantidad)}</span>
+                <span>{formatearMoneda(precioDe(i) * i.cantidad)}</span>
               </li>
             ))}
           </ul>
+          {descuento > 0 && (
+            <>
+              <div className={styles.fila}>
+                <span>Subtotal</span>
+                <span>{formatearMoneda(subtotal)}</span>
+              </div>
+              <div className={`${styles.fila} ${styles.filaDescuento}`}>
+                <span>Descuento por promociones</span>
+                <span>−{formatearMoneda(descuento)}</span>
+              </div>
+            </>
+          )}
           <div className={styles.total}>
             <span>Total</span>
-            <span>{formatearMoneda(subtotal)}</span>
+            <span>{formatearMoneda(total)}</span>
           </div>
 
           <fieldset className={styles.canal}>
@@ -251,7 +266,7 @@ function PagoPage() {
           </fieldset>
 
           <BotonPrimario cargando={enviando} textoCargando="Procesando...">
-            {metodo === 'TARJETA' ? `Pagar ${formatearMoneda(subtotal)}` : 'Confirmar pedido'}
+            {metodo === 'TARJETA' ? `Pagar ${formatearMoneda(total)}` : 'Confirmar pedido'}
           </BotonPrimario>
         </aside>
       </div>

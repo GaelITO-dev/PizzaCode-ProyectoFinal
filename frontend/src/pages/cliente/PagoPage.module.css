@@ -221,6 +221,19 @@
   font-size: 0.875rem;
 }
 
+.fila {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.filaDescuento {
+  color: var(--color-primario-oscuro);
+  font-weight: 600;
+}
+
 .total {
   display: flex;
   align-items: baseline;
