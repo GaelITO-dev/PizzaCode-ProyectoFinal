@@ -1,0 +1,34 @@
+meta {
+  name: Login cajero
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{baseUrl}}/auth/login
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "correo": "cajero@pizzacode.mx",
+    "contrasena": "Cajero#2026"
+  }
+}
+
+script:post-response {
+  bru.setVar("token", res.body.token);
+}
+
+tests {
+  test("login cajero: 200", () => {
+    expect(res.status).to.equal(200);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
