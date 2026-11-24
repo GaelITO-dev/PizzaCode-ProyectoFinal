@@ -1,0 +1,28 @@
+meta {
+  name: Sin fechas
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/reportes/ganancias
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("sin fechas: 400", () => {
+    expect(res.status).to.equal(400);
+    expect(res.body.errors).to.have.property("desde");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}
