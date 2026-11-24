@@ -9,7 +9,7 @@ After=network.target mysql.service
 User=pizzacode
 # Aquí Spring encuentra el application.properties de producción
 WorkingDirectory=/opt/pizzacode
-ExecStart=/usr/bin/java -jar /opt/pizzacode/pizza-code.jar
+ExecStart=/usr/bin/java -Xms128m -Xmx384m -Duser.timezone=America/Mexico_City -jar /opt/pizzacode/pizza-code.jar
 # 143 = detenido con systemctl stop (no es un error)
 SuccessExitStatus=143
 # Si se cae, se vuelve a levantar a los 10 segundos
