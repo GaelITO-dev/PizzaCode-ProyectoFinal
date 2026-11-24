@@ -1,0 +1,31 @@
+meta {
+  name: Correo invalido
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/correo/prueba?para=no-es-correo
+  body: none
+  auth: bearer
+}
+
+params:query {
+  para: no-es-correo
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+tests {
+  test("correo inválido: 422", () => {
+    expect(res.status).to.equal(422);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

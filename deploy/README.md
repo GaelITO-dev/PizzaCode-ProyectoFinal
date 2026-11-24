@@ -240,3 +240,22 @@ sudo tail -n 10 /var/log/mail.log   # "DKIM-Signature field added" y "status=sen
 
 En Gmail, "Mostrar original" debe indicar SPF, DKIM y DMARC en PASS.
 
+## Correo desde el backend (#47)
+
+`CorreoService` envía los correos (prueba, recuperación de contraseña) con `JavaMailSender` al Postfix local.
+
+Propiedades en `/opt/pizzacode/application.properties` (el archivo de configuración del servidor, fuera del JAR):
+
+```properties
+spring.mail.host=localhost
+spring.mail.port=25
+app.url-frontend=https://pizzacode.tech
+```
+
+Opcionales (tienen default): `app.correo.remitente` (`no-responder@pizzacode.tech`) y `app.correo.nombre` (`Pizza Code`).
+
+Después: `sudo systemctl restart pizzacode`.
+
+- Sin `spring.mail.host` (por ejemplo en desarrollo) la app arranca igual y los correos solo se escriben en el log.
+- Si un correo falla, la operación que lo pidió no falla: queda un `ERROR` en el log (`journalctl -u pizzacode`).
+- Prueba: `POST /api/correo/prueba?para=<correo>` con un token de ADMIN.
