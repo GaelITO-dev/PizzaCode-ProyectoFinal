@@ -142,3 +142,42 @@ Renovación: es automática con `certbot.timer` (revisa dos veces al día y renu
 sudo certbot renew --dry-run
 systemctl list-timers | grep certbot
 ```
+
+## Correo saliente con Postfix (#45)
+
+Postfix envía los correos de la app (recuperación de contraseña, tickets). Está en modo **solo envío**: escucha únicamente en `127.0.0.1:25`, así que solo el backend del mismo VPS puede usarlo y no se abre ningún puerto en el firewall.
+
+Instalación (en el VPS):
+
+```bash
+sudo apt install -y postfix mailutils   # tipo: "Internet Site", nombre: pizzacode.tech
+sudo postconf -e "myhostname = pizzacode.tech"
+sudo postconf -e "mydomain = pizzacode.tech"
+sudo postconf -e 'myorigin = $mydomain'
+sudo postconf -e "inet_interfaces = loopback-only"
+sudo postconf -e "inet_protocols = ipv4"
+sudo postconf -e 'mydestination = $myhostname, localhost'
+sudo postconf -e "smtp_tls_security_level = may"
+echo "no-responder: /dev/null" | sudo tee -a /etc/aliases
+sudo newaliases
+sudo systemctl restart postfix
+```
+
+| Ajuste | Por qué |
+|---|---|
+| `inet_interfaces = loopback-only` | Nadie desde internet puede usarlo para mandar spam |
+| `inet_protocols = ipv4` | El DNS inverso (PTR) solo está configurado para la IPv4 |
+| `no-responder: /dev/null` | Los avisos de rebote al remitente se descartan en vez de acumularse en la cola |
+
+Requisitos: puerto 25 de salida abierto (Hostinger no lo bloquea) y DNS inverso de la IP = `pizzacode.tech`.
+
+Comprobar:
+
+```bash
+sudo ss -tlnp | grep ':25 '        # debe ser solo 127.0.0.1:25
+mailq                               # cola vacía
+sudo tail -n 20 /var/log/mail.log   # resultado de cada envío
+```
+
+Sin SPF/DKIM, Gmail rechaza los correos con `550 5.7.26` (se resuelve en #46).
+
