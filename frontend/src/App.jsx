@@ -11,6 +11,8 @@ import Cargando from './components/ui/Cargando'
 // Cada pantalla se descarga la primera vez que se visita (code splitting).
 // El login y el layout se cargan de inmediato porque se usan siempre.
 const RegistroPage = lazy(() => import('./pages/auth/RegistroPage'))
+const RecuperarPage = lazy(() => import('./pages/auth/RecuperarPage'))
+const RestablecerPage = lazy(() => import('./pages/auth/RestablecerPage'))
 const NoAutorizadoPage = lazy(() => import('./pages/NoAutorizadoPage'))
 const PanelProvisional = lazy(() => import('./pages/PanelProvisional'))
 const PerfilPage = lazy(() => import('./pages/perfil/PerfilPage'))
@@ -48,6 +50,8 @@ function App() {
             {/* Públicas */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/registro" element={<RegistroPage />} />
+            <Route path="/recuperar" element={<RecuperarPage />} />
+            <Route path="/restablecer" element={<RestablecerPage />} />
 
             {/* Requieren sesión */}
             <Route element={<RutaProtegida />}>

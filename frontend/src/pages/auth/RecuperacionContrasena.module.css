@@ -1,0 +1,106 @@
+.icono {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  background-color: rgb(249 169 59 / 22%);
+  color: var(--color-texto);
+}
+
+.iconoExito {
+  background-color: rgb(124 184 62 / 20%);
+  color: var(--color-primario-oscuro);
+}
+
+.texto {
+  margin: -0.5rem 0 1rem;
+  color: var(--color-texto-secundario);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.texto strong {
+  color: var(--color-texto);
+}
+
+.nota {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgb(249 169 59 / 35%);
+  border-radius: var(--radio-control);
+  background-color: rgb(249 169 59 / 10%);
+  color: var(--color-texto-secundario);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+.nota svg {
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.nota p {
+  margin: 0;
+}
+
+/* Botón que se ve como enlace (Reenviar, Cambiar correo) */
+.botonTexto {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-primario-oscuro);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.botonTexto:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+.botonTexto:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Enlace que se ve como BotonPrimario (Volver a iniciar sesión, Pedir un enlace nuevo) */
+.botonEnlace {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radio-control);
+  background-color: var(--color-primario);
+  box-shadow: 0 3px 0 var(--color-primario-oscuro);
+  color: var(--color-sobre-primario);
+  font-weight: 700;
+  text-decoration: none;
+  transition: filter 0.15s;
+}
+
+.botonEnlace:hover {
+  filter: brightness(1.05);
+}
+
+.botonEnlace:focus-visible,
+.botonTexto:focus-visible {
+  outline: 3px solid var(--color-primario-oscuro);
+  outline-offset: 2px;
+}
+
+.volver {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  margin-top: 1.25rem;
+  font-size: 0.8125rem;
+}
