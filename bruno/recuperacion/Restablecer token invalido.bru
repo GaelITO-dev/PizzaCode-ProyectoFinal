@@ -1,0 +1,30 @@
+meta {
+  name: Restablecer token invalido
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/auth/restablecer
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "token": "token-falso",
+    "nuevaContrasena": "Pizzacode26!"
+  }
+}
+
+tests {
+  test("restablecer token invalido: 422", () => {
+    expect(res.status).to.equal(422);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

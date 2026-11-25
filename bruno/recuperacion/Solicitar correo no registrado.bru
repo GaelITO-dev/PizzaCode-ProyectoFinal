@@ -1,0 +1,30 @@
+meta {
+  name: Solicitar correo no registrado
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/auth/recuperar
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "correo": "nadie@prueba.com"
+  }
+}
+
+tests {
+  test("solicitar correo no registrado: 200 y mismo mensaje", () => {
+    expect(res.status).to.equal(200);
+    expect(res.body.message).to.equal("Si el correo está registrado, te enviamos un enlace para crear una nueva contraseña");
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

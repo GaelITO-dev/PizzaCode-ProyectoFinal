@@ -1,0 +1,30 @@
+meta {
+  name: Restablecer contrasena debil
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/auth/restablecer
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "token": "token-falso",
+    "nuevaContrasena": "abc"
+  }
+}
+
+tests {
+  test("restablecer contrasena debil: 400", () => {
+    expect(res.status).to.equal(400);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

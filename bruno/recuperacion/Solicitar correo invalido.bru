@@ -1,0 +1,29 @@
+meta {
+  name: Solicitar correo invalido
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/auth/recuperar
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "correo": "no-es-correo"
+  }
+}
+
+tests {
+  test("solicitar correo invalido: 400", () => {
+    expect(res.status).to.equal(400);
+  });
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+  forwardAuthorizationHeader: false
+}

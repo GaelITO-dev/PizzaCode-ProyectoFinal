@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { Check, Lock } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../../auth/useAuth'
 import CampoTexto from '../../components/ui/CampoTexto'
 import ChecklistContrasena from '../../components/ui/ChecklistContrasena'
 import { cambiarContrasenaApi } from '../../api/perfilApi'
@@ -13,6 +15,7 @@ const VACIO = {
 }
 
 function CambiarContrasena({ alCancelar, alTerminar }) {
+  const { usuario } = useAuth()
   const [datos, setDatos] = useState(VACIO)
   const [errores, setErrores] = useState({})
   const [errorGeneral, setErrorGeneral] = useState('')
@@ -86,6 +89,10 @@ function CambiarContrasena({ alCancelar, alTerminar }) {
         autoComplete="current-password"
         autoFocus
       />
+
+      <Link to="/recuperar" state={{ correo: usuario?.correo }} className={styles.enlaceOlvido}>
+        ¿Olvidaste tu contraseña?
+      </Link>
 
       <div className={styles.camposContrasena}>
         <CampoTexto

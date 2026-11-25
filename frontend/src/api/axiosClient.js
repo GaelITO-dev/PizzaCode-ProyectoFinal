@@ -51,7 +51,9 @@ api.interceptors.response.use(
     const url = error.config?.url ?? ''
     const esAutenticacion = url.includes('/auth/login') || url.includes('/auth/logout')
 
-    if (status === 401 && !esAutenticacion && tokenStorage.get()) {
+        // Solo cierra la sesión si el token rechazado es el actual (otra pestaña pudo usar uno viejo)
+    const tokenUsado = error.config?.headers?.Authorization?.replace('Bearer ', '')
+    if (status === 401 && !esAutenticacion && tokenUsado && tokenUsado === tokenStorage.get()) {
       tokenStorage.remove()
       manejadorNoAutorizado?.()
     }

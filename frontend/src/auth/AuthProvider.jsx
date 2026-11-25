@@ -7,26 +7,34 @@ import { registrarManejadorNoAutorizado } from '../api/axiosClient'
 import { tokenStorage } from '../api/tokenStorage'
 import { usuarioStorage } from '../api/usuarioStorage'
 
-function leerSesionGuardada() {
+// Lectura pura: solo mira el almacenamiento, no borra nada.
+function leerSesion() {
   const token = tokenStorage.get()
   const usuario = usuarioStorage.get()
 
   if (token && usuario && !tokenExpirado(token)) {
     return usuario
   }
-
-  tokenStorage.remove()
-  usuarioStorage.remove()
   return null
+}
+
+// Solo al arrancar la app: además limpia restos de una sesión inválida o vencida.
+function leerSesionGuardada() {
+  const usuario = leerSesion()
+
+  if (usuario === null) {
+    tokenStorage.remove()
+    usuarioStorage.remove()
+  }
+  return usuario
 }
 
 export function AuthProvider({ children }) {
   const [usuario, setUsuario] = useState(leerSesionGuardada)
   const navigate = useNavigate()
 
-  const login = useCallback(async (correo, contrasena) => {
-    const respuesta = await loginApi(correo, contrasena)
-
+  // Guarda la sesión a partir de una respuesta del backend (login o restablecer contraseña)
+  const guardarSesion = useCallback((respuesta) => {
     const datosUsuario = {
       idUsuario: respuesta.idUsuario,
       nombre: respuesta.nombre,
@@ -35,11 +43,16 @@ export function AuthProvider({ children }) {
       rol: respuesta.rol,
     }
 
-    tokenStorage.set(respuesta.token)
     usuarioStorage.set(datosUsuario)
+    tokenStorage.set(respuesta.token)
     setUsuario(datosUsuario)
     return datosUsuario
   }, [])
+
+  const login = useCallback(
+    async (correo, contrasena) => guardarSesion(await loginApi(correo, contrasena)),
+    [guardarSesion],
+  )
 
     const logout = useCallback(async () => {
     try {
@@ -71,7 +84,7 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
   function sincronizarSesion() {
-    setUsuario(leerSesionGuardada())
+    setUsuario(leerSesion())
   }
 
   function alMostrarPagina(evento) {
@@ -100,10 +113,11 @@ export function AuthProvider({ children }) {
       usuario,
       estaAutenticado: usuario !== null,
       login,
+      guardarSesion,
       logout,
       actualizarUsuario,
     }),
-    [usuario, login, logout, actualizarUsuario],
+    [usuario, login, guardarSesion, logout, actualizarUsuario],
   )
 
   return <AuthContext.Provider value={valor}>{children}</AuthContext.Provider>
