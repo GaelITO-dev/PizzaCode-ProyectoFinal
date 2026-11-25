@@ -263,10 +263,11 @@ Sistema web para una pizzería con **pedidos en línea** y **punto de venta**, t
 
 1. [Funcionalidades por rol](#funcionalidades-por-rol)
 2. [Modelo relacional](#modelo-relacional)
-3. [Estructura del proyecto](#estructura-del-proyecto)
-4. [Credenciales de prueba](#credenciales-de-prueba)
+3. [Estructura del proyecto](#estructura-del-proyectoF)
+4. [Credenciales de prueba](#credenciales-de-pruebaF)
 5. [API REST](#api-rest)
-10. [Pruebas con Bruno](#pruebas-con-bruno)
+6. [Pruebas con Bruno](#pruebas-con-bruno2)
+7. [Descripción del Despliegue en el VPS](#despliegue-en-el-VPS_F)
 
 ---
 
@@ -323,7 +324,7 @@ El respaldo completo (esquema + datos) está en `database/respaldo_pizzeria.sql`
 
 ---
 
-## Estructura del proyecto
+## Estructura del proyectoF
 
 ```text
 PizzaCode-ProyectoFinal/
@@ -355,7 +356,7 @@ PizzaCode-ProyectoFinal/
 
 ---
 
-## Credenciales de prueba
+## Credenciales de pruebaF
 
 | Rol | Correo | Contraseña |
 | --- | --- | --- |
@@ -467,7 +468,7 @@ Todas las respuestas de error tienen el mismo formato:
 
 ---
 
-## Pruebas con Bruno
+## Pruebas con Bruno2
 
 La colección está en `bruno/` y tiene dos entornos:
 
@@ -503,7 +504,7 @@ La colección está en `bruno/` y tiene dos entornos:
 
 ---
 
-## Despliegue en el VPS
+## Despliegue en el VPS_F
 
 | Componente | Configuración |
 | --- | --- |
