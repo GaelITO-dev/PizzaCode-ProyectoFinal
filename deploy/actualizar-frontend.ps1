@@ -38,4 +38,4 @@ $comandos = @(
 ssh -t @opcionesSsh $Servidor $comandos
 if ($LASTEXITCODE -ne 0) { throw "Falló la publicación" }
 
-Write-Host "Listo. Abre http://179.236.236.29 y recarga con Ctrl+F5." -ForegroundColor Green
+Write-Host "Listo. Abre https://pizzacode.tech y recarga con Ctrl+F5." -ForegroundColor Green

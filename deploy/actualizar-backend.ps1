@@ -28,6 +28,7 @@ scp @opcionesSsh $jar.FullName "${Servidor}:/tmp/pizza-code.jar"
 if ($LASTEXITCODE -ne 0) { throw "Falló la subida al VPS" }
 
 # 3) Respaldar el JAR actual, ponerlo en su lugar y reiniciar
+#    (-t abre una terminal para que sudo pueda pedir la contraseña)
 Write-Host "3/4 Reemplazando el JAR y reiniciando el servicio..." -ForegroundColor Cyan
 $comandos = @(
     "sudo cp /opt/pizzacode/pizza-code.jar /opt/pizzacode/pizza-code.jar.anterior",
@@ -35,7 +36,7 @@ $comandos = @(
     "rm /tmp/pizza-code.jar",
     "sudo systemctl restart pizzacode"
 ) -join " && "
-ssh @opcionesSsh $Servidor $comandos
+ssh -t @opcionesSsh $Servidor $comandos
 if ($LASTEXITCODE -ne 0) { throw "Falló el reemplazo o el reinicio" }
 
 # 4) Comprobar que arrancó
@@ -46,5 +47,5 @@ if ($codigo -eq "200") {
     Write-Host "Listo: el backend responde (HTTP 200)." -ForegroundColor Green
 } else {
     Write-Host "El backend no respondió bien (HTTP $codigo). Revisa el log:" -ForegroundColor Red
-    Write-Host "  ssh $Servidor `"sudo journalctl -u pizzacode -n 50 --no-pager`""
+    Write-Host "  ssh -t $Servidor `"sudo journalctl -u pizzacode -n 50 --no-pager`""
 }
